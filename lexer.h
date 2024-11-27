@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 17:40:26 by aevstign          #+#    #+#             */
-/*   Updated: 2024/11/27 19:19:32 by aevstign         ###   ########.fr       */
+/*   Updated: 2024/11/27 19:29:52 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,20 @@ typedef struct s_lexer
 	int		token_count;
 }				t_lexer;
 
+/********************lexer_utils**************************/
 int				is_operator(char c);
 int				is_quote(char c);
 int				is_whitespace(char c);
 char			*extract_quoted_string(char *input, int *pos, char quote);
-t_token_type	get_operator_type(char *str, int *advanced);
+t_lexer			*init_lexer(void);
+/*********************************************************/
 
+/********************lexer_tokenize***********************/
+t_token_type	get_operator_type(char *str, int *advanced);
+t_token_type	get_char_type(char c);
 void			add_token(t_lexer *lexer, t_token *token);
 t_token			*create_token(void);
 void			free_token(t_token *token);
-
-t_lexer			*init_lexer(void);
+/*********************************************************/
 
 #define MAX_TOKENS 100

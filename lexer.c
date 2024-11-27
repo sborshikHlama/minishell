@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 16:43:44 by aevstign          #+#    #+#             */
-/*   Updated: 2024/11/27 19:21:47 by aevstign         ###   ########.fr       */
+/*   Updated: 2024/11/27 19:25:14 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	handle_operator(t_token *token, char *input, int *pos)
 	*pos += advance;
 }
 
+/*TODO: handle init_lexer failure */
 t_lexer	*lexer(char *input)
 {
 	t_lexer	*lexer;
@@ -54,7 +55,6 @@ t_lexer	*lexer(char *input)
 	int		i;
 	int		w_start;
 
-	/*TODO: handle init_lexer failure */
 	lexer = init_lexer();
 	i = 0;
 	while (input[i])
