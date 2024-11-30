@@ -6,7 +6,7 @@
 #    By: iasonov <iasonov@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/22 22:56:57 by iasonov           #+#    #+#              #
-#    Updated: 2024/11/12 23:43:02 by iasonov          ###   ########.fr        #
+#    Updated: 2024/12/01 00:22:02 by iasonov          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRC	=	ft_atoi.c		\
 		ft_split_mult.c	\
 		ft_strchr.c		\
 		ft_strdup.c		\
+		ft_strndup.c		\
 		ft_striteri.c	\
 		ft_strjoin.c	\
 		ft_strlcat.c 	\

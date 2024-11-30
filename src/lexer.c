@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 16:43:44 by aevstign          #+#    #+#             */
-/*   Updated: 2024/11/30 19:51:11 by iasonov          ###   ########.fr       */
+/*   Updated: 2024/12/01 00:19:23 by iasonov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ void	handle_command(t_token *token, char *input, int *pos)
 	int	word_start;
 
 	word_start = *pos;
-	while (input[*pos] && !is_whitespace(input[*pos])
+	while (input[*pos] && !ft_isspace(input[*pos])
 		&& !is_operator(input[*pos]) && !is_quote(input[*pos]))
 		(*pos)++;
 	token->type = TOKEN_WORD;
-	token->value = strndup(&input[word_start], *pos - word_start);
+	token->value = ft_strndup(&input[word_start], *pos - word_start);
 	if (!token->value)
 		free_token(token);
 }
@@ -47,17 +47,17 @@ void	handle_operator(t_token *token, char *input, int *pos)
 }
 
 /*TODO: handle init_lexer failure */
-t_lexer	*lexer(char *input)
+t_list	*lexer(char *input)
 {
-	t_lexer	*lexer;
+	t_list	*lexer;
 	t_token	*token;
 	int		i;
 
-	lexer = init_lexer();
 	i = 0;
+	lexer = NULL;
 	while (input[i])
 	{
-		while (input[i] && is_whitespace(input[i]))
+		while (input[i] && ft_isspace(input[i]))
 			i++;
 		if (!input[i])
 			break ;
@@ -70,40 +70,7 @@ t_lexer	*lexer(char *input)
 			handle_quotes(token, input, &i, input[i]);
 		else
 			handle_command(token, input, &i);
-		add_token(lexer, token);
+		ft_lstadd_back(&lexer, ft_lstnew(token));
 	}
 	return (lexer);
 }
-
-/*********Debug*************************************/
-//void print_tokens(t_lexer *lexer)
-//{
-//    t_token *current = lexer->token_list;
-
-//    printf("Token count: %d\n", lexer->token_count);
-//    while (current)
-//    {
-//        printf("Type: %d, Value: '%s'\n", current->type, current->value);
-//        current = current->next;
-//    }
-//}
-
-//int main(void)
-//{
-//    char *test_commands[] = {
-//        "ls -l",
-//        "echo \"hello world\"",
-//        "cat < input.txt >> output.txt",
-//        "ls -l | grep test",
-//        NULL
-//    };
-
-//    for (int i = 0; test_commands[i]; i++)
-//    {
-//        printf("\nTesting: '%s'\n", test_commands[i]);
-//        t_lexer *lex = lexer(test_commands[i]);
-//        print_tokens(lex);
-//        // Add cleanup code
-//    }
-//    return (0);
-//}

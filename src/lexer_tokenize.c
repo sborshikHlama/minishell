@@ -6,28 +6,11 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:05:25 by aevstign          #+#    #+#             */
-/*   Updated: 2024/11/30 19:51:32 by iasonov          ###   ########.fr       */
+/*   Updated: 2024/12/01 00:21:00 by iasonov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	add_token(t_lexer *lexer, t_token *token)
-{
-	t_token	*current;
-
-	if (!lexer->token_list)
-	{
-		lexer->token_list = token;
-		lexer->token_count++;
-		return ;
-	}
-	current = lexer->token_list;
-	while (current->next)
-		current = current->next;
-	current->next = token;
-	lexer->token_count++;
-}
 
 t_token	*create_token(void)
 {

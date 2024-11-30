@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2024/11/30 19:45:04 by iasonov          ###   ########.fr       */
+/*   Updated: 2024/12/01 00:21:09 by iasonov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,24 +46,15 @@ typedef struct s_token
 	struct s_token	*next;
 }				t_token;
 
-typedef struct s_lexer
-{
-	t_token	*token_list;
-	int		token_count;
-}				t_lexer;
-
-
 // lexer_utils
 int				is_operator(char c);
 int				is_quote(char c);
 int				is_whitespace(char c);
 char			*extract_quoted_string(char *input, int *pos, char quote);
-t_lexer			*init_lexer(void);
 
 // lexer_tokenize
 t_token_type	get_operator_type(char *str, int *advanced);
 t_token_type	get_char_type(char c);
-void			add_token(t_lexer *lexer, t_token *token);
 t_token			*create_token(void);
 void			free_token(t_token *token);
 
@@ -75,5 +66,5 @@ char	*ft_free(char *remainder, char *buffer);
 char	*get_next_line(int fd);
 
 // lexer
-t_lexer	*lexer(char *input);
+t_list	*lexer(char *input);
 

@@ -26,7 +26,7 @@ $(NAME): $(OBJECTS)
 $(OBJECTS): minishell.h
 
 $(LIBFT_LIB):
-	make -C $(LIBFT_PATH)
+	make bonus -C $(LIBFT_PATH)
 
 clean:
 	rm -f $(OBJECTS)

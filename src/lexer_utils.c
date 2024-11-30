@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 17:45:01 by aevstign          #+#    #+#             */
-/*   Updated: 2024/11/30 19:51:42 by iasonov          ###   ########.fr       */
+/*   Updated: 2024/12/01 00:20:43 by iasonov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,6 @@ int	is_operator(char c)
 int	is_quote(char c)
 {
 	return (c == '\'' || c == '"');
-}
-
-int	is_whitespace(char c)
-{
-	return (c == ' ' || c == '\t');
-}
-
-t_lexer	*init_lexer(void)
-{
-	t_lexer	*lexer;
-
-	lexer = malloc(sizeof(t_lexer));
-	if (!lexer)
-		return (NULL);
-	lexer->token_count = 0;
-	lexer->token_list = NULL;
-	return (lexer);
 }
 
 char	*extract_quoted_string(char *input, int *pos,
