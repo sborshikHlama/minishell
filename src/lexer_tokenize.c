@@ -6,12 +6,11 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:05:25 by aevstign          #+#    #+#             */
-/*   Updated: 2024/11/27 18:40:32 by aevstign         ###   ########.fr       */
+/*   Updated: 2024/11/30 19:51:32 by iasonov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "lexer.h"
+#include "../minishell.h"
 
 void	add_token(t_lexer *lexer, t_token *token)
 {

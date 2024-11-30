@@ -6,12 +6,11 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 16:43:44 by aevstign          #+#    #+#             */
-/*   Updated: 2024/11/27 19:25:14 by aevstign         ###   ########.fr       */
+/*   Updated: 2024/11/30 19:51:11 by iasonov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
-#include "minishell.h"
+#include "../minishell.h"
 
 void	handle_quotes(t_token *token, char *input, int *pos, char quote_type)
 {
@@ -53,7 +52,6 @@ t_lexer	*lexer(char *input)
 	t_lexer	*lexer;
 	t_token	*token;
 	int		i;
-	int		w_start;
 
 	lexer = init_lexer();
 	i = 0;

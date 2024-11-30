@@ -6,12 +6,11 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 17:45:01 by aevstign          #+#    #+#             */
-/*   Updated: 2024/11/27 19:19:03 by aevstign         ###   ########.fr       */
+/*   Updated: 2024/11/30 19:51:42 by iasonov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "lexer.h"
+#include "../minishell.h"
 
 int	is_operator(char c)
 {
