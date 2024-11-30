@@ -6,37 +6,37 @@
 /*   By: iasonov <iasonov@student.42prague.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
-/*   Updated: 2024/12/01 00:09:56 by iasonov          ###   ########.fr       */
+/*   Updated: 2024/12/01 00:28:38 by iasonov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void print_tokens(t_list *lexer)
+void	print_tokens(t_list *lexer)
 {
-    t_list *current = lexer;
-	t_token *content;
+	t_list	*current;
+	t_token	*content;
 
-    // printf("Token count: %d\n", lexer->token_count);
-    while (current)
-    {
+	current = lexer;
+	while (current)
+	{
 		content = current->content;
-        printf("Type: %d, Value: '%s'\n", content->type, content->value);
-        current = current->next;
-    }
+		printf("Type: %d, Value: '%s'\n", content->type, content->value);
+		current = current->next;
+	}
 }
-
 
 int	main(void)
 {
 	char	*input;
+	t_list	*list;
 
 	while (1)
 	{
 		write(STDOUT_FILENO, "minishell$> ", 11);
 		input = get_next_line(STDIN_FILENO);
-		t_list *lex = lexer(input);
-		print_tokens(lex);
+		list = lexer(input);
+		print_tokens(list);
 		write(STDOUT_FILENO, "Entered: ", 9);
 		write(STDOUT_FILENO, input, ft_strlen(input));
 		free(input);

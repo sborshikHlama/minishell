@@ -6,22 +6,24 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2024/12/01 00:21:09 by iasonov          ###   ########.fr       */
+/*   Updated: 2024/12/01 00:36:48 by iasonov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "libft/libft.h"
+#ifndef MINISHELL_H
+# define MINISHELL_H
+# include <unistd.h>
+# include <stdio.h>
+# include <string.h>
+# include <stdlib.h>
+# include <stdbool.h>
+# include "libft/libft.h"
 
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 42
-#endif
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
-#define MAX_TOKENS 100
+# define MAX_TOKENS 100
 
 typedef enum e_token_type
 {
@@ -59,12 +61,12 @@ t_token			*create_token(void);
 void			free_token(t_token *token);
 
 // gnl utils
-char	*ft_read(int fd, char *remainder);
-char	*ft_free(char *remainder, char *buffer);
+char			*ft_read(int fd, char *remainder);
+char			*ft_free(char *remainder, char *buffer);
 
 // gnl
-char	*get_next_line(int fd);
+char			*get_next_line(int fd);
 
 // lexer
-t_list	*lexer(char *input);
-
+t_list			*lexer(char *input);
+#endif
