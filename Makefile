@@ -6,7 +6,9 @@ CFLAGS = -Wall -Wextra -Werror -g
 LIBFT_PATH = libft/
 LIBFT_LIB = $(LIBFT_PATH)libft.a
 
-SRC = src/main.c
+SRC = src/main.c \
+	  src/gnl.c \
+	  src/gnl_utils.c
 
 OBJECTS = $(SRC:.c=.o)
 

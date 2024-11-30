@@ -6,11 +6,11 @@
 /*   By: iasonov <iasonov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:17:18 by iasonov           #+#    #+#             */
-/*   Updated: 2024/11/11 18:24:05 by iasonov          ###   ########.fr       */
+/*   Updated: 2024/11/30 17:33:37 by iasonov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../minishell.h"
 
 char	*alloc_remainder(char *remainder)
 {
