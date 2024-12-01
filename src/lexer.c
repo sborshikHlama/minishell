@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 16:43:44 by aevstign          #+#    #+#             */
-/*   Updated: 2024/12/01 00:19:23 by iasonov          ###   ########.fr       */
+/*   Updated: 2024/12/01 00:48:25 by iasonov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	handle_operator(t_token *token, char *input, int *pos)
 
 	advance = 0;
 	token->type = get_operator_type(input, &advance);
-	token->value = strndup(&input[*pos], advance);
+	token->value = ft_strndup(&input[*pos], advance);
 	if (!token->value)
 		free_token(token);
 	*pos += advance;

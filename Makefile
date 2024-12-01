@@ -7,8 +7,6 @@ LIBFT_PATH = libft/
 LIBFT_LIB = $(LIBFT_PATH)libft.a
 
 SRC = src/main.c \
-	  src/gnl.c \
-	  src/gnl_utils.c \
 	  src/lexer.c \
 	  src/lexer_tokenize.c \
 	  src/lexer_utils.c \

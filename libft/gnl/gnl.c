@@ -6,11 +6,11 @@
 /*   By: iasonov <iasonov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 00:31:17 by iasonov           #+#    #+#             */
-/*   Updated: 2024/11/30 17:24:14 by iasonov          ###   ########.fr       */
+/*   Updated: 2024/12/01 22:11:24 by iasonov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../libft.h"
 
 static char	*g_buffer;
 
