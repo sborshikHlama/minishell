@@ -6,11 +6,11 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 17:45:01 by aevstign          #+#    #+#             */
-/*   Updated: 2024/12/01 00:20:43 by iasonov          ###   ########.fr       */
+/*   Updated: 2024/12/01 23:17:30 by iasonov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../includes/minishell.h"
 
 int	is_operator(char c)
 {

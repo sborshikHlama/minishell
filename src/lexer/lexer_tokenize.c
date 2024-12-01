@@ -6,11 +6,11 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:05:25 by aevstign          #+#    #+#             */
-/*   Updated: 2024/12/01 00:21:00 by iasonov          ###   ########.fr       */
+/*   Updated: 2024/12/01 22:58:17 by iasonov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 t_token	*create_token(void)
 {

@@ -6,11 +6,11 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 16:43:44 by aevstign          #+#    #+#             */
-/*   Updated: 2024/12/01 00:48:25 by iasonov          ###   ########.fr       */
+/*   Updated: 2024/12/01 23:17:08 by iasonov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../includes/minishell.h"
 
 void	handle_quotes(t_token *token, char *input, int *pos, char quote_type)
 {

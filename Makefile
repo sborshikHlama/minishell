@@ -1,15 +1,16 @@
 NAME = minishell
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -Iincludes -Ilibft
 
 LIBFT_PATH = libft/
 LIBFT_LIB = $(LIBFT_PATH)libft.a
 
 SRC = src/main.c \
-	  src/lexer.c \
-	  src/lexer_tokenize.c \
-	  src/lexer_utils.c \
+	  src/lexer/lexer.c \
+	  src/lexer/lexer_tokenize.c \
+	  src/lexer/lexer_utils.c \
+	  src/parser/parser.c
 
 OBJECTS = $(SRC:.c=.o)
 
@@ -21,7 +22,7 @@ all: $(LIBFT_LIB) $(NAME)
 $(NAME): $(OBJECTS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) $(LIBFT_LIB)
 
-$(OBJECTS): minishell.h
+$(OBJECTS): includes/minishell.h
 
 $(LIBFT_LIB):
 	make bonus -C $(LIBFT_PATH)

@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2024/12/01 22:12:00 by iasonov          ###   ########.fr       */
+/*   Updated: 2024/12/01 22:43:08 by iasonov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <string.h>
 # include <stdlib.h>
 # include <stdbool.h>
-# include "libft/libft.h"
+# include "../libft/libft.h"
 
 # define MAX_TOKENS 100
 
@@ -43,6 +43,11 @@ typedef struct s_token
 	char			*value;
 	struct s_token	*next;
 }				t_token;
+
+typedef struct s_command
+{
+
+}				t_command;
 
 // lexer_utils
 int				is_operator(char c);

@@ -6,11 +6,11 @@
 /*   By: iasonov <iasonov@student.42prague.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
-/*   Updated: 2024/12/01 00:28:38 by iasonov          ###   ########.fr       */
+/*   Updated: 2024/12/01 23:16:24 by iasonov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/minishell.h"
 
 void	print_tokens(t_list *lexer)
 {

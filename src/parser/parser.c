@@ -1,27 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iasonov <iasonov@student.42prague.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/01 22:23:38 by iasonov           #+#    #+#             */
-/*   Updated: 2024/12/01 22:54:05 by iasonov          ###   ########.fr       */
+/*   Created: 2024/12/01 22:31:45 by iasonov           #+#    #+#             */
+/*   Updated: 2024/12/01 23:16:57 by iasonov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	int	i;
+#include "../../includes/minishell.h"
 
-	i = 0;
-	while (s1[i] != '\0' || s2[i] != '\0')
-	{
-		if (s1[i] != s2[i])
-		{
-			return ((unsigned char) s1[i] - (unsigned char) s2[i]);
-		}
-		i++;
-	}
-	return ((unsigned char) s1[i] - (unsigned char) s2[i]);
+t_command	*parse_tokens(t_token tokens)
+{
+	(void) tokens;
+	return (NULL);
 }
