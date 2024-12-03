@@ -8,9 +8,9 @@ LIBFT_LIB = $(LIBFT_PATH)libft.a
 
 SRC = src/main.c \
 	  src/lexer/lexer.c \
-	  src/lexer/lexer_tokenize.c \
 	  src/lexer/lexer_utils.c \
-	  src/parser/parser.c
+	  src/parser/parser.c \
+	  src/parser/parser_utils.c
 
 OBJECTS = $(SRC:.c=.o)
 
