@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
-/*   Updated: 2024/12/03 19:12:58 by aevstign         ###   ########.fr       */
+/*   Updated: 2024/12/03 19:19:35 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void	display_ast(t_ast_node *node, int depth)
 	print_node(node);
 	display_ast(node->right, depth + 1);
 }
-
 
 int	main(void)
 {
