@@ -6,32 +6,51 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 16:43:44 by aevstign          #+#    #+#             */
-/*   Updated: 2024/12/01 23:17:08 by iasonov          ###   ########.fr       */
+/*   Updated: 2024/12/02 10:53:56 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	handle_quotes(t_token *token, char *input, int *pos, char quote_type)
+void	validate_word(char *start, char *input, t_token *token)
 {
-	token->type = TOKEN_WORD;
-	token->value = extract_quoted_string(input, pos, quote_type);
-	if (!token->value)
-		free_token(token);
+	if (input > start)
+	{
+		token->type = TOKEN_WORD;
+		token->value = ft_strndup(start, input - start);
+		if (!token->value)
+			free_token(token);
+	}
 }
 
-void	handle_command(t_token *token, char *input, int *pos)
+void	update_in_quote(char c, int *in_quote, char *quote_char)
 {
-	int	word_start;
+	if (!(*in_quote) && (c == '\'' || c == '\"'))
+	{
+		*in_quote = 1;
+		*quote_char = c;
+	}
+	else if (*in_quote && (c == *quote_char))
+		*in_quote = 0;
+}
 
-	word_start = *pos;
-	while (input[*pos] && !ft_isspace(input[*pos])
-		&& !is_operator(input[*pos]) && !is_quote(input[*pos]))
+void	handle_word(t_token *token, char *input, int *pos)
+{
+	char	*word_start;
+	int		in_quote;
+	char	quote_char;
+
+	word_start = &input[*pos];
+	in_quote = 0;
+	quote_char = '\0';
+	while (input[*pos])
+	{
+		update_in_quote(input[*pos], &in_quote, &quote_char);
+		if (!in_quote && ft_strchr(" \t\n><|", input[*pos]))
+			break ;
 		(*pos)++;
-	token->type = TOKEN_WORD;
-	token->value = ft_strndup(&input[word_start], *pos - word_start);
-	if (!token->value)
-		free_token(token);
+	}
+	validate_word(word_start, &input[*pos], token);
 }
 
 void	handle_operator(t_token *token, char *input, int *pos)
@@ -39,14 +58,13 @@ void	handle_operator(t_token *token, char *input, int *pos)
 	int	advance;
 
 	advance = 0;
-	token->type = get_operator_type(input, &advance);
+	token->type = get_operator_type(&input[*pos], &advance);
 	token->value = ft_strndup(&input[*pos], advance);
 	if (!token->value)
 		free_token(token);
 	*pos += advance;
 }
 
-/*TODO: handle init_lexer failure */
 t_list	*lexer(char *input)
 {
 	t_list	*lexer;
@@ -57,19 +75,17 @@ t_list	*lexer(char *input)
 	lexer = NULL;
 	while (input[i])
 	{
-		while (input[i] && ft_isspace(input[i]))
+		while (input[i] && ft_strchr(" \t\n", input[i]))
 			i++;
 		if (!input[i])
 			break ;
 		token = create_token();
 		if (!token)
 			return (NULL);
-		if (is_operator(input[i]))
+		if (ft_strchr("><|", input[i]))
 			handle_operator(token, input, &i);
-		else if (is_quote(input[i]))
-			handle_quotes(token, input, &i, input[i]);
 		else
-			handle_command(token, input, &i);
+			handle_word(token, input, &i);
 		ft_lstadd_back(&lexer, ft_lstnew(token));
 	}
 	return (lexer);

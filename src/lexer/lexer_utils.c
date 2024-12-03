@@ -1,39 +1,69 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_utils.c                                      :+:      :+:    :+:   */
+/*   lexer_tokenize.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/27 17:45:01 by aevstign          #+#    #+#             */
-/*   Updated: 2024/12/01 23:17:30 by iasonov          ###   ########.fr       */
+/*   Created: 2024/11/27 18:05:25 by aevstign          #+#    #+#             */
+/*   Updated: 2024/12/02 01:27:01 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
-int	is_operator(char c)
+t_token	*create_token(void)
 {
-	return (c == '|' || c == '<' || c == '>');
-}
+	t_token	*token;
 
-int	is_quote(char c)
-{
-	return (c == '\'' || c == '"');
-}
-
-char	*extract_quoted_string(char *input, int *pos,
-	char quote)
-{
-	int	start;
-	int	len;
-
-	start = *pos + 1;
-	len = 0;
-	while (input[start + len] && input[start + len] != quote)
-		len++;
-	if (!input[start + len])
+	token = malloc(sizeof(t_token));
+	if (!token)
 		return (NULL);
-	*pos = start + len + 1;
-	return (strndup(&input[start], len));
+	token->type = TOKEN_NULL;
+	token->value = NULL;
+	token->next = NULL;
+	return (token);
+}
+
+void	free_token(t_token *token)
+{
+	if (!token)
+		return ;
+	free(token->value);
+	if (token->next)
+		free(token->next);
+	free(token);
+}
+
+t_token_type	get_char_type(char c)
+{
+	if (c == '|')
+		return (TOKEN_PIPE);
+	if (c == '\'')
+		return (TOKEN_SINGLE_QUOTE);
+	if (c == '"')
+		return (TOKEN_DOUBLE_QUOTE);
+	if (c == '>')
+		return (TOKEN_REDIR_OUT);
+	if (c == '<')
+		return (TOKEN_REDIR_IN);
+	return (TOKEN_WORD);
+}
+
+t_token_type	get_operator_type(char *str, int *advanced)
+{
+	if (!str || !str[1])
+		return (TOKEN_ERROR);
+	if (str[0] == '>' && str[1] == '>')
+	{
+		*advanced = 2;
+		return (TOKEN_REDIR_APPEND);
+	}
+	if (str[0] == '<' && str[1] == '<')
+	{
+		*advanced = 2;
+		return (TOKEN_REDIR_HEREDOC);
+	}
+	*advanced = 1;
+	return (get_char_type(str[0]));
 }

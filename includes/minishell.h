@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2024/12/01 22:43:08 by iasonov          ###   ########.fr       */
+/*   Updated: 2024/12/03 16:36:24 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ typedef enum e_token_type
 	TOKEN_REDIR_HEREDOC,
 	TOKEN_SINGLE_QUOTE,
 	TOKEN_DOUBLE_QUOTE,
-	TOKEN_WHITESPACE,
 	TOKEN_EOF,
 	TOKEN_ERROR,
 	TOKEN_NULL,
@@ -49,13 +48,17 @@ typedef struct s_command
 
 }				t_command;
 
-// lexer_utils
-int				is_operator(char c);
-int				is_quote(char c);
-int				is_whitespace(char c);
-char			*extract_quoted_string(char *input, int *pos, char quote);
+typedef struct s_ast_node
+{
+	t_token_type		type;
+	char				**args;
+	int					file_type;
+	struct s_ast_node	*right;
+	struct s_ast_node	*left;
+}	t_ast_node;
 
-// lexer_tokenize
+// lexer_utils
+
 t_token_type	get_operator_type(char *str, int *advanced);
 t_token_type	get_char_type(char c);
 t_token			*create_token(void);
@@ -63,4 +66,17 @@ void			free_token(t_token *token);
 
 // lexer
 t_list			*lexer(char *input);
+
+// parser_utils
+t_ast_node		*create_node(t_token_type type);
+int				count_args(t_list *current);
+void			fill_args(t_ast_node *command_node, t_list *list, int argc);
+t_ast_node		*create_file_node(t_token *temp_token);
+
+// parser
+t_ast_node		*parse_command(t_list	*list);
+t_ast_node		*parse_redir(t_list *list);
+t_ast_node		*parse_pipeline(t_list *list);
+t_ast_node		*parser(t_list *tokens);
+
 #endif
