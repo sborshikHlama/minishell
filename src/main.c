@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
-/*   Updated: 2025/01/11 19:05:24 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/01/12 18:02:50 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	main(void)
 		list = lexer(input);
 		display_tokens(list);
 		ast_tree = parser(list);
+		exec_tree(ast_tree);
 		display_ast(ast_tree, 0);
 		write(STDOUT_FILENO, "Entered: ", 9);
 		write(STDOUT_FILENO, input, ft_strlen(input));

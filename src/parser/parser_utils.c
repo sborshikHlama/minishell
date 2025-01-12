@@ -6,13 +6,13 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 00:30:05 by aevstign          #+#    #+#             */
-/*   Updated: 2024/12/03 17:38:28 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/01/12 13:06:24 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_ast_node	*create_node(t_token_type type)
+t_ast_node	*create_node(t_node type)
 {
 	t_ast_node	*node;
 
@@ -36,7 +36,6 @@ t_ast_node	*create_file_node(t_token *temp_token)
 	node = malloc(sizeof(t_ast_node));
 	if (!node)
 		return (NULL);
-	node->type = temp_token->type;
 	node->args = malloc(sizeof(char *) * 2);
 	if (!node->args)
 	{

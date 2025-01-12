@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 22:31:45 by iasonov           #+#    #+#             */
-/*   Updated: 2025/01/11 10:47:44 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/01/12 13:51:50 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,11 @@ t_ast_node	*parse_command(t_list	*list)
 
 	if (!list)
 		return (NULL);
-	command_node = create_node(TOKEN_WORD);
+	command_node = create_node(NODE_COMMAND);
 	if (!command_node)
 		return (NULL);
 	arg_count = count_args(list);
+	command_node->argc = arg_count;
 	command_node->args = malloc(sizeof(char *) * (arg_count + 1));
 	if (!command_node->args)
 	{
@@ -47,7 +48,7 @@ t_ast_node	*parse_redir(t_list *list)
 		if (content->type >= TOKEN_REDIR_IN
 			&& content->type <= TOKEN_REDIR_HEREDOC)
 		{
-			redir_node = create_node(content->type);
+			redir_node = create_node(NODE_REDIR);
 			redir_node->left = parse_command(current);
 			redir_node->right = create_file_node(list->next->content);
 			list = list->next->next;
@@ -80,7 +81,7 @@ t_ast_node	*parse_pipeline(t_list *list)
 	while (current && current->next != last_pipe)
 		current = current->next;
 	current->next = NULL;
-	pipe_node = create_node(TOKEN_PIPE);
+	pipe_node = create_node(NODE_PIPE);
 	pipe_node->left = parse_pipeline(list);
 	pipe_node->right = parse_redir(last_pipe->next);
 	return (pipe_node);
