@@ -10,7 +10,9 @@ SRC = src/main.c \
 	  src/lexer/lexer.c \
 	  src/lexer/lexer_utils.c \
 	  src/parser/parser.c \
-	  src/parser/parser_utils.c
+	  src/parser/parser_utils.c \
+	  src/print_debug/print_toklist.c \
+	  src/print_debug/print_tree.c
 
 OBJECTS = $(SRC:.c=.o)
 

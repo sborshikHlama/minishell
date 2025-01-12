@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2024/12/03 16:36:24 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/01/11 11:20:31 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,13 @@ typedef struct s_ast_node
 	struct s_ast_node	*left;
 }	t_ast_node;
 
-// lexer_utils
+typedef	struct	s_shell_state
+{
+	t_list	*token_list;
+	int		last_exit_code;
+}				t_shell_state;
 
+// lexer_utils
 t_token_type	get_operator_type(char *str, int *advanced);
 t_token_type	get_char_type(char c);
 t_token			*create_token(void);
@@ -78,5 +83,9 @@ t_ast_node		*parse_command(t_list	*list);
 t_ast_node		*parse_redir(t_list *list);
 t_ast_node		*parse_pipeline(t_list *list);
 t_ast_node		*parser(t_list *tokens);
+
+// print_debug
+void			display_ast(t_ast_node *node, int depth);
+void			display_tokens(t_list *lexer);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 22:31:45 by iasonov           #+#    #+#             */
-/*   Updated: 2024/12/03 19:17:55 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/01/11 10:47:44 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ t_ast_node	*parse_redir(t_list *list)
 			&& content->type <= TOKEN_REDIR_HEREDOC)
 		{
 			redir_node = create_node(content->type);
+			redir_node->left = parse_command(current);
 			redir_node->right = create_file_node(list->next->content);
-			current = list->next->next;
-			redir_node->left = parse_redir(current);
+			list = list->next->next;
 			return (redir_node);
 		}
 		list = list->next;
@@ -60,30 +60,30 @@ t_ast_node	*parse_redir(t_list *list)
 
 t_ast_node	*parse_pipeline(t_list *list)
 {
-	t_list		*temp_list;
-	t_list		*next_token;
 	t_ast_node	*pipe_node;
+	t_list		*last_pipe;
 	t_token		*content;
+	t_list		*current;
 
-	temp_list = list;
-	while (list && list->next)
+	current = list;
+	last_pipe = NULL;
+	while (current)
 	{
-		next_token = list->next;
-		content = next_token->content;
+		content = current->content;
 		if (content->type == TOKEN_PIPE)
-		{
-			pipe_node = create_node(TOKEN_PIPE);
-			list->next = NULL;
-			pipe_node->left = parse_redir(temp_list);
-			pipe_node->right = parse_pipeline(next_token->next);
-			free(content->value);
-			free(content);
-			free(next_token);
-			return (pipe_node);
-		}
-		list = list->next;
+			last_pipe = current;
+		current = current->next;
 	}
-	return (parse_redir(temp_list));
+	if (!last_pipe)
+		return (parse_redir(list));
+	current = list;
+	while (current && current->next != last_pipe)
+		current = current->next;
+	current->next = NULL;
+	pipe_node = create_node(TOKEN_PIPE);
+	pipe_node->left = parse_pipeline(list);
+	pipe_node->right = parse_redir(last_pipe->next);
+	return (pipe_node);
 }
 
 t_ast_node	*parser(t_list *tokens)

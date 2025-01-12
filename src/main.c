@@ -6,75 +6,23 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
-/*   Updated: 2024/12/03 19:19:35 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/01/11 19:05:24 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-const char	*get_token_type_name(t_token_type type)
+char	*read_input(void)
 {
-	const char	*token_type_names[7];
+	char	*result;
 
-	token_type_names[0] = "WORD";
-	token_type_names[1] = "PIPE";
-	token_type_names[2] = "REDIRECT_IN";
-	token_type_names[3] = "REDIRECT_OUT";
-	token_type_names[4] = "REDIRECT_APPEND";
-	token_type_names[5] = "REDIRECT_HEREDOC";
-	token_type_names[6] = "TOKEN_ENV_VAR";
-	if (type >= 0 && type < 7)
-		return (token_type_names[type]);
-	return ("UNKNOWN");
-}
-
-void	display_tokens(t_list *lexer)
-{
-	t_list	*current;
-	t_token	*token;
-
-	current = lexer;
-	while (current)
+	result = get_next_line(STDIN_FILENO);
+	if (!result)
 	{
-		token = current->content;
-		printf("Token: \033[0;36m %-20s \033[0m |\t \
-			Type: \033[0;35m %-18s \033[0m \n",
-			token->value, get_token_type_name(token->type));
-		printf("--------------------------------------------------\n");
-		current = current->next;
+		write(STDOUT_FILENO, "minishell: error reading input\n", 32);
+		return (NULL);
 	}
-}
-
-void	print_node(t_ast_node *node)
-{
-	if (node->type == TOKEN_WORD)
-		printf("└── Node Type: WORD, Token Value: %s\n", node->args[0]);
-	else if (node->type == TOKEN_PIPE)
-		printf("└── Node Type: PIPE\n");
-	else if (node->type == TOKEN_REDIR_IN)
-		printf("└── Node Type: REDIRECT IN\n");
-	else if (node->type == TOKEN_REDIR_OUT)
-		printf("└── Node Type: REDIRECT OUT\n");
-	else if (node->type == TOKEN_REDIR_APPEND)
-		printf("└── Node Type: REDIRECT APPEND\n");
-	else if (node->type == TOKEN_REDIR_HEREDOC)
-		printf("└── Node Type: REDIRECT HEREDOC\n");
-	else
-		printf("└── Node Type: UNKNOWN\n");
-}
-
-void	display_ast(t_ast_node *node, int depth)
-{
-	int	i;
-
-	i = 0;
-	if (node == NULL)
-		return ;
-	display_ast(node->left, depth + 1);
-	while (i++ < depth)
-		printf("	");
-	print_node(node);
-	display_ast(node->right, depth + 1);
+	return (result);
 }
 
 int	main(void)
@@ -86,7 +34,9 @@ int	main(void)
 	while (1)
 	{
 		write(STDOUT_FILENO, "minishell$> ", 11);
-		input = get_next_line(STDIN_FILENO);
+		input = read_input();
+		if (!input)
+			continue ;
 		list = lexer(input);
 		display_tokens(list);
 		ast_tree = parser(list);
