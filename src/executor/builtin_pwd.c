@@ -22,5 +22,5 @@ void	builtin_pwd(void)
 		write(1, "\n", 1);
 		return ;
 	}
-	write(1, "pwd: error", 10);
+	perror("pwd");
 }

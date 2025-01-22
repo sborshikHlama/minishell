@@ -16,17 +16,17 @@ void	builtin_cd(t_ast_node *node)
 {
 	if (node->argc < 2)
 	{
-		write(1, "cd: missing argument\n", 21);
+		perror("cd");
 		return ;
 	}
 	else if (node->argc > 2)
 	{
-		write(1, "cd: too many arguments\n", 23);
+		perror("cd");
 		return ;
 	}
 	else if (chdir(node->args[1]) != 0)
 	{
-		write(1, "cd: error", 9);
+		perror("cd");
 		return ;
 	}
 }
