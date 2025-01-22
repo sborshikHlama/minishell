@@ -102,4 +102,7 @@ void			builtin_pwd(void);
 // executor_utils
 int				is_builtin(t_ast_node *node);
 
+// env_expander
+char			*get_env(const char *name, char **env);
+
 #endif

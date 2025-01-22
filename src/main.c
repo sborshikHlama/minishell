@@ -12,9 +12,11 @@
 
 #include "../includes/minishell.h"
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	char		*input;
+	(void)argc;
+	(void)argv;
 	t_list		*list;
 	t_ast_node	*ast_tree;
 
@@ -28,6 +30,8 @@ int	main(void)
 		}
 		if (*input == '\0')
 			continue ;
+		if (input)
+			add_history(input);
 		list = lexer(input);
 		display_tokens(list);
 		ast_tree = parser(list);
