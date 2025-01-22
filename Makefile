@@ -21,6 +21,7 @@ SRC = src/main.c \
 	  src/executor/builtin_cd.c \
 	  src/executor/builtin_pwd.c \
 	  src/executor/builtin_echo.c \
+	  src/executor/builtin_env.c \
 	  src/executor/executor_utils.c
 
 OBJECTS = $(SRC:.c=.o)

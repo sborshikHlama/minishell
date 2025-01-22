@@ -20,8 +20,8 @@ void	exec_builtin(t_ast_node *node)
 		builtin_cd(node);
 	else if (ft_strcmp(node->args[0], "echo") == 0)
 		builtin_echo(node);
-	// else if (ft_strcmp(node->args[0], "env") == 0)
-	// 	builtin_env();
+	else if (ft_strcmp(node->args[0], "env") == 0)
+		builtin_env();
 	// else if (ft_strcmp(node->args[0], "exit") == 0)
 	// 	builtin_exit();
 	// else if (ft_strcmp(node->args[0], "unset") == 0)
