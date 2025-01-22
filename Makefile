@@ -20,6 +20,7 @@ SRC = src/main.c \
 	  src/executor/executor.c \
 	  src/executor/builtin_cd.c \
 	  src/executor/builtin_pwd.c \
+	  src/executor/builtin_echo.c \
 	  src/executor/executor_utils.c
 
 OBJECTS = $(SRC:.c=.o)
@@ -46,6 +47,9 @@ fclean: clean
 	make fclean -C $(LIBFT_PATH)
 
 re: fclean all
+
+run: $(LIBFT_LIB) $(NAME)
+	./$(NAME)
 
 norm: 
 	norminette $(SRC) includes/minishell.h $(LIBFT_PATH)*.h $(LIBFT_PATH)*.c
