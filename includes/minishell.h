@@ -17,6 +17,8 @@
 # include <string.h>
 # include <stdlib.h>
 # include <stdbool.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include "../libft/libft.h"
 
 # define MAX_TOKENS 100

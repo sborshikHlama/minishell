@@ -6,6 +6,10 @@ CFLAGS = -Wall -Wextra -Werror -g -Iincludes -Ilibft
 LIBFT_PATH = libft/
 LIBFT_LIB = $(LIBFT_PATH)libft.a
 
+# Add the readline library
+READLINE_LIB = -lreadline
+READLINE_FLAGS = -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include
+
 SRC = src/main.c \
 	  src/lexer/lexer.c \
 	  src/lexer/lexer_utils.c \
@@ -26,7 +30,7 @@ all: $(LIBFT_LIB) $(NAME)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJECTS)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) $(LIBFT_LIB)
+	$(CC) $(CFLAGS) $(READLINE_FLAGS) -o $(NAME) $(OBJECTS) $(LIBFT_LIB) $(READLINE_LIB)
 
 $(OBJECTS): includes/minishell.h
 
@@ -44,6 +48,6 @@ fclean: clean
 re: fclean all
 
 norm: 
-	norminette $(SRC) minishell.h $(LIBFT_PATH)*.h $(LIBFT_PATH)*.c
+	norminette $(SRC) includes/minishell.h $(LIBFT_PATH)*.h $(LIBFT_PATH)*.c
 
 .PHONY: all fclean clean re norm

@@ -12,19 +12,6 @@
 
 #include "../includes/minishell.h"
 
-char	*read_input(void)
-{
-	char	*result;
-
-	result = get_next_line(STDIN_FILENO);
-	if (!result)
-	{
-		write(STDOUT_FILENO, "minishell: error reading input\n", 32);
-		return (NULL);
-	}
-	return (result);
-}
-
 int	main(void)
 {
 	char		*input;
@@ -33,17 +20,22 @@ int	main(void)
 
 	while (1)
 	{
-		write(STDOUT_FILENO, "minishell$> ", 11);
-		input = read_input();
-		if (!input)
+		input = readline("minishell$> ");
+		if (input == NULL)
+		{
+			write(STDOUT_FILENO, "exit\n", 4);
+			return (0);
+		}
+		if (*input == '\0')
 			continue ;
 		list = lexer(input);
 		display_tokens(list);
 		ast_tree = parser(list);
-		exec_tree(ast_tree);
 		display_ast(ast_tree, 0);
 		write(STDOUT_FILENO, "Entered: ", 9);
 		write(STDOUT_FILENO, input, ft_strlen(input));
+		write(STDOUT_FILENO, "\n", 1);
+		exec_tree(ast_tree);
 		free(input);
 	}
 }
