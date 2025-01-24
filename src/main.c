@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
-/*   Updated: 2025/01/12 18:02:50 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:31:54 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 int	main(int argc, char **argv)
 {
 	char		*input;
-	(void)argc;
-	(void)argv;
 	t_list		*list;
 	t_ast_node	*ast_tree;
 
+	(void)argc;
+	(void)argv;
 	while (1)
 	{
 		input = readline("minishell$> ");
