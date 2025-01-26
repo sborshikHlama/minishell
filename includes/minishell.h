@@ -99,6 +99,8 @@ void			display_tokens(t_list *lexer);
 void			exec_tree(t_ast_node *node);
 void			builtin_cd(t_ast_node *node);
 void			builtin_pwd(void);
+void			builtin_echo(t_ast_node *node);
+void			builtin_env(void);
 
 // executor_utils
 int				is_builtin(t_ast_node *node);
