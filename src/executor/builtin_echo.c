@@ -33,8 +33,3 @@ void builtin_echo(t_ast_node *node)
     if (new_line == 1)
         write(1, "\n", 1);
 }
-
-
-
-
-

@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/01/12 19:10:37 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/01/24 13:35:15 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_token
 	t_token_type	type;
 	char			*value;
 	struct s_token	*next;
+	int				expandable;
 }				t_token;
 
 typedef enum e_node
@@ -103,5 +104,8 @@ void			builtin_env(void);
 
 // executor_utils
 int				is_builtin(t_ast_node *node);
+
+// env_expander
+char			*env_expander(const char *arg);
 
 #endif

@@ -6,18 +6,20 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
-/*   Updated: 2025/01/12 18:02:50 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:31:54 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	char		*input;
 	t_list		*list;
 	t_ast_node	*ast_tree;
 
+	(void)argc;
+	(void)argv;
 	while (1)
 	{
 		input = readline("minishell$> ");
@@ -28,6 +30,8 @@ int	main(void)
 		}
 		if (*input == '\0')
 			continue ;
+		if (input)
+			add_history(input);
 		list = lexer(input);
 		display_tokens(list);
 		ast_tree = parser(list);

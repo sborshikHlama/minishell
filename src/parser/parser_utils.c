@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 00:30:05 by aevstign          #+#    #+#             */
-/*   Updated: 2025/01/12 13:06:24 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:29:18 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,21 @@ int	count_args(t_list *current)
 	return (counter);
 }
 
+char	*expand(t_token *content)
+{
+	char	*result;
+
+	if (content->expandable && ft_strchr(content->value, '$'))
+	{
+		result = env_expander(content->value);
+		if (!result)
+			result = ft_strdup("");
+	}
+	else
+		result = ft_strdup(content->value);
+	return (result);
+}
+
 void	fill_args(t_ast_node *command_node, t_list *list, int argc)
 {
 	int		i;
@@ -80,13 +95,11 @@ void	fill_args(t_ast_node *command_node, t_list *list, int argc)
 	while (i < argc)
 	{
 		content = current->content;
-		command_node->args[i] = ft_strdup(content->value);
+		command_node->args[i] = expand(content);
 		if (!command_node->args[i])
 		{
 			while (i > 0)
-			{
 				free(command_node->args[i--]);
-			}
 			return ;
 		}
 		current = current->next;
