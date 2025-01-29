@@ -6,13 +6,31 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:48:42 by aevstign          #+#    #+#             */
-/*   Updated: 2025/01/24 12:55:39 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/01/29 20:28:05 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// TODO: change env parametr to structure that contains env list
+int	*expand_exit_status(char **start, int exit_status, char **prev)
+{
+	char	*expanded_value;
+	char	*result;
+
+	if (*(*start + 1) != '?')
+		return (0);
+	expanded_value = ft_itoa(exit_status);
+	if (!expanded_value)
+		return (0);
+	result = ft_strjoin(*prev, expanded_value);
+	if (!result)
+		return (0);
+	*prev = result;
+	free(expanded_value);
+	free(result);
+	*start += 2;
+	return (1);
+}
 
 char	*handle_var(char **start, char *prev)
 {
