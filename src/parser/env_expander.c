@@ -6,13 +6,13 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:48:42 by aevstign          #+#    #+#             */
-/*   Updated: 2025/01/29 20:28:05 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/01/30 01:10:58 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	*expand_exit_status(char **start, int exit_status, char **prev)
+int	expand_exit_status(char **start, int exit_status, char **prev)
 {
 	char	*expanded_value;
 	char	*result;
