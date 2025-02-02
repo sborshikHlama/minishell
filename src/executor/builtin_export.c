@@ -1,37 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/22 12:04:25 by dnovak            #+#    #+#             */
-/*   Updated: 2025/02/02 22:43:37 by dnovak           ###   ########.fr       */
+/*   Created: 2025/01/22 13:25:15 by dnovak            #+#    #+#             */
+/*   Updated: 2025/02/01 21:50:29 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "../../includes/minishell.h"
 
-void	builtin_echo(t_ast_node *node)
+void	builtin_export(t_ast_node *node, t_envp *envp)
 {
-	int	start;
-	int	new_line;
+	int	i;
 
-	start = 1;
-	new_line = 1;
-	if (node->argc > 1 && ft_strcmp(node->args[1], "-n") == 0)
+	if (node->argc == 1)
 	{
-		new_line = 0;
-		++start;
+		builtin_env(*envp);
+		return ;
 	}
-	while (start < node->argc)
+	i = 1;
+	while (i < node->argc)
 	{
-		write(1, node->args[start], ft_strlen(node->args[start]));
-		if (++start != node->argc)
-			write(1, " ", 1);
+		/*find first '=' char and save its position*/
+		/*check left part (name) contains only alphanum and '_' and starts with letter or '_'*/
+		/*CHECK if name is already in envp*/
+		/*yes - change value*/
+		/*no - change */
+		/*save value*/
+		i++;
 	}
-	if (new_line == 1)
-		write(1, "\n", 1);
 }

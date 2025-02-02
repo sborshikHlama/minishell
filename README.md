@@ -3,8 +3,6 @@
 ## Todo
 
 ### Structure
-- [ ] move gnl files into libft;
-- [ ] add hash map files into libft;
 - [ ] update libft to build those files;
 
 ### Lexer
@@ -13,9 +11,15 @@
 - [ ] handle validation while parsing;
 
 ### Expander
+- [ ] Provide functionality to buitlins export and unset commands
 ### Executor
+- [ ] Finish builtins
+- [ ] Handle signals
 
 ## Notes
+
+- [ ] Maybe we need to create a structure to prevent using too much global variables
+- [ ] Write some tests for parser 
 
 ### Output and actions
 

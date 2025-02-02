@@ -3,23 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
-/*   Updated: 2025/01/24 14:31:54 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/02/01 22:43:33 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp_orig)
 {
 	char		*input;
 	t_list		*list;
 	t_ast_node	*ast_tree;
+	t_envp		envp;
 
 	(void)argc;
 	(void)argv;
+	setup_envp(&envp, envp_orig);
 	while (1)
 	{
 		input = readline("minishell$> ");
@@ -39,7 +41,7 @@ int	main(int argc, char **argv)
 		write(STDOUT_FILENO, "Entered: ", 9);
 		write(STDOUT_FILENO, input, ft_strlen(input));
 		write(STDOUT_FILENO, "\n", 1);
-		exec_tree(ast_tree);
+		exec_tree(ast_tree, &envp);
 		free(input);
 	}
 }

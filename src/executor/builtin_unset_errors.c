@@ -1,37 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*   builtin_unset_errors.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/22 12:04:25 by dnovak            #+#    #+#             */
-/*   Updated: 2025/02/02 22:43:37 by dnovak           ###   ########.fr       */
+/*   Created: 2025/02/01 22:36:52 by dnovak            #+#    #+#             */
+/*   Updated: 2025/02/01 22:38:02 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "../../includes/minishell.h"
 
-void	builtin_echo(t_ast_node *node)
+void	error_unset_args(void)
 {
-	int	start;
-	int	new_line;
+	write(STDERR_FILENO, "unset: not enough arguments\n", 29);
+}
 
-	start = 1;
-	new_line = 1;
-	if (node->argc > 1 && ft_strcmp(node->args[1], "-n") == 0)
-	{
-		new_line = 0;
-		++start;
-	}
-	while (start < node->argc)
-	{
-		write(1, node->args[start], ft_strlen(node->args[start]));
-		if (++start != node->argc)
-			write(1, " ", 1);
-	}
-	if (new_line == 1)
-		write(1, "\n", 1);
+void	error_unset_name(char *name)
+{
+	write(STDERR_FILENO, "unset: ", 8);
+	write(STDERR_FILENO, name, ft_strlen(name));
+	write(STDERR_FILENO, ": invalid parameter name\n", 26);
 }
