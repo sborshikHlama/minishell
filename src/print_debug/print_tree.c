@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 11:06:56 by aevstign          #+#    #+#             */
-/*   Updated: 2025/01/11 11:09:36 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/01/30 01:19:44 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,11 @@ void	print_node(t_ast_node *node, int depth)
 {
 	if (!node)
 		return ;
-	if (node->type == TOKEN_WORD)
+	if (node->type == NODE_COMMAND)
 		print_command(node, depth);
-	else if (node->type == TOKEN_PIPE)
+	else if (node->type == NODE_PIPE)
 		printf("PIPE Node\n");
-	else if (node->type == TOKEN_REDIR_APPEND)
-		print_redirect(node);
-	else if (node->type == TOKEN_REDIR_HEREDOC)
-		print_redirect(node);
-	else if (node->type == TOKEN_REDIR_IN)
-		print_redirect(node);
-	else if (node->type == TOKEN_REDIR_OUT)
+	else if (node->type == NODE_REDIR)
 		print_redirect(node);
 	else
 		printf("UNKNOWN Node\n");

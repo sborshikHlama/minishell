@@ -8,7 +8,6 @@ LIBFT_LIB = $(LIBFT_PATH)libft.a
 
 # Add the readline library
 READLINE_LIB = -lreadline
-READLINE_FLAGS = -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include
 
 SRC = src/main.c \
 	  src/environ/environ.c \
@@ -38,7 +37,7 @@ all: $(LIBFT_LIB) $(NAME)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJECTS)
-	$(CC) $(CFLAGS) $(READLINE_FLAGS) -o $(NAME) $(OBJECTS) $(LIBFT_LIB) $(READLINE_LIB)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) $(LIBFT_LIB) $(READLINE_LIB)
 
 $(OBJECTS): includes/minishell.h
 
