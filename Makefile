@@ -11,6 +11,8 @@ READLINE_LIB = -lreadline
 READLINE_FLAGS = -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include
 
 SRC = src/main.c \
+	  src/environ/environ.c \
+	  src/environ/environ_utils.c \
 	  src/lexer/lexer.c \
 	  src/lexer/lexer_utils.c \
 	  src/parser/parser.c \
@@ -23,6 +25,9 @@ SRC = src/main.c \
 	  src/executor/builtin_pwd.c \
 	  src/executor/builtin_echo.c \
 	  src/executor/builtin_env.c \
+	  src/executor/builtin_export.c \
+	  src/executor/builtin_unset.c \
+	  src/executor/builtin_unset_errors.c \
 	  src/executor/executor_utils.c
 
 OBJECTS = $(SRC:.c=.o)
@@ -53,7 +58,7 @@ re: fclean all
 run: $(LIBFT_LIB) $(NAME)
 	./$(NAME)
 
-norm: 
+norm:
 	norminette $(SRC) includes/minishell.h $(LIBFT_PATH)*.h $(LIBFT_PATH)*.c
 
 .PHONY: all fclean clean re norm
