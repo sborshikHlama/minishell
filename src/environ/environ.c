@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 22:43:15 by dnovak            #+#    #+#             */
-/*   Updated: 2025/02/01 22:43:36 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/02/02 21:33:10 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	setup_envp(t_envp *dest, t_envp orig)
 {
-	int envp_count;
+	int	envp_count;
 
 	envp_count = 0;
 	while (orig[envp_count] != NULL)
