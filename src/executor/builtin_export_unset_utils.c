@@ -1,27 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*   bultin_export_unset_utils.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/22 13:25:15 by dnovak            #+#    #+#             */
-/*   Updated: 2025/02/03 19:52:56 by dnovak           ###   ########.fr       */
+/*   Created: 2025/02/04 12:01:02 by dnovak            #+#    #+#             */
+/*   Updated: 2025/02/04 12:01:48 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_status	builtin_env(t_envp envp)
+t_bool	isname(char *name)
+{
+	int	i;
+
+	if (ft_isalpha(name[0]) == 0 && name[0] != '_')
+		return (FALSE);
+	i = 0;
+	while (name[i] != '\0')
+	{
+		if (ft_isalnum(name[i]) == 0 && name[i] != '_')
+			return (FALSE);
+		++i;
+	}
+	return (TRUE);
+}
+
+t_bool	check_envp(char *name, t_envp envp)
 {
 	int	i;
 
 	i = 0;
 	while (envp[i] != NULL)
 	{
-		write(STDOUT_FILENO, envp[i], ft_strlen(envp[i]));
-		write(STDOUT_FILENO, "\n", 1);
-		i++;
+		if (ft_strncmp(name, envp[i], ft_strlen(name)) == 0
+			&& envp[i][ft_strlen(name)] == '=')
+			return (TRUE);
+		++i;
 	}
-	return (SUCCESS);
+	return (FALSE);
 }

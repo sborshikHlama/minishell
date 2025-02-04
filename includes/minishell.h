@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/02/01 22:44:06 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/02/04 12:02:44 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ typedef struct s_shell_state
 }						t_shell_state;
 
 // environ_utils
-void					free_envp(char **envp);
-int						envp_size(char **envp);
+void					free_envp(t_envp envp);
+int						envp_size(t_envp envp);
 
 // environ
 int						setup_envp(t_envp *dest, t_envp orig);
@@ -121,15 +121,20 @@ void					display_tokens(t_list *lexer);
 void					exec_tree(t_ast_node *node, t_envp *envp);
 void					builtin_cd(t_ast_node *node);
 void					builtin_pwd(void);
-void					builtin_echo(t_ast_node *node);
-void					builtin_env(char **envp);
-void					builtin_export(t_ast_node *node, char ***envp);
-t_status				builtin_unset(t_ast_node *node, char ***envp);
+t_status				builtin_echo(t_ast_node *node);
+t_status				builtin_env(t_envp envp);
+t_status				builtin_export(t_ast_node *node, t_envp *envp);
+t_status				builtin_unset(t_ast_node *node, t_envp *envp);
 
 // executor_utils
 int						is_builtin(t_ast_node *node);
 
+// builtin_utils (export/unset)
+t_bool					isname(char *name);
+t_bool					check_envp(char *name, t_envp envp);
+
 // builtin_errors
+void					error_export_name(char *name);
 void					error_unset_args(void);
 void					error_unset_name(char *name);
 

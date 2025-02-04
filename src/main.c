@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
-/*   Updated: 2025/02/01 22:43:33 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/02/04 14:05:12 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(int argc, char **argv, char **envp_orig)
 		input = readline("minishell$> ");
 		if (input == NULL)
 		{
+			free_envp(envp);
 			write(STDOUT_FILENO, "exit\n", 4);
 			return (0);
 		}

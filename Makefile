@@ -25,8 +25,10 @@ SRC = src/main.c \
 	  src/executor/builtin_echo.c \
 	  src/executor/builtin_env.c \
 	  src/executor/builtin_export.c \
+	  src/executor/builtin_export_errors.c \
 	  src/executor/builtin_unset.c \
 	  src/executor/builtin_unset_errors.c \
+	  src/executor/builtin_export_unset_utils.c \
 	  src/executor/executor_utils.c
 
 OBJECTS = $(SRC:.c=.o)
@@ -57,7 +59,10 @@ re: fclean all
 run: $(LIBFT_LIB) $(NAME)
 	./$(NAME)
 
+memleak: $(LIBFT_LIB) $(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=ignore_readline.supp -s ./$(NAME)
+
 norm:
 	norminette $(SRC) includes/minishell.h $(LIBFT_PATH)*.h $(LIBFT_PATH)*.c
 
-.PHONY: all fclean clean re norm
+.PHONY: all fclean clean re run memleak norm
