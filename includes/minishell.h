@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/02/04 14:36:00 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/02/04 14:54:15 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ t_status				builtin_echo(t_ast_node *node);
 t_status				builtin_env(t_envp envp);
 t_status				builtin_export(t_ast_node *node, t_envp *envp);
 t_status				builtin_unset(t_ast_node *node, t_envp *envp);
+void					builtin_exit(t_ast_node *node, t_envp envp);
 
 // executor_utils
 int						is_builtin(t_ast_node *node);
