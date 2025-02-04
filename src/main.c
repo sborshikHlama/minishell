@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
-/*   Updated: 2025/02/04 14:27:49 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/02/04 14:37:45 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(int argc, char **argv, char **envp_orig)
 		if (input == NULL)
 		{
 			free_envp(envp);
-			write(STDOUT_FILENO, "exit\n", 4);
+			write(STDOUT_FILENO, "exit\n", 5);
 			return (0);
 		}
 		if (*input == '\0')
