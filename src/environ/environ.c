@@ -6,28 +6,25 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 22:43:15 by dnovak            #+#    #+#             */
-/*   Updated: 2025/02/02 21:33:10 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/02/04 14:30:37 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	setup_envp(t_envp *dest, t_envp orig)
+t_status	setup_envp(t_envp *dest, t_envp orig)
 {
 	int	envp_count;
 
-	envp_count = 0;
-	while (orig[envp_count] != NULL)
-		++envp_count;
+	envp_count = envp_size(orig);
 	if (envp_count == 0)
 	{
 		*dest = NULL;
-		return (0);
+		return (SUCCESS);
 	}
-	*dest = (char **)malloc(sizeof(char *) * (envp_count + 1));
+	*dest = ft_calloc(envp_count + 1, sizeof(char *));
 	if (*dest == NULL)
-		return (1);
-	ft_memset(*dest, 0, sizeof(char *) * (envp_count + 1));
+		return (FAILURE);
 	envp_count = 0;
 	while (orig[envp_count] != NULL)
 	{
@@ -35,8 +32,8 @@ int	setup_envp(t_envp *dest, t_envp orig)
 		if ((*dest)[envp_count++] == NULL)
 		{
 			free_envp(*dest);
-			return (1);
+			return (FAILURE);
 		}
 	}
-	return (0);
+	return (SUCCESS);
 }

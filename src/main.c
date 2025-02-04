@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
-/*   Updated: 2025/02/04 14:05:12 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/02/04 14:27:49 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	main(int argc, char **argv, char **envp_orig)
 
 	(void)argc;
 	(void)argv;
-	setup_envp(&envp, envp_orig);
+	if (setup_envp(&envp, envp_orig) == FAILURE)
+		return (EXIT_FAILURE);
 	while (1)
 	{
 		input = readline("minishell$> ");

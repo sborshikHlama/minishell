@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 13:25:15 by dnovak            #+#    #+#             */
-/*   Updated: 2025/02/04 13:48:00 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/02/04 14:31:32 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static t_status	envp_add_new(char *new_var, t_envp *envp)
 	t_envp	new_envp;
 	int		i;
 
-	new_envp = (t_envp)ft_calloc(envp_size(*envp) + 2, sizeof(char *));
+	new_envp = ft_calloc(envp_size(*envp) + 2, sizeof(char *));
 	if (new_envp == NULL)
 		return (FAILURE);
 	i = 0;

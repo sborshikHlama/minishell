@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/02/04 12:02:44 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/02/04 14:36:00 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void					free_envp(t_envp envp);
 int						envp_size(t_envp envp);
 
 // environ
-int						setup_envp(t_envp *dest, t_envp orig);
+t_status				setup_envp(t_envp *dest, t_envp orig);
 
 // lexer_utils
 t_token_type			get_operator_type(char *str, int *advanced);

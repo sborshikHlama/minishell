@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 13:25:15 by dnovak            #+#    #+#             */
-/*   Updated: 2025/02/04 12:04:08 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/02/04 14:33:53 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,9 @@ static t_status	remove_in_envp(t_envp *envp, char *name)
 	size = envp_size(*envp);
 	if (size == 0)
 		return (SUCCESS);
-	new_envp = (t_envp)malloc(sizeof(char *) * size);
+	new_envp = ft_calloc(size, sizeof(char *));
 	if (new_envp == NULL)
 		return (FAILURE);
-	ft_memset(new_envp, 0, sizeof(char *) * (size));
 	if (copy_envp(new_envp, *envp, size, name) == FAILURE)
 		return (FAILURE);
 	free_envp(*envp);
