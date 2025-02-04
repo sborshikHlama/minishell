@@ -6,42 +6,11 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 13:25:15 by dnovak            #+#    #+#             */
-/*   Updated: 2025/02/01 22:40:17 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/02/04 14:33:53 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static t_bool	isname(char *name)
-{
-	int	i;
-
-	if (ft_isalpha(name[0]) == 0 && name[0] != '_')
-		return (FALSE);
-	i = 0;
-	while (name[i] != '\0')
-	{
-		if (ft_isalnum(name[i]) == 0 && name[i] != '_')
-			return (FALSE);
-		++i;
-	}
-	return (TRUE);
-}
-
-static t_bool	check_envp(char *name, t_envp envp)
-{
-	int	i;
-
-	i = 0;
-	while (envp[i] != NULL)
-	{
-		if (ft_strncmp(name, envp[i], ft_strlen(name)) == 0
-			&& envp[i][ft_strlen(name)] == '=')
-			return (TRUE);
-		++i;
-	}
-	return (FALSE);
-}
 
 static t_status	copy_envp(t_envp new_envp, t_envp old_envp, int size,
 		char *name)
@@ -77,10 +46,9 @@ static t_status	remove_in_envp(t_envp *envp, char *name)
 	size = envp_size(*envp);
 	if (size == 0)
 		return (SUCCESS);
-	new_envp = (char **)malloc(sizeof(char *) * size);
+	new_envp = ft_calloc(size, sizeof(char *));
 	if (new_envp == NULL)
 		return (FAILURE);
-	ft_memset(new_envp, 0, sizeof(char *) * (size));
 	if (copy_envp(new_envp, *envp, size, name) == FAILURE)
 		return (FAILURE);
 	free_envp(*envp);
@@ -90,8 +58,8 @@ static t_status	remove_in_envp(t_envp *envp, char *name)
 
 /*
 	unset [name]
-Remove each variable name from envp. Return status is zero unless a name
-is not valid or there is malloc error.
+Remove each variable name from envp. Return status is zero unless no argument
+is passed, a name is not valid or there is malloc error.
 */
 t_status	builtin_unset(t_ast_node *node, t_envp *envp)
 {

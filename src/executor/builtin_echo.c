@@ -6,15 +6,13 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 12:04:25 by dnovak            #+#    #+#             */
-/*   Updated: 2025/02/02 22:43:37 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/02/03 19:54:53 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "../../includes/minishell.h"
 
-void	builtin_echo(t_ast_node *node)
+t_status	builtin_echo(t_ast_node *node)
 {
 	int	start;
 	int	new_line;
@@ -34,4 +32,5 @@ void	builtin_echo(t_ast_node *node)
 	}
 	if (new_line == 1)
 		write(1, "\n", 1);
+	return (SUCCESS);
 }

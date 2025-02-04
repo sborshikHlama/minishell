@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 12:51:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/02/01 19:19:04 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/02/04 15:22:14 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	exec_builtin(t_ast_node *node, t_envp *envp)
 		builtin_echo(node);
 	else if (ft_strcmp(node->args[0], "env") == 0)
 		builtin_env(*envp);
-	// else if (ft_strcmp(node->args[0], "exit") == 0)
-	// 	builtin_exit();
+	else if (ft_strcmp(node->args[0], "exit") == 0)
+		builtin_exit(node, *envp);
 	else if (ft_strcmp(node->args[0], "unset") == 0)
 		builtin_unset(node, envp);
 	else if (ft_strcmp(node->args[0], "export") == 0)
