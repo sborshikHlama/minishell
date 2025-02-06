@@ -14,6 +14,7 @@ SRC = src/main.c \
 	  src/environ/environ_utils.c \
 	  src/lexer/lexer.c \
 	  src/lexer/lexer_utils.c \
+	  src/lexer/syntax_check.c \
 	  src/parser/parser.c \
 	  src/parser/parser_utils.c \
 	  src/parser/env_expander.c \

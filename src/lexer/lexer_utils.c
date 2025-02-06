@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_tokenize.c                                   :+:      :+:    :+:   */
+/*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:05:25 by aevstign          #+#    #+#             */
-/*   Updated: 2024/12/02 01:27:01 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:26:42 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	free_token(t_token *token)
 {
 	if (!token)
 		return ;
-	free(token->value);
+	if (token->value)
+		free(token->value);
 	if (token->next)
 		free(token->next);
 	free(token);

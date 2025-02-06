@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/02/04 14:54:15 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/02/06 15:19:46 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ int						envp_size(t_envp envp);
 
 // environ
 t_status				setup_envp(t_envp *dest, t_envp orig);
+
+// syntax_check
+int						is_operator_valid(char *input);
 
 // lexer_utils
 t_token_type			get_operator_type(char *str, int *advanced);
