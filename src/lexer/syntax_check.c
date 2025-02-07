@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 14:35:22 by aevstign          #+#    #+#             */
-/*   Updated: 2025/02/06 15:19:14 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/02/07 10:49:28 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,10 @@ int	is_operator_valid(char *input)
 	c = *input;
 	input++;
 	if (c == *input)
-	{
-		if (*input == '|')
-			return (0);
 		input++;
-	}
 	while (*input && (*input == '\t' || *input == ' '))
-			input++;
+		input++;
 	if (ft_strchr("><|", *input) || *input == '\0')
-			return (0);
+		return (0);
 	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 12:51:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/02/04 15:22:14 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/02/07 11:07:07 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,6 @@ void	exec_builtin(t_ast_node *node, t_envp *envp)
 		builtin_unset(node, envp);
 	else if (ft_strcmp(node->args[0], "export") == 0)
 		builtin_export(node, envp);
-	// else if (ft_strcmp(node->args[0], "grep") == 0)
-	// 	builtin_grep();
-	// else if (ft_strcmp(node->args[0], "wc") == 0)
-	// 	builtin_wc();
 }
 
 void	exec_tree(t_ast_node *node, t_envp *envp)

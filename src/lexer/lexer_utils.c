@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:05:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/02/06 14:26:42 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/02/07 10:48:50 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_token_type	get_char_type(char c)
 		return (TOKEN_REDIR_OUT);
 	if (c == '<')
 		return (TOKEN_REDIR_IN);
-	return (TOKEN_WORD);
+	return (TOKEN_ERROR);
 }
 
 t_token_type	get_operator_type(char *str, int *advanced)
@@ -64,6 +64,11 @@ t_token_type	get_operator_type(char *str, int *advanced)
 	{
 		*advanced = 2;
 		return (TOKEN_REDIR_HEREDOC);
+	}
+	if ((str[0] == '|' && str[1] == '|') || (str[0] == '&' && str[1] == '&'))
+	{
+		*advanced = 2;
+		return (TOKEN_ERROR);
 	}
 	*advanced = 1;
 	return (get_char_type(str[0]));
