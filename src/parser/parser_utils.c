@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 00:30:05 by aevstign          #+#    #+#             */
-/*   Updated: 2025/01/24 14:29:18 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/02/08 19:07:18 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_ast_node	*create_node(t_node type)
 	node = malloc(sizeof(t_ast_node));
 	if (!node)
 	{
-		ft_putstr_fd("Error: malloc failed in create_node\n", 2);
+		ft_putendl_fd("Error: malloc failed in create_node", STDERR_FILENO);
 		return (NULL);
 	}
 	node->type = type;
