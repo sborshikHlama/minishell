@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/02/06 15:19:46 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/02/09 21:37:00 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 # define MAX_TOKENS 100
 # define PATH_SIZE 1024
+# define DEBUG_STATUS 0
 
 typedef char			**t_envp;
 
@@ -144,5 +145,9 @@ void					error_unset_name(char *name);
 
 // env_expander
 char					*env_expander(const char *arg);
+char					*expand(t_token *content);
+
+// env_expander_utils
+char					*unquote_string(char *str);
 
 #endif

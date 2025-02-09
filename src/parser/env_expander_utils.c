@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   env_expander_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/12 18:04:45 by aevstign          #+#    #+#             */
-/*   Updated: 2025/02/07 12:51:52 by aevstign         ###   ########.fr       */
+/*   Created: 2025/02/09 21:21:30 by aevstign          #+#    #+#             */
+/*   Updated: 2025/02/09 21:21:57 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
-void	builtin_pwd(void)
+char	*unquote_string(char *str)
 {
-	char	cwd[PATH_SIZE];
+	int		len;
+	char	*result;
 
-	if (getcwd(cwd, PATH_SIZE) != NULL)
+	len = ft_strlen(str);
+	if (len >= 2 && ((str[0] == '\'' && str[len - 1] == '\'')
+			|| (str[0] == '\"' && str[len - 1] == '\"')))
 	{
-		write(1, cwd, ft_strlen(cwd));
-		write(1, "\n", 1);
-		return ;
+		result = ft_substr(str, 1, len - 2);
+		if (!result)
+			return (NULL);
+		return (result);
 	}
-	perror("pwd");
+	return (ft_strdup(str));
 }

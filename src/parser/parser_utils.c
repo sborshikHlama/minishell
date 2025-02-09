@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 00:30:05 by aevstign          #+#    #+#             */
-/*   Updated: 2025/02/08 19:07:18 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/02/09 20:52:32 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,21 +67,6 @@ int	count_args(t_list *current)
 		current = current->next;
 	}
 	return (counter);
-}
-
-char	*expand(t_token *content)
-{
-	char	*result;
-
-	if (content->expandable && ft_strchr(content->value, '$'))
-	{
-		result = env_expander(content->value);
-		if (!result)
-			result = ft_strdup("");
-	}
-	else
-		result = ft_strdup(content->value);
-	return (result);
 }
 
 void	fill_args(t_ast_node *command_node, t_list *list, int argc)

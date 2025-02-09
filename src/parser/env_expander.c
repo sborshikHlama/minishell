@@ -6,16 +6,34 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:48:42 by aevstign          #+#    #+#             */
-/*   Updated: 2025/02/08 19:17:41 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/02/09 21:40:16 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+// TO DO: use custom get_env instead getenv
+char	*get_var_value(char **start, char **end)
+{
+	char	*var_name;
+	char	*var_value;
+
+	while (*end && (ft_isalnum(**end) || **end == '_'))
+		(*end)++;
+	var_name = ft_substr(*start + 1, 0, *end - *start - 1);
+	if (var_name)
+		var_value = getenv(var_name);
+	else
+		var_value = NULL;
+	free(var_name);
+	if (!var_value)
+		var_value = "";
+	return (var_value);
+}
+
 char	*handle_var(char **start, int exit_status, char *prev)
 {
 	char	*end;
-	char	*var_name;
 	char	*var_value;
 	char	*temp_result;
 
@@ -26,20 +44,8 @@ char	*handle_var(char **start, int exit_status, char *prev)
 		end++;
 	}
 	else
-	{
-		while (*end && (ft_isalnum(*end) || *end == '_'))
-			end++;
-		var_name = ft_substr(*start + 1, 0, end - *start - 1);
-		if (!var_name)
-			return (NULL);
-		var_value = getenv(var_name);
-		if (!var_value)
-			var_value = "";
-		free(var_name);
-	}
+		var_value = get_var_value(start, &end);
 	temp_result = ft_strjoin(prev, var_value);
-	if (!temp_result)
-		return (NULL);
 	free(prev);
 	*start = end;
 	return (temp_result);
@@ -84,5 +90,25 @@ char	*env_expander(const char *arg)
 		if (!result)
 			return (NULL);
 	}
+	return (result);
+}
+
+char	*expand(t_token *content)
+{
+	char	*result;
+	char	*str;
+
+	str = unquote_string(content->value);
+	if (content->expandable && ft_strchr(str, '$'))
+	{
+		result = env_expander(str);
+		if (!result)
+			result = ft_strdup("");
+	}
+	else
+		result = ft_strdup(str);
+	if (!result)
+		return (NULL);
+	free(str);
 	return (result);
 }
