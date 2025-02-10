@@ -6,52 +6,51 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:48:42 by aevstign          #+#    #+#             */
-/*   Updated: 2025/01/30 01:10:58 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:46:26 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	expand_exit_status(char **start, int exit_status, char **prev)
+// TO DO: use custom get_env instead getenv
+char	*get_var_value(char **start, char **end)
 {
-	char	*expanded_value;
-	char	*result;
+	char	*var_name;
+	char	*var_value;
 
-	if (*(*start + 1) != '?')
-		return (0);
-	expanded_value = ft_itoa(exit_status);
-	if (!expanded_value)
-		return (0);
-	result = ft_strjoin(*prev, expanded_value);
-	if (!result)
-		return (0);
-	*prev = result;
-	free(expanded_value);
-	free(result);
-	*start += 2;
-	return (1);
+	while (*end && (ft_isalnum(**end) || **end == '_'))
+		(*end)++;
+	var_name = ft_substr(*start + 1, 0, *end - *start - 1);
+	if (var_name)
+		var_value = getenv(var_name);
+	else
+		var_value = NULL;
+	free(var_name);
+	if (!var_value)
+		var_value = "";
+	return (var_value);
 }
 
-char	*handle_var(char **start, char *prev)
+char	*handle_var(char **start, int exit_status, char *prev)
 {
 	char	*end;
-	char	*var_name;
 	char	*var_value;
 	char	*temp_result;
 
 	end = *start + 1;
-	while (*end && (ft_isalnum(*end) || *end == '_'))
+	if (*end == '?')
+	{
+		var_value = ft_itoa(exit_status);
 		end++;
-	var_name = ft_substr(*start + 1, 0, end - *start - 1);
-	if (!var_name)
-		return (NULL);
-	var_value = getenv(var_name);
-	if (!var_value)
-		var_value = "";
-	free(var_name);
+	}
+	else if (ft_isalnum(*end) || *end == '_')
+		var_value = get_var_value(start, &end);
+	else
+	{
+		var_value = ft_strdup("$");
+		end = *start + 1;
+	}
 	temp_result = ft_strjoin(prev, var_value);
-	if (!temp_result)
-		return (NULL);
 	free(prev);
 	*start = end;
 	return (temp_result);
@@ -90,11 +89,31 @@ char	*env_expander(const char *arg)
 	while (*start_ptr)
 	{
 		if (*start_ptr == '$')
-			result = handle_var(&start_ptr, result);
+			result = handle_var(&start_ptr, 0, result);
 		else
 			result = handle_plain_text(&start_ptr, result);
 		if (!result)
 			return (NULL);
 	}
+	return (result);
+}
+
+char	*expand(t_token *content)
+{
+	char	*result;
+	char	*str;
+
+	str = unquote_string(content->value);
+	if (content->expandable && ft_strchr(str, '$'))
+	{
+		result = env_expander(str);
+		if (!result)
+			result = ft_strdup("");
+	}
+	else
+		result = ft_strdup(str);
+	if (!result)
+		return (NULL);
+	free(str);
 	return (result);
 }

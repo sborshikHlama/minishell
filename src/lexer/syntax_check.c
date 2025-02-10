@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   syntax_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/12 18:04:45 by aevstign          #+#    #+#             */
-/*   Updated: 2025/02/07 12:51:52 by aevstign         ###   ########.fr       */
+/*   Created: 2025/02/06 14:35:22 by aevstign          #+#    #+#             */
+/*   Updated: 2025/02/07 10:49:28 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
-void	builtin_pwd(void)
+int	is_operator_valid(char *input)
 {
-	char	cwd[PATH_SIZE];
+	char	c;
 
-	if (getcwd(cwd, PATH_SIZE) != NULL)
-	{
-		write(1, cwd, ft_strlen(cwd));
-		write(1, "\n", 1);
-		return ;
-	}
-	perror("pwd");
+	c = *input;
+	input++;
+	if (c == *input)
+		input++;
+	while (*input && (*input == '\t' || *input == ' '))
+		input++;
+	if (ft_strchr("><|", *input) || *input == '\0')
+		return (0);
+	return (1);
 }
