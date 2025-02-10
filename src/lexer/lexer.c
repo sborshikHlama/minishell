@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 16:43:44 by aevstign          #+#    #+#             */
-/*   Updated: 2025/02/07 10:52:48 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/02/10 15:05:02 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	validate_word(char *start, char *input,
 {
 	if (in_quotes)
 	{
-		ft_putendl_fd("minishell: syntax error: unclosed quotes", 2);
+		ft_putendl_fd("minishell: syntax error: unclosed quote", 2);
 		free_token(token);
 		return (0);
 	}
@@ -80,15 +80,10 @@ int	handle_operator(t_token *token, char *input, int *pos)
 	advance = 0;
 	token->type = get_operator_type(&input[*pos], &advance);
 	token->value = ft_strndup(&input[*pos], advance);
-	if (token->type == TOKEN_ERROR)
+	if (!token->value || token->type == TOKEN_ERROR
+		|| !is_operator_valid(&input[*pos]))
 	{
-		ft_putendl_fd("minishell: syntax error: unsupported operator", 2);
-		free_token(token);
-		return (0);
-	}
-	if (!token->value || !is_operator_valid(&input[*pos]))
-	{
-		ft_putendl_fd("minishell: parse error", 2);
+		ft_putendl_fd("minishell: syntax error near unexpected token", 2);
 		free_token(token);
 		return (0);
 	}
