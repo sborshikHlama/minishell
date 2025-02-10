@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:48:42 by aevstign          #+#    #+#             */
-/*   Updated: 2025/02/09 21:40:16 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:46:26 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,13 @@ char	*handle_var(char **start, int exit_status, char *prev)
 		var_value = ft_itoa(exit_status);
 		end++;
 	}
-	else
+	else if (ft_isalnum(*end) || *end == '_')
 		var_value = get_var_value(start, &end);
+	else
+	{
+		var_value = ft_strdup("$");
+		end = *start + 1;
+	}
 	temp_result = ft_strjoin(prev, var_value);
 	free(prev);
 	*start = end;

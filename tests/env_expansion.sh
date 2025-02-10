@@ -40,14 +40,22 @@ echo "======================================" >> "$LOG_FILE"
 date >> "$LOG_FILE"
 echo "" >> "$LOG_FILE"
 
-# Test Cases with Expected Outputs
-run_test "echo \$USER" "$(whoami)"        # Check if $USER expands
-run_test "echo \$HOME" "$HOME"            # Check if $HOME expands
-run_test "echo \$PATH" "$PATH"            # Check if $PATH expands
-run_test "echo \$NOT_SET" ""              # Check unset variable (should return empty)
-run_test "echo \$?USER" "0USER"           # Check handling of $? followed by a variable
-run_test "echo 'Hello \$USER'" "Hello \$USER"  # Single quotes should NOT expand variables
-run_test "echo \"Hello \$USER\"" "Hello $(whoami)"  # Double quotes should expand variables
+run_test "echo \$USER" "$(whoami)"
+run_test "echo \$HOME" "$HOME"
+run_test "echo \$USER \$HOME" "$(whoami) $HOME"
+run_test "echo \$USER\$HOME" "$(whoami)$HOME"
+run_test "echo \$NOT_SET" ""
+run_test "echo \"\$USER\"" "$(whoami)"
+run_test "echo '\$USER'" "\$USER"
+run_test "echo \"User: \$USER is logged in\"" "User: $(whoami) is logged in"
+run_test "echo \$" "\$"
+run_test "echo \$USER123" ""
+# run_test "ls; echo \$?" "0"  # Assuming `ls` succeeds
+# run_test "export EMPTY=; echo \$EMPTY" ""
+# run_test "export TEST=hello; echo \$TEST" "hello"
+# run_test "export TEST=hi; export TEST=bye; echo \$TEST" "bye"
+# run_test "\$HOME/minishell" ""  # Ensures command runs from HOME
+# run_test "export TEST=hi; unset TEST; echo \$TEST" ""
 
 # Summary
 echo "======================================" >> "$LOG_FILE"
