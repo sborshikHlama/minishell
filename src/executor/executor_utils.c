@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:19:40 by aevstign          #+#    #+#             */
-/*   Updated: 2025/02/07 11:06:45 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/07 19:15:26 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	is_builtin(t_ast_node *node)
 	i = 0;
 	while (i < 9)
 	{
-		if (ft_strcmp(node->args[0], builtin_commands[i]))
+		if (ft_strcmp(node->args[0], builtin_commands[i]) == 0)
 			return (1);
 		i++;
 	}
