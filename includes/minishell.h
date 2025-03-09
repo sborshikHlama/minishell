@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/02/09 21:37:00 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/07 18:18:19 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 # define MAX_TOKENS 100
 # define PATH_SIZE 1024
-# define DEBUG_STATUS 0
+# define DEBUG_STATUS 1
 
 typedef char			**t_envp;
 
