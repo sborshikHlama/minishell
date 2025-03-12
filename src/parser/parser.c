@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 22:31:45 by iasonov           #+#    #+#             */
-/*   Updated: 2025/01/24 14:14:26 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:27:40 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,46 @@ t_ast_node	*parse_command(t_list	*list)
 	return (command_node);
 }
 
+t_ast_node	*create_redir_node(t_list **current, t_list *last_redirect)
+{
+	t_ast_node	*redirect_node;
+	t_list		*file_token;
+
+	while ((*current)->next && (*current)->next != last_redirect)
+		*current = (*current)->next;
+	file_token = (*current)->next;
+	if (!file_token || !file_token->next)
+		return (NULL);
+	(*current)->next = NULL;
+	redirect_node = create_node(NODE_REDIR);
+	if (!redirect_node)
+		return (NULL);
+	set_redir_value(redirect_node, file_token->content,
+		file_token->next->content);
+	return (redirect_node);
+}
+
 t_ast_node	*parse_redir(t_list *list)
 {
+	t_ast_node	*redirect_node;
+	t_list		*last_redirect;
 	t_list		*current;
-	t_token		*content;
-	t_ast_node	*redir_node;
 
+	last_redirect = NULL;
 	current = list;
-	redir_node = NULL;
-	while (list && list->next)
+	while (current)
 	{
-		content = list->content;
-		if (content->type >= TOKEN_REDIR_IN
-			&& content->type <= TOKEN_REDIR_HEREDOC)
-		{
-			redir_node = create_node(NODE_REDIR);
-			redir_node->left = parse_command(current);
-			redir_node->right = create_file_node(list->next->content);
-			list = list->next->next;
-			return (redir_node);
-		}
-		list = list->next;
+		if (((t_token *)current->content)->type >= TOKEN_REDIR_IN
+			&& ((t_token *)current->content)->type <= TOKEN_REDIR_HEREDOC)
+			last_redirect = current;
+		current = current->next;
 	}
-	return (parse_command(current));
+	if (!last_redirect)
+		return (parse_command(list));
+	current = list;
+	redirect_node = create_redir_node(&current, last_redirect);
+	redirect_node->left = parse_redir(list);
+	return (redirect_node);
 }
 
 t_ast_node	*parse_pipeline(t_list *list)

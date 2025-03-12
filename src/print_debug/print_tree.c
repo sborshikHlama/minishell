@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 11:06:56 by aevstign          #+#    #+#             */
-/*   Updated: 2025/01/30 01:19:44 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:06:19 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,15 @@ void	print_command(t_ast_node *node, int depth)
 
 void	print_redirect(t_ast_node *node)
 {
-	if (node->args)
+	if (node->type == NODE_REDIR)
 	{
-		if (strcmp(node->args[0], ">") == 0)
+		if (node->redir.outfile && !node->redir.append)
 			printf("REDIRECT OUT Node\n");
-		else if (strcmp(node->args[0], ">>") == 0)
+		else if (node->redir.outfile && node->redir.append)
 			printf("REDIRECT APPEND Node\n");
-		else if (strcmp(node->args[0], "<") == 0)
+		else if (node->redir.infile)
 			printf("REDIRECT IN Node\n");
-		else if (strcmp(node->args[0], "<<") == 0)
+		else if (node->redir.here_doc)
 			printf("REDIRECT HEREDOC Node\n");
 		else
 			printf("UNKNOWN REDIRECTION Node\n");
