@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/07 18:18:19 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:35:04 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 # include "../libft/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <fcntl.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <sys/stat.h>
 
 # define MAX_TOKENS 100
 # define PATH_SIZE 1024
@@ -69,6 +71,14 @@ typedef enum e_node
 	NODE_REDIR
 }						t_node;
 
+typedef struct s_redir
+{
+	char	*infile;
+	char	*outfile;
+	int		append;
+	char	*here_doc;	
+}				t_redir;
+
 typedef struct s_ast_node
 {
 	t_node				type;
@@ -77,6 +87,7 @@ typedef struct s_ast_node
 	int					file_type;
 	struct s_ast_node	*right;
 	struct s_ast_node	*left;
+	t_redir				redir;
 }						t_ast_node;
 
 typedef struct s_shell_state
@@ -91,6 +102,7 @@ int						envp_size(t_envp envp);
 
 // environ
 t_status				setup_envp(t_envp *dest, t_envp orig);
+char					*get_env(char *env_name, t_envp *envp);
 
 // syntax_check
 int						is_operator_valid(char *input);
@@ -110,6 +122,8 @@ int						count_args(t_list *current);
 void					fill_args(t_ast_node *command_node, t_list *list,
 							int argc);
 t_ast_node				*create_file_node(t_token *temp_token);
+void					set_redir_value(t_ast_node *node, t_token *token,
+							t_token *next_content);
 
 // parser
 t_ast_node				*parse_command(t_list *list);
@@ -133,6 +147,7 @@ void					builtin_exit(t_ast_node *node, t_envp envp);
 
 // executor_utils
 int						is_builtin(t_ast_node *node);
+char					*get_exec_path(t_ast_node *node, char **all_paths);
 
 // builtin_utils (export/unset)
 t_bool					isname(char *name);
@@ -149,5 +164,14 @@ char					*expand(t_token *content);
 
 // env_expander_utils
 char					*unquote_string(char *str);
+
+// pipe
+void					exec_pipe_child(t_ast_node *node, t_envp *envp,
+							int *p_fd, int isLeft);
+void					exec_pipe(t_ast_node *node, t_envp *envp);
+
+// redirection
+int						handle_redirections(t_ast_node *node);
+void					restore_fds(int *saved_stdin, int *saved_stdout);
 
 #endif
