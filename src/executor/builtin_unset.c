@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 13:25:15 by dnovak            #+#    #+#             */
-/*   Updated: 2025/02/04 14:33:53 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/02/05 00:41:00 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,23 +67,15 @@ t_status	builtin_unset(t_ast_node *node, t_envp *envp)
 	t_status	return_status;
 
 	if (node->argc == 1)
-	{
-		error_unset_args();
-		return (FAILURE);
-	}
+		return (SUCCESS);
 	return_status = SUCCESS;
 	i = 1;
 	while (i < node->argc)
 	{
-		if (isname(node->args[i]) == FALSE)
-		{
-			if (return_status != FAILURE)
-				error_unset_name(node->args[i]);
-			return_status = FAILURE;
-		}
-		else if (check_envp(node->args[i], *envp) == TRUE)
-			if (remove_in_envp(envp, node->args[i]) == FAILURE)
-				return_status = FAILURE;
+		if (isname(node->args[i]) == TRUE)
+			if (check_envp(node->args[i], *envp) == TRUE)
+				if (remove_in_envp(envp, node->args[i]) == FAILURE)
+					return_status = FAILURE;
 		++i;
 	}
 	return (return_status);

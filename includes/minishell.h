@@ -6,15 +6,22 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/02/04 14:54:15 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/08 21:48:49 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+// FOR: signals
+# ifndef _POSIX_C_SOURCE
+#  define _POSIX_C_SOURCE 199309L
+# endif
+
 # include "../libft/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -90,6 +97,7 @@ int						envp_size(t_envp envp);
 
 // environ
 t_status				setup_envp(t_envp *dest, t_envp orig);
+char					*ft_getenv(const char *name, t_envp envp);
 
 // lexer_utils
 t_token_type			get_operator_type(char *str, int *advanced);
@@ -118,14 +126,16 @@ void					display_ast(t_ast_node *node, int depth);
 void					display_tokens(t_list *lexer);
 
 // executor
-void					exec_tree(t_ast_node *node, t_envp *envp);
-void					builtin_cd(t_ast_node *node);
-void					builtin_pwd(void);
+void					exec_tree(t_ast_node *node, t_envp *envp,
+							int *exit_status);
+t_status				builtin_cd(t_ast_node *node);
+t_status				builtin_pwd(void);
 t_status				builtin_echo(t_ast_node *node);
 t_status				builtin_env(t_envp envp);
 t_status				builtin_export(t_ast_node *node, t_envp *envp);
 t_status				builtin_unset(t_ast_node *node, t_envp *envp);
-void					builtin_exit(t_ast_node *node, t_envp envp);
+void					builtin_exit(t_ast_node *node, t_envp envp,
+							int exit_status);
 
 // executor_utils
 int						is_builtin(t_ast_node *node);
@@ -133,13 +143,15 @@ int						is_builtin(t_ast_node *node);
 // builtin_utils (export/unset)
 t_bool					isname(char *name);
 t_bool					check_envp(char *name, t_envp envp);
+t_status				print_envp(t_envp envp);
 
 // builtin_errors
 void					error_export_name(char *name);
-void					error_unset_args(void);
-void					error_unset_name(char *name);
 
 // env_expander
 char					*env_expander(const char *arg);
+
+// signals
+void					init_signals(void);
 
 #endif

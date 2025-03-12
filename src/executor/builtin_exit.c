@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 12:04:25 by dnovak            #+#    #+#             */
-/*   Updated: 2025/02/04 15:20:48 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/02/05 00:03:47 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,9 @@ static t_bool	ft_isnumeric(char *num)
 	return (TRUE);
 }
 
-void	builtin_exit(t_ast_node *node, t_envp envp)
+void	builtin_exit(t_ast_node *node, t_envp envp, int exit_status)
 {
-	int	exit_status;
-
 	write(STDOUT_FILENO, "exit\n", 6);
-	exit_status = 0; /*replace with value of return status of last command*/
 	if (node->argc != 1)
 	{
 		if (ft_isnumeric(node->args[1]) == FALSE)
