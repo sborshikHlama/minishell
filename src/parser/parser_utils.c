@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 00:30:05 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/12 16:31:29 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/13 20:42:57 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_ast_node	*create_node(t_node type)
 	node->redir.append = 0;
 	node->redir.infile = NULL;
 	node->redir.outfile = NULL;
-	node->redir.here_doc = NULL;
+	node->redir.heredoc_delim = NULL;
 	return (node);
 }
 
@@ -51,7 +51,7 @@ void	set_redir_value(t_ast_node *node, t_token *token, t_token *next_content)
 		node->redir.append = 0;
 	}
 	else if (token->type == TOKEN_REDIR_HEREDOC)
-		node->redir.here_doc = ft_strdup(value);
+		node->redir.heredoc_delim = ft_strdup(value);
 }
 
 t_ast_node	*create_file_node(t_token *temp_token)

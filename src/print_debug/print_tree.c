@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 11:06:56 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/12 16:06:19 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/13 20:42:57 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	print_redirect(t_ast_node *node)
 			printf("REDIRECT APPEND Node\n");
 		else if (node->redir.infile)
 			printf("REDIRECT IN Node\n");
-		else if (node->redir.here_doc)
+		else if (node->redir.heredoc_delim)
 			printf("REDIRECT HEREDOC Node\n");
 		else
 			printf("UNKNOWN REDIRECTION Node\n");

@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/12 16:35:04 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/13 23:26:33 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ typedef struct s_redir
 	char	*infile;
 	char	*outfile;
 	int		append;
-	char	*here_doc;	
+	char	*heredoc_delim;	
 }				t_redir;
 
 typedef struct s_ast_node
@@ -173,5 +173,8 @@ void					exec_pipe(t_ast_node *node, t_envp *envp);
 // redirection
 int						handle_redirections(t_ast_node *node);
 void					restore_fds(int *saved_stdin, int *saved_stdout);
+
+// heredoc
+int						process_heredoc(t_ast_node *node);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 21:17:17 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/11 21:17:37 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/13 23:25:11 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,11 @@ int	handle_redirections(t_ast_node *node)
 	else if (node->redir.infile != NULL)
 	{
 		if (set_input_redir(&node->redir) < 0)
+			return (-1);
+	}
+	else if (node->redir.heredoc_delim != NULL)
+	{
+		if (process_heredoc(node) < 0)
 			return (-1);
 	}
 	return (0);

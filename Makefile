@@ -34,7 +34,8 @@ SRC = src/main.c \
 	  src/executor/builtin_exit.c \
 	  src/executor/executor_utils.c \
 	  src/executor/pipe.c \
-	  src/executor/redirection.c
+	  src/executor/redirection.c \
+	  src/executor/heredoc.c
 
 OBJECTS = $(SRC:.c=.o)
 
