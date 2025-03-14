@@ -29,10 +29,10 @@ SRC = src/main.c \
 	  src/executor/builtin_export.c \
 	  src/executor/builtin_export_errors.c \
 	  src/executor/builtin_unset.c \
-	  src/executor/builtin_unset_errors.c \
 	  src/executor/builtin_export_unset_utils.c \
 	  src/executor/builtin_exit.c \
-	  src/executor/executor_utils.c
+	  src/executor/executor_utils.c \
+	  src/signals/signals.c
 
 OBJECTS = $(SRC:.c=.o)
 

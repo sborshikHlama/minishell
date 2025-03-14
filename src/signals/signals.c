@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_unset_errors.c                             :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/01 22:36:52 by dnovak            #+#    #+#             */
-/*   Updated: 2025/02/01 22:38:02 by dnovak           ###   ########.fr       */
+/*   Created: 2025/03/06 23:05:18 by dnovak            #+#    #+#             */
+/*   Updated: 2025/03/12 14:33:27 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	error_unset_args(void)
+extern sig_atomic_t	g_sig_status;
+
+static void	signal_handler(int signum)
 {
-	write(STDERR_FILENO, "unset: not enough arguments\n", 29);
+	g_sig_status = signum;
 }
 
-void	error_unset_name(char *name)
+void	init_signals(void)
 {
-	write(STDERR_FILENO, "unset: ", 8);
-	write(STDERR_FILENO, name, ft_strlen(name));
-	write(STDERR_FILENO, ": invalid parameter name\n", 26);
+	struct sigaction	sa;
+
+	sigemptyset(&(sa.sa_mask));
+	sa.sa_flags = 0;
+	sa.sa_handler = &signal_handler;
+	sigaction(SIGINT, &sa, NULL);
+	sa.sa_handler = SIG_IGN;
+	sigaction(SIGQUIT, &sa, NULL);
 }
