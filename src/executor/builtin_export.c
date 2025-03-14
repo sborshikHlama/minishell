@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 13:25:15 by dnovak            #+#    #+#             */
-/*   Updated: 2025/02/04 14:31:32 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/02/05 00:21:26 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ t_status	builtin_export(t_ast_node *node, t_envp *envp)
 	t_status	return_status;
 
 	if (node->argc == 1)
-		return (builtin_env(*envp));
+		return (print_envp(*envp));
 	i = 1;
 	return_status = SUCCESS;
 	while (i < node->argc)

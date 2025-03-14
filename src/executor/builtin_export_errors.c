@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 22:36:52 by dnovak            #+#    #+#             */
-/*   Updated: 2025/02/03 19:47:48 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/02/05 00:45:59 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	error_export_name(char *name)
 {
-	write(STDERR_FILENO, "export: not an identifier: ", 28);
+	write(STDERR_FILENO, "minishell: export: `", 21);
 	write(STDERR_FILENO, name, ft_strlen(name));
-	write(STDERR_FILENO, "\n", 2);
+	write(STDERR_FILENO, "': not a valid identifier\n", 27);
 }

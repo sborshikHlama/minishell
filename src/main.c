@@ -41,8 +41,24 @@ char	*read_input(t_envp *envp)
 	return (input);
 }
 
+sig_atomic_t	g_sig_status;
+
+int	readline_hook(void)
+{
+	if (g_sig_status == SIGINT || g_sig_status == SIGQUIT)
+	{
+		g_sig_status = 0;
+		write(STDOUT_FILENO, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	return (SUCCESS);
+}
+
 int	main_loop(t_envp *envp)
 {
+	int			exit_status;
 	char		*input;
 	t_list		*token_list;
 	t_ast_node	*ast_tree;
@@ -55,7 +71,7 @@ int	main_loop(t_envp *envp)
 		debug(input, token_list, ast_tree, 0);
 		ast_tree = parser(token_list, *envp);
 		debug(input, token_list, ast_tree, 1);
-		exec_tree(ast_tree, envp);
+		exec_tree(ast_tree, &envp, &exit_status);
 		free(input);
 	}
 }
@@ -66,6 +82,9 @@ int	main(int argc, char **argv, char **envp_orig)
 
 	(void)argc;
 	(void)argv;
+	init_signals();
+	rl_event_hook = &readline_hook;
+	exit_status = 0;
 	if (setup_envp(&envp, envp_orig) == FAILURE)
 		return (EXIT_FAILURE);
 	main_loop(&envp);

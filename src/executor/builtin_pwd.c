@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 18:04:45 by aevstign          #+#    #+#             */
-/*   Updated: 2025/02/07 12:51:52 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/02/04 23:54:53 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	builtin_pwd(void)
+t_status	builtin_pwd(void)
 {
 	char	cwd[PATH_SIZE];
 
@@ -20,7 +20,8 @@ void	builtin_pwd(void)
 	{
 		write(1, cwd, ft_strlen(cwd));
 		write(1, "\n", 1);
-		return ;
+		return (FAILURE);
 	}
 	perror("pwd");
+	return (SUCCESS);
 }

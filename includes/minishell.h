@@ -12,10 +12,17 @@
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+// FOR: signals
+# ifndef _POSIX_C_SOURCE
+#  define _POSIX_C_SOURCE 199309L
+# endif
+
 # include "../libft/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <fcntl.h>
+# include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -103,6 +110,7 @@ char					*ft_getenv(const char *name, t_envp envp);
 
 // environ
 t_status				setup_envp(t_envp *dest, t_envp orig);
+char					*ft_getenv(const char *name, t_envp envp);
 
 // syntax_check
 int						is_operator_valid(char *input);
@@ -133,15 +141,16 @@ void					display_ast(t_ast_node *node, int depth);
 void					display_tokens(t_list *lexer);
 
 // executor
-void					exec_tree(t_ast_node *node, t_envp *envp);
-void					exec_pipe(t_ast_node *node, t_envp *envp);
-void					builtin_cd(t_ast_node *node);
-void					builtin_pwd(void);
+void					exec_tree(t_ast_node *node, t_envp *envp,
+							int *exit_status);
+t_status				builtin_cd(t_ast_node *node);
+t_status				builtin_pwd(void);
 t_status				builtin_echo(t_ast_node *node);
 t_status				builtin_env(t_envp envp);
 t_status				builtin_export(t_ast_node *node, t_envp *envp);
 t_status				builtin_unset(t_ast_node *node, t_envp *envp);
-void					builtin_exit(t_ast_node *node, t_envp envp);
+void					builtin_exit(t_ast_node *node, t_envp envp,
+							int exit_status);
 
 // executor_utils
 int						is_builtin(t_ast_node *node);
@@ -150,11 +159,10 @@ char					*get_exec_path(t_ast_node *node, char **all_paths);
 // builtin_utils (export/unset)
 t_bool					isname(char *name);
 t_bool					check_envp(char *name, t_envp envp);
+t_status				print_envp(t_envp envp);
 
 // builtin_errors
 void					error_export_name(char *name);
-void					error_unset_args(void);
-void					error_unset_name(char *name);
 
 // env_expander
 char					*expand(t_token *content, t_envp envp);
@@ -172,5 +180,7 @@ void					restore_fds(int *saved_stdin, int *saved_stdout);
 
 // heredoc
 int						process_heredoc(t_ast_node *node);
+// signals
+void					init_signals(void);
 
 #endif
