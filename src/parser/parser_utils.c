@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 00:30:05 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/13 20:42:57 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/14 11:51:50 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ int	count_args(t_list *current)
 	return (counter);
 }
 
-void	fill_args(t_ast_node *command_node, t_list *list, int argc)
+void	fill_args(t_ast_node *command_node, t_list *list, int argc,
+	t_envp envp)
 {
 	int		i;
 	t_list	*current;
@@ -112,7 +113,7 @@ void	fill_args(t_ast_node *command_node, t_list *list, int argc)
 	while (i < argc)
 	{
 		content = current->content;
-		command_node->args[i] = expand(content);
+		command_node->args[i] = expand(content, envp);
 		if (!command_node->args[i])
 		{
 			while (i > 0)

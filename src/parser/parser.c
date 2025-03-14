@@ -6,13 +6,13 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 22:31:45 by iasonov           #+#    #+#             */
-/*   Updated: 2025/03/12 16:27:40 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/14 11:50:08 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_ast_node	*parse_command(t_list	*list)
+t_ast_node	*parse_command(t_list	*list, t_envp envp)
 {
 	t_ast_node	*command_node;
 	int			arg_count;
@@ -30,7 +30,7 @@ t_ast_node	*parse_command(t_list	*list)
 		free(command_node);
 		return (NULL);
 	}
-	fill_args(command_node, list, arg_count);
+	fill_args(command_node, list, arg_count, envp);
 	return (command_node);
 }
 
@@ -53,7 +53,7 @@ t_ast_node	*create_redir_node(t_list **current, t_list *last_redirect)
 	return (redirect_node);
 }
 
-t_ast_node	*parse_redir(t_list *list)
+t_ast_node	*parse_redir(t_list *list, t_envp envp)
 {
 	t_ast_node	*redirect_node;
 	t_list		*last_redirect;
@@ -69,14 +69,14 @@ t_ast_node	*parse_redir(t_list *list)
 		current = current->next;
 	}
 	if (!last_redirect)
-		return (parse_command(list));
+		return (parse_command(list, envp));
 	current = list;
 	redirect_node = create_redir_node(&current, last_redirect);
-	redirect_node->left = parse_redir(list);
+	redirect_node->left = parse_redir(list, envp);
 	return (redirect_node);
 }
 
-t_ast_node	*parse_pipeline(t_list *list)
+t_ast_node	*parse_pipeline(t_list *list, t_envp envp)
 {
 	t_ast_node	*pipe_node;
 	t_list		*last_pipe;
@@ -93,20 +93,20 @@ t_ast_node	*parse_pipeline(t_list *list)
 		current = current->next;
 	}
 	if (!last_pipe)
-		return (parse_redir(list));
+		return (parse_redir(list, envp));
 	current = list;
 	while (current && current->next != last_pipe)
 		current = current->next;
 	current->next = NULL;
 	pipe_node = create_node(NODE_PIPE);
-	pipe_node->left = parse_pipeline(list);
-	pipe_node->right = parse_redir(last_pipe->next);
+	pipe_node->left = parse_pipeline(list, envp);
+	pipe_node->right = parse_redir(last_pipe->next, envp);
 	return (pipe_node);
 }
 
-t_ast_node	*parser(t_list *tokens)
+t_ast_node	*parser(t_list *tokens, t_envp envp)
 {
 	if (!tokens)
 		return (NULL);
-	return (parse_pipeline(tokens));
+	return (parse_pipeline(tokens, envp));
 }

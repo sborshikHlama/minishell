@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/13 23:26:33 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/14 12:43:24 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 # define MAX_TOKENS 100
 # define PATH_SIZE 1024
-# define DEBUG_STATUS 1
+# define DEBUG_STATUS 0
 
 typedef char			**t_envp;
 
@@ -99,10 +99,10 @@ typedef struct s_shell_state
 // environ_utils
 void					free_envp(t_envp envp);
 int						envp_size(t_envp envp);
+char					*ft_getenv(const char *name, t_envp envp);
 
 // environ
 t_status				setup_envp(t_envp *dest, t_envp orig);
-char					*get_env(char *env_name, t_envp *envp);
 
 // syntax_check
 int						is_operator_valid(char *input);
@@ -120,16 +120,13 @@ t_list					*lexer(char *input);
 t_ast_node				*create_node(t_node type);
 int						count_args(t_list *current);
 void					fill_args(t_ast_node *command_node, t_list *list,
-							int argc);
+							int argc, t_envp envp);
 t_ast_node				*create_file_node(t_token *temp_token);
 void					set_redir_value(t_ast_node *node, t_token *token,
 							t_token *next_content);
 
 // parser
-t_ast_node				*parse_command(t_list *list);
-t_ast_node				*parse_redir(t_list *list);
-t_ast_node				*parse_pipeline(t_list *list);
-t_ast_node				*parser(t_list *tokens);
+t_ast_node				*parser(t_list *tokens, t_envp envp);
 
 // print_debug
 void					display_ast(t_ast_node *node, int depth);
@@ -137,6 +134,7 @@ void					display_tokens(t_list *lexer);
 
 // executor
 void					exec_tree(t_ast_node *node, t_envp *envp);
+void					exec_pipe(t_ast_node *node, t_envp *envp);
 void					builtin_cd(t_ast_node *node);
 void					builtin_pwd(void);
 t_status				builtin_echo(t_ast_node *node);
@@ -159,9 +157,7 @@ void					error_unset_args(void);
 void					error_unset_name(char *name);
 
 // env_expander
-char					*env_expander(const char *arg);
-char					*expand(t_token *content);
-
+char					*expand(t_token *content, t_envp envp);
 // env_expander_utils
 char					*unquote_string(char *str);
 

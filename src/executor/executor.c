@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 12:51:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/12 16:35:20 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/14 12:37:43 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	exec_bin(t_ast_node *node, t_envp *envp)
 	char	*exec_path;
 	pid_t	pid;
 
-	all_paths = ft_split(get_env("PATH", envp), ':');
+	all_paths = ft_split(ft_getenv("PATH", *envp), ':');
 	exec_path = get_exec_path(node, all_paths);
 	if (exec_path == NULL)
 		return ;
@@ -62,7 +62,7 @@ void	exec_bin(t_ast_node *node, t_envp *envp)
 // Use dup2(new_fd, STDOUT_FILENO) to replace stdout.
 // Execute the command (execve()).
 
-void	handle_redir_chain(t_ast_node *node)
+int	handle_redir_chain(t_ast_node *node)
 {
 	if (node->left && node->left->type == NODE_REDIR)
 	{
@@ -72,8 +72,9 @@ void	handle_redir_chain(t_ast_node *node)
 	if (handle_redirections(node) < 0)
 	{
 		printf("failed to handle redirections\n");
-		return ;
+		return (-1);
 	}
+	return (0);
 }
 
 void	exec_redir(t_ast_node *node, t_envp *envp)
@@ -84,7 +85,8 @@ void	exec_redir(t_ast_node *node, t_envp *envp)
 
 	saved_stdout = dup(STDOUT_FILENO);
 	saved_stdin = dup(STDIN_FILENO);
-	handle_redir_chain(node);
+	if (handle_redir_chain(node) < 0)
+		return ;
 	cmd_node = node;
 	while (cmd_node && cmd_node->type == NODE_REDIR)
 		cmd_node = cmd_node->left;
