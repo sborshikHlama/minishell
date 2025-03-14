@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 00:30:05 by aevstign          #+#    #+#             */
-/*   Updated: 2025/01/24 14:29:18 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/02/09 20:52:32 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_ast_node	*create_node(t_node type)
 	node = malloc(sizeof(t_ast_node));
 	if (!node)
 	{
-		ft_putstr_fd("Error: malloc failed in create_node\n", 2);
+		ft_putendl_fd("Error: malloc failed in create_node", STDERR_FILENO);
 		return (NULL);
 	}
 	node->type = type;
@@ -67,21 +67,6 @@ int	count_args(t_list *current)
 		current = current->next;
 	}
 	return (counter);
-}
-
-char	*expand(t_token *content)
-{
-	char	*result;
-
-	if (content->expandable && ft_strchr(content->value, '$'))
-	{
-		result = env_expander(content->value);
-		if (!result)
-			result = ft_strdup("");
-	}
-	else
-		result = ft_strdup(content->value);
-	return (result);
 }
 
 void	fill_args(t_ast_node *command_node, t_list *list, int argc)

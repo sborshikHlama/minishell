@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:19:40 by aevstign          #+#    #+#             */
-/*   Updated: 2025/01/12 17:58:28 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/02/07 11:06:45 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,8 @@ int	is_builtin(t_ast_node *node)
 	builtin_commands[2] = "env";
 	builtin_commands[3] = "exit";
 	builtin_commands[4] = "export";
-	builtin_commands[5] = "grep";
-	builtin_commands[6] = "pwd";
-	builtin_commands[7] = "unset";
-	builtin_commands[8] = "wc";
+	builtin_commands[5] = "pwd";
+	builtin_commands[6] = "unset";
 	i = 0;
 	while (i < 9)
 	{
