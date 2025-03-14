@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/08 21:48:49 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/14 13:30:58 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,15 @@
 # include "../libft/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <fcntl.h>
 # include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
 
 # define MAX_TOKENS 100
 # define PATH_SIZE 1024
@@ -76,6 +79,14 @@ typedef enum e_node
 	NODE_REDIR
 }						t_node;
 
+typedef struct s_redir
+{
+	char	*infile;
+	char	*outfile;
+	int		append;
+	char	*heredoc_delim;	
+}				t_redir;
+
 typedef struct s_ast_node
 {
 	t_node				type;
@@ -84,6 +95,7 @@ typedef struct s_ast_node
 	int					file_type;
 	struct s_ast_node	*right;
 	struct s_ast_node	*left;
+	t_redir				redir;
 }						t_ast_node;
 
 typedef struct s_shell_state
@@ -95,6 +107,7 @@ typedef struct s_shell_state
 // environ_utils
 void					free_envp(t_envp envp);
 int						envp_size(t_envp envp);
+char					*ft_getenv(const char *name, t_envp envp);
 
 // environ
 t_status				setup_envp(t_envp *dest, t_envp orig);
@@ -116,14 +129,13 @@ t_list					*lexer(char *input);
 t_ast_node				*create_node(t_node type);
 int						count_args(t_list *current);
 void					fill_args(t_ast_node *command_node, t_list *list,
-							int argc);
+							int argc, t_envp envp);
 t_ast_node				*create_file_node(t_token *temp_token);
+void					set_redir_value(t_ast_node *node, t_token *token,
+							t_token *next_content);
 
 // parser
-t_ast_node				*parse_command(t_list *list);
-t_ast_node				*parse_redir(t_list *list);
-t_ast_node				*parse_pipeline(t_list *list);
-t_ast_node				*parser(t_list *tokens);
+t_ast_node				*parser(t_list *tokens, t_envp envp);
 
 // print_debug
 void					display_ast(t_ast_node *node, int depth);
@@ -143,6 +155,7 @@ void					builtin_exit(t_ast_node *node, t_envp envp,
 
 // executor_utils
 int						is_builtin(t_ast_node *node);
+char					*get_exec_path(t_ast_node *node, char **all_paths);
 
 // builtin_utils (export/unset)
 t_bool					isname(char *name);
@@ -153,12 +166,22 @@ t_status				print_envp(t_envp envp);
 void					error_export_name(char *name);
 
 // env_expander
-char					*env_expander(const char *arg);
-char					*expand(t_token *content);
-
+char					*expand(t_token *content, t_envp envp);
 // env_expander_utils
 char					*unquote_string(char *str);
 
+// pipe
+void					exec_pipe_child(t_ast_node *node, t_envp *envp,
+							int *p_fd, int isLeft, int *exit_status);
+void					exec_pipe(t_ast_node *node, t_envp *envp,
+							int *exit_status);
+
+// redirection
+int						handle_redirections(t_ast_node *node);
+void					restore_fds(int *saved_stdin, int *saved_stdout);
+
+// heredoc
+int						process_heredoc(t_ast_node *node);
 // signals
 void					init_signals(void);
 

@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 00:30:05 by aevstign          #+#    #+#             */
-/*   Updated: 2025/02/09 20:52:32 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/14 11:51:50 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,40 @@ t_ast_node	*create_node(t_node type)
 	node->args = NULL;
 	node->right = NULL;
 	node->left = NULL;
+	node->redir.append = 0;
+	node->redir.infile = NULL;
+	node->redir.outfile = NULL;
+	node->redir.heredoc_delim = NULL;
 	return (node);
+}
+
+void	set_redir_value(t_ast_node *node, t_token *token, t_token *next_content)
+{
+	char	*value;
+
+	value = next_content->value;
+	if (token->type == TOKEN_REDIR_IN)
+		node->redir.infile = ft_strdup(value);
+	else if (token->type == TOKEN_REDIR_APPEND)
+	{
+		node->redir.outfile = ft_strdup(value);
+		node->redir.append = 1;
+	}
+	else if (token->type == TOKEN_REDIR_OUT)
+	{
+		node->redir.outfile = ft_strdup(value);
+		node->redir.append = 0;
+	}
+	else if (token->type == TOKEN_REDIR_HEREDOC)
+		node->redir.heredoc_delim = ft_strdup(value);
 }
 
 t_ast_node	*create_file_node(t_token *temp_token)
 {
 	t_ast_node	*node;
 
+	if (!temp_token || !temp_token->value)
+		return (NULL);
 	node = malloc(sizeof(t_ast_node));
 	if (!node)
 		return (NULL);
@@ -42,11 +69,16 @@ t_ast_node	*create_file_node(t_token *temp_token)
 		free(node);
 		return (NULL);
 	}
-	node->args[0] = temp_token->value;
+	node->args[0] = ft_strdup(temp_token->value);
+	if (!node->args[0])
+	{
+		free(node->args);
+		free(node);
+		return (NULL);
+	}
 	node->args[1] = NULL;
 	node->left = NULL;
 	node->right = NULL;
-	free(temp_token);
 	return (node);
 }
 
@@ -69,7 +101,8 @@ int	count_args(t_list *current)
 	return (counter);
 }
 
-void	fill_args(t_ast_node *command_node, t_list *list, int argc)
+void	fill_args(t_ast_node *command_node, t_list *list, int argc,
+	t_envp envp)
 {
 	int		i;
 	t_list	*current;
@@ -80,7 +113,7 @@ void	fill_args(t_ast_node *command_node, t_list *list, int argc)
 	while (i < argc)
 	{
 		content = current->content;
-		command_node->args[i] = expand(content);
+		command_node->args[i] = expand(content, envp);
 		if (!command_node->args[i])
 		{
 			while (i > 0)

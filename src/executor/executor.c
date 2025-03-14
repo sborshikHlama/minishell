@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 12:51:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/02/05 00:02:23 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/14 13:27:46 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,91 @@ static void	exec_builtin(t_ast_node *node, t_envp *envp, int *exit_status)
 		*exit_status = builtin_export(node, envp);
 	else if (ft_strcmp(node->args[0], "exit") == 0)
 		builtin_exit(node, *envp, *exit_status);
-	// else if (ft_strcmp(node->args[0], "grep") == 0)
-	// 	builtin_grep();
-	// else if (ft_strcmp(node->args[0], "wc") == 0)
-	// 	builtin_wc();
 }
+
+// executes non builtin commands in a child process
+void	exec_bin(t_ast_node *node, t_envp *envp)
+{
+	char	**all_paths;
+	char	*exec_path;
+	pid_t	pid;
+
+	all_paths = ft_split(ft_getenv("PATH", *envp), ':');
+	exec_path = get_exec_path(node, all_paths);
+	if (exec_path == NULL)
+		return ;
+	pid = fork();
+	if (pid < 0)
+		perror("fork");
+	if (pid == 0)
+	{
+		if (execve(exec_path, node->args, (char **)*envp) < 0)
+		{
+			perror(exec_path);
+			exit(1);
+		}
+		exit(0);
+	}
+	waitpid(pid, NULL, 0);
+}
+
+// Open the target file:
+// O_CREAT | O_WRONLY | O_TRUNC for >.
+// O_CREAT | O_WRONLY | O_APPEND for >>.
+// Use dup2(new_fd, STDOUT_FILENO) to replace stdout.
+// Execute the command (execve()).
+
+int	handle_redir_chain(t_ast_node *node)
+{
+	if (node->left && node->left->type == NODE_REDIR)
+	{
+		printf("%s\n", node->redir.outfile);
+		handle_redir_chain(node->left);
+	}
+	if (handle_redirections(node) < 0)
+	{
+		printf("failed to handle redirections\n");
+		return (-1);
+	}
+	return (0);
+}
+
+void	exec_redir(t_ast_node *node, t_envp *envp, int *exit_status)
+{
+	int			saved_stdout;
+	int			saved_stdin;
+	t_ast_node	*cmd_node;
+
+	saved_stdout = dup(STDOUT_FILENO);
+	saved_stdin = dup(STDIN_FILENO);
+	if (handle_redir_chain(node) < 0)
+		return ;
+	cmd_node = node;
+	while (cmd_node && cmd_node->type == NODE_REDIR)
+		cmd_node = cmd_node->left;
+	exec_tree(cmd_node, envp, exit_status);
+	restore_fds(&saved_stdin, &saved_stdout);
+}
+
+// left-to-right iterarive tree traversal
+// Start from the root (outermost pipe).
+// Go left until reaching the first command (leftmost leaf).
+// Execute each command, passing output to the next using pipes.
+// Continue right until reaching the last command.
 
 void	exec_tree(t_ast_node *node, t_envp *envp, int *exit_status)
 {
 	if (!node)
 		return ;
-	// if (node->type == NODE_PIPE)
-	// 	exec_pipe(node);
+	if (node->type == NODE_REDIR)
+		exec_redir(node, envp, exit_status);
+	if (node->type == NODE_PIPE)
+		exec_pipe(node, envp, exit_status);
 	else if (node->type == NODE_COMMAND)
 	{
 		if (is_builtin(node))
 			exec_builtin(node, envp, exit_status);
-		// else
-		// 	exec_bin(node);
+		else
+			exec_bin(node, envp);
 	}
 }
