@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 12:51:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/14 13:27:46 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/14 19:11:27 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,12 @@ void	exec_bin(t_ast_node *node, t_envp *envp)
 
 int	handle_redir_chain(t_ast_node *node)
 {
+	if (!node)
+		return (0);
 	if (node->left && node->left->type == NODE_REDIR)
-	{
-		printf("%s\n", node->redir.outfile);
-		handle_redir_chain(node->left);
-	}
-	if (handle_redirections(node) < 0)
-	{
-		printf("failed to handle redirections\n");
-		return (-1);
-	}
-	return (0);
+		if (handle_redir_chain(node->left) < 0)
+			return (-1);
+	return (handle_redirections(node));
 }
 
 void	exec_redir(t_ast_node *node, t_envp *envp, int *exit_status)
@@ -85,11 +80,16 @@ void	exec_redir(t_ast_node *node, t_envp *envp, int *exit_status)
 
 	saved_stdout = dup(STDOUT_FILENO);
 	saved_stdin = dup(STDIN_FILENO);
+
 	if (handle_redir_chain(node) < 0)
+	{
+		restore_fds(&saved_stdin, &saved_stdout);
 		return ;
+	}
 	cmd_node = node;
 	while (cmd_node && cmd_node->type == NODE_REDIR)
 		cmd_node = cmd_node->left;
+
 	exec_tree(cmd_node, envp, exit_status);
 	restore_fds(&saved_stdin, &saved_stdout);
 }
