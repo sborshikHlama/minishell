@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
-/*   Updated: 2025/03/14 12:32:53 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:28:48 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	main_loop(t_envp *envp)
 	t_ast_node	*ast_tree;
 
 	ast_tree = NULL;
+	exit_status = 0;
 	while (1)
 	{
 		input = read_input(envp);
@@ -71,7 +72,7 @@ int	main_loop(t_envp *envp)
 		debug(input, token_list, ast_tree, 0);
 		ast_tree = parser(token_list, *envp);
 		debug(input, token_list, ast_tree, 1);
-		exec_tree(ast_tree, &envp, &exit_status);
+		exec_tree(ast_tree, envp, &exit_status);
 		free(input);
 	}
 }
@@ -84,7 +85,6 @@ int	main(int argc, char **argv, char **envp_orig)
 	(void)argv;
 	init_signals();
 	rl_event_hook = &readline_hook;
-	exit_status = 0;
 	if (setup_envp(&envp, envp_orig) == FAILURE)
 		return (EXIT_FAILURE);
 	main_loop(&envp);

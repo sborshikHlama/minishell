@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 12:51:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/14 12:37:43 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:27:46 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,6 @@ static void	exec_builtin(t_ast_node *node, t_envp *envp, int *exit_status)
 		*exit_status = builtin_export(node, envp);
 	else if (ft_strcmp(node->args[0], "exit") == 0)
 		builtin_exit(node, *envp, *exit_status);
-	// else if (ft_strcmp(node->args[0], "grep") == 0)
-	// 	builtin_grep();
-	// else if (ft_strcmp(node->args[0], "wc") == 0)
-	// 	builtin_wc();
 }
 
 // executes non builtin commands in a child process
@@ -81,7 +77,7 @@ int	handle_redir_chain(t_ast_node *node)
 	return (0);
 }
 
-void	exec_redir(t_ast_node *node, t_envp *envp)
+void	exec_redir(t_ast_node *node, t_envp *envp, int *exit_status)
 {
 	int			saved_stdout;
 	int			saved_stdin;
@@ -94,7 +90,7 @@ void	exec_redir(t_ast_node *node, t_envp *envp)
 	cmd_node = node;
 	while (cmd_node && cmd_node->type == NODE_REDIR)
 		cmd_node = cmd_node->left;
-	exec_tree(cmd_node, envp);
+	exec_tree(cmd_node, envp, exit_status);
 	restore_fds(&saved_stdin, &saved_stdout);
 }
 
@@ -109,9 +105,9 @@ void	exec_tree(t_ast_node *node, t_envp *envp, int *exit_status)
 	if (!node)
 		return ;
 	if (node->type == NODE_REDIR)
-		exec_redir(node, envp);
+		exec_redir(node, envp, exit_status);
 	if (node->type == NODE_PIPE)
-		exec_pipe(node, envp);
+		exec_pipe(node, envp, exit_status);
 	else if (node->type == NODE_COMMAND)
 	{
 		if (is_builtin(node))

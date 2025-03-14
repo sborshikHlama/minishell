@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/14 12:43:24 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:27:29 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,8 +171,9 @@ char					*unquote_string(char *str);
 
 // pipe
 void					exec_pipe_child(t_ast_node *node, t_envp *envp,
-							int *p_fd, int isLeft);
-void					exec_pipe(t_ast_node *node, t_envp *envp);
+							int *p_fd, int isLeft, int *exit_status);
+void					exec_pipe(t_ast_node *node, t_envp *envp,
+							int *exit_status);
 
 // redirection
 int						handle_redirections(t_ast_node *node);
