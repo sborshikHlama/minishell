@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/14 13:27:29 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:30:58 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <sys/wait.h>
 # include <sys/stat.h>
 
 # define MAX_TOKENS 100
