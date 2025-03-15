@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/14 13:30:58 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/15 11:33:30 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,8 +171,6 @@ char					*expand(t_token *content, t_envp envp);
 char					*unquote_string(char *str);
 
 // pipe
-void					exec_pipe_child(t_ast_node *node, t_envp *envp,
-							int *p_fd, int isLeft, int *exit_status);
 void					exec_pipe(t_ast_node *node, t_envp *envp,
 							int *exit_status);
 

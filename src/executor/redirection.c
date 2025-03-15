@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 21:17:17 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/14 19:04:20 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/14 22:25:26 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,12 @@ int	set_ouput_redir(t_redir *redir)
 
 int	handle_redirections(t_ast_node *node)
 {
-	if (!node)
-		return (0);
-
-	// Handle input redirections first
-	if (node->redir.infile != NULL)
+	if (node->redir.outfile != NULL)
+	{
+		if (set_ouput_redir(&node->redir) < 0)
+			return (-1);
+	}
+	else if (node->redir.infile != NULL)
 	{
 		if (set_input_redir(&node->redir) < 0)
 			return (-1);
@@ -65,13 +66,5 @@ int	handle_redirections(t_ast_node *node)
 		if (process_heredoc(node) < 0)
 			return (-1);
 	}
-
-	// Then handle output redirections
-	if (node->redir.outfile != NULL)
-	{
-		if (set_ouput_redir(&node->redir) < 0)
-			return (-1);
-	}
-
 	return (0);
 }

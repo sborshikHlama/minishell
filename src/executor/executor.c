@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 12:51:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/14 19:11:27 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/15 10:44:00 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void	exec_redir(t_ast_node *node, t_envp *envp, int *exit_status)
 
 	saved_stdout = dup(STDOUT_FILENO);
 	saved_stdin = dup(STDIN_FILENO);
-
 	if (handle_redir_chain(node) < 0)
 	{
 		restore_fds(&saved_stdin, &saved_stdout);
@@ -89,7 +88,6 @@ void	exec_redir(t_ast_node *node, t_envp *envp, int *exit_status)
 	cmd_node = node;
 	while (cmd_node && cmd_node->type == NODE_REDIR)
 		cmd_node = cmd_node->left;
-
 	exec_tree(cmd_node, envp, exit_status);
 	restore_fds(&saved_stdin, &saved_stdout);
 }
