@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 12:51:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/16 14:40:50 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/16 14:45:54 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	exec_bin(t_ast_node *node, t_envp *envp, int *exit_status)
 	{
 		write(STDERR_FILENO, node->args[0], ft_strlen(node->args[0]));
 		write(STDOUT_FILENO, ": command not found\n", 20);
-		exit_status = 127;
+		*exit_status = 127;
 		if (all_paths != NULL)
 			free(all_paths);
 		return ;
