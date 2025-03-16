@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 12:51:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/14 19:11:27 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/16 14:45:54 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,29 +31,25 @@ static void	exec_builtin(t_ast_node *node, t_envp *envp, int *exit_status)
 }
 
 // executes non builtin commands in a child process
-void	exec_bin(t_ast_node *node, t_envp *envp)
+void	exec_bin(t_ast_node *node, t_envp *envp, int *exit_status)
 {
 	char	**all_paths;
 	char	*exec_path;
-	pid_t	pid;
 
 	all_paths = ft_split(ft_getenv("PATH", *envp), ':');
 	exec_path = get_exec_path(node, all_paths);
 	if (exec_path == NULL)
-		return ;
-	pid = fork();
-	if (pid < 0)
-		perror("fork");
-	if (pid == 0)
 	{
-		if (execve(exec_path, node->args, (char **)*envp) < 0)
-		{
-			perror(exec_path);
-			exit(1);
-		}
-		exit(0);
+		write(STDERR_FILENO, node->args[0], ft_strlen(node->args[0]));
+		write(STDOUT_FILENO, ": command not found\n", 20);
+		*exit_status = 127;
+		if (all_paths != NULL)
+			free(all_paths);
+		return ;
 	}
-	waitpid(pid, NULL, 0);
+	free(all_paths);
+	spawn_binary(exec_path, node, envp, exit_status);
+	free(exec_path);
 }
 
 // Open the target file:
@@ -80,7 +76,6 @@ void	exec_redir(t_ast_node *node, t_envp *envp, int *exit_status)
 
 	saved_stdout = dup(STDOUT_FILENO);
 	saved_stdin = dup(STDIN_FILENO);
-
 	if (handle_redir_chain(node) < 0)
 	{
 		restore_fds(&saved_stdin, &saved_stdout);
@@ -89,7 +84,6 @@ void	exec_redir(t_ast_node *node, t_envp *envp, int *exit_status)
 	cmd_node = node;
 	while (cmd_node && cmd_node->type == NODE_REDIR)
 		cmd_node = cmd_node->left;
-
 	exec_tree(cmd_node, envp, exit_status);
 	restore_fds(&saved_stdin, &saved_stdout);
 }
@@ -113,6 +107,6 @@ void	exec_tree(t_ast_node *node, t_envp *envp, int *exit_status)
 		if (is_builtin(node))
 			exec_builtin(node, envp, exit_status);
 		else
-			exec_bin(node, envp);
+			exec_bin(node, envp, exit_status);
 	}
 }

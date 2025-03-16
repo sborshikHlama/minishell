@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/14 13:30:58 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/16 14:30:51 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,11 @@ void					builtin_exit(t_ast_node *node, t_envp envp,
 
 // executor_utils
 int						is_builtin(t_ast_node *node);
+
+// binary
 char					*get_exec_path(t_ast_node *node, char **all_paths);
+void					spawn_binary(char *exec_path, t_ast_node *node,
+							t_envp *envp, int *exit_status);
 
 // builtin_utils (export/unset)
 t_bool					isname(char *name);
@@ -171,8 +175,6 @@ char					*expand(t_token *content, t_envp envp);
 char					*unquote_string(char *str);
 
 // pipe
-void					exec_pipe_child(t_ast_node *node, t_envp *envp,
-							int *p_fd, int isLeft, int *exit_status);
 void					exec_pipe(t_ast_node *node, t_envp *envp,
 							int *exit_status);
 
