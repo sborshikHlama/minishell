@@ -12,6 +12,20 @@
 
 #include "../includes/minishell.h"
 
+sig_atomic_t	g_sig_status;
+
+int	readline_hook(void)
+{
+	if (g_sig_status == SIGINT)
+	{
+		g_sig_status = 0;
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	return (SUCCESS);
+}
+
 void	debug(char *input, t_list *list, t_ast_node *ast_tree, int ast_flag)
 {
 	if (DEBUG_STATUS && !ast_flag)
@@ -30,30 +44,16 @@ char	*read_input(t_envp *envp)
 {
 	char	*input;
 
+	g_sig_status = 0;
 	input = readline("minishell$> ");
 	if (input == NULL)
 	{
 		free_envp(*envp);
 		write(STDOUT_FILENO, "exit\n", 5);
-		return (NULL);
+		exit(SUCCESS);
 	}
 	add_history(input);
 	return (input);
-}
-
-sig_atomic_t	g_sig_status;
-
-int	readline_hook(void)
-{
-	if (g_sig_status == SIGINT || g_sig_status == SIGQUIT)
-	{
-		g_sig_status = 0;
-		write(STDOUT_FILENO, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-	return (SUCCESS);
 }
 
 int	main_loop(t_envp *envp)

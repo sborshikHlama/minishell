@@ -17,6 +17,7 @@ extern sig_atomic_t	g_sig_status;
 static void	signal_handler(int signum)
 {
 	g_sig_status = signum;
+	write(STDOUT_FILENO, "\n", 1);
 }
 
 void	init_signals(void)

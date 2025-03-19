@@ -39,14 +39,14 @@ typedef char			**t_envp;
 
 typedef enum e_status
 {
-	SUCCESS,
-	FAILURE,
+	SUCCESS = 0,
+	FAILURE = 1,
 }						t_status;
 
 typedef enum e_bool
 {
-	FALSE,
-	TRUE,
+	FALSE = 0,
+	TRUE = 1,
 }						t_bool;
 
 typedef enum e_token_type
@@ -111,7 +111,6 @@ char					*ft_getenv(const char *name, t_envp envp);
 
 // environ
 t_status				setup_envp(t_envp *dest, t_envp orig);
-char					*ft_getenv(const char *name, t_envp envp);
 
 // syntax_check
 int						is_operator_valid(char *input);
