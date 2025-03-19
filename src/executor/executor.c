@@ -44,10 +44,10 @@ void	exec_bin(t_ast_node *node, t_envp *envp, int *exit_status)
 		write(STDOUT_FILENO, ": command not found\n", 20);
 		*exit_status = 127;
 		if (all_paths != NULL)
-			free(all_paths);
+			free_all_paths(all_paths);
 		return ;
 	}
-	free(all_paths);
+	free_all_paths(all_paths);
 	spawn_binary(exec_path, node, envp, exit_status);
 	free(exec_path);
 }

@@ -45,5 +45,6 @@ void	builtin_exit(t_ast_node *node, t_envp envp, int exit_status)
 	}
 	/*ADD: free all nodes - input and lexer should already be freed*/
 	free_envp(envp);
+	rl_clear_history();
 	exit(exit_status);
 }

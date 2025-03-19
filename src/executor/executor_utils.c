@@ -43,3 +43,16 @@ void	restore_fds(int *saved_stdin, int *saved_stdout)
 	close(*saved_stdin);
 	close(*saved_stdout);
 }
+
+void	free_all_paths(char **all_paths)
+{
+	int	i;
+
+	i = 0;
+	while (all_paths[i] != NULL)
+	{
+		free(all_paths[i]);
+		++i;
+	}
+	free(all_paths);
+}

@@ -154,6 +154,7 @@ void					builtin_exit(t_ast_node *node, t_envp envp,
 
 // executor_utils
 int						is_builtin(t_ast_node *node);
+void					free_all_paths(char **all_paths);
 
 // binary
 char					*get_exec_path(t_ast_node *node, char **all_paths);

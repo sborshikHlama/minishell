@@ -49,6 +49,7 @@ char	*read_input(t_envp *envp)
 	if (input == NULL)
 	{
 		free_envp(*envp);
+		rl_clear_history();
 		write(STDOUT_FILENO, "exit\n", 5);
 		exit(SUCCESS);
 	}
