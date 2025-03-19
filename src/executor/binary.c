@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 11:26:10 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/16 14:27:22 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:39:29 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,13 @@ char	*get_exec_path(t_ast_node *node, char **all_paths)
 	while (all_paths[i] != NULL)
 	{
 		part_path = ft_strjoin(all_paths[i], "/");
+		if (part_path == NULL)
+			return (NULL);
 		exec_path = ft_strjoin(part_path, node->args[0]);
 		free(part_path);
 		if (access(exec_path, F_OK | X_OK) == 0)
 			return (exec_path);
+		free(exec_path);
 		i++;
 	}
 	return (NULL);
@@ -49,22 +52,16 @@ static void	child_process(char *exec_path, t_ast_node *node, t_envp *envp)
 	if (r < 0)
 	{
 		perror("execve");
-		exit (1);
+		exit (EXIT_FAILURE);
 	}
-	exit(0);
+	exit(EXIT_SUCCESS);
 }
 
 void	parent_process(pid_t pid, int *exit_status)
 {
 	int	status;
-	int	w;
 
-	w = waitpid(pid, &status, 0);
-	if (w == -1)
-	{
-		perror("waitpid");
-		// exit(EXIT_FAILURE);
-	}
+	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		*exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))

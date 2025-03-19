@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:48:42 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/14 11:55:16 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:15:45 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ char	*handle_var(char **start, int exit_status, char *prev, t_envp envp)
 		end = *start + 1;
 	}
 	temp_result = ft_strjoin(prev, var_value);
+	free(var_value);
 	free(prev);
 	*start = end;
 	return (temp_result);
@@ -104,6 +105,8 @@ char	*expand(t_token *content, t_envp envp)
 	char	*str;
 
 	str = unquote_string(content->value);
+	if (!str)
+		return (NULL);
 	if (content->expandable && ft_strchr(str, '$'))
 	{
 		result = env_expander(str, envp);
@@ -112,8 +115,8 @@ char	*expand(t_token *content, t_envp envp)
 	}
 	else
 		result = ft_strdup(str);
+	free(str);
 	if (!result)
 		return (NULL);
-	free(str);
 	return (result);
 }

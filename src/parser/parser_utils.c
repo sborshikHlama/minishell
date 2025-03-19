@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 00:30:05 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/14 11:51:50 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:51:16 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,6 @@ void	fill_args(t_ast_node *command_node, t_list *list, int argc,
 			return ;
 		}
 		current = current->next;
-		free(content->value);
-		free(content);
 		i++;
 	}
 	command_node->args[argc] = NULL;

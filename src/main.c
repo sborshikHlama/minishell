@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
-/*   Updated: 2025/03/14 13:28:48 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:06:55 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ char	*read_input(t_envp *envp)
 	return (input);
 }
 
+<<<<<<< Updated upstream
 sig_atomic_t	g_sig_status;
 
 int	readline_hook(void)
@@ -54,6 +55,50 @@ int	readline_hook(void)
 		rl_redisplay();
 	}
 	return (SUCCESS);
+=======
+void	free_token_callback(void *token)
+{
+	t_token *t;
+
+	t = (t_token *)token;
+	if (t)
+	{
+		free(t->value);
+		free(t);
+	}
+}
+
+void	free_command_args(char **args)
+{
+	int i;
+
+	i = 0;
+	if (args)
+	{
+		while (args[i])
+		{
+			free(args[i]);
+			i++;
+		}
+		free(args);
+	}
+}
+
+void	free_ast_tree(t_ast_node *node)
+{
+	if (!node)
+		return ;
+	free_command_args(node->args);
+	if (node->redir.heredoc_delim)
+		free(node->redir.heredoc_delim);
+	if (node->redir.infile)
+		free(node->redir.infile);
+	if (node->redir.outfile)
+		free(node->redir.outfile);
+	free_ast_tree(node->left);
+	free_ast_tree(node->right);
+	free(node);
+>>>>>>> Stashed changes
 }
 
 int	main_loop(t_envp *envp)
@@ -63,17 +108,19 @@ int	main_loop(t_envp *envp)
 	t_list		*token_list;
 	t_ast_node	*ast_tree;
 
-	ast_tree = NULL;
 	exit_status = 0;
 	while (1)
 	{
+		ast_tree = NULL;
 		input = read_input(envp);
 		token_list = lexer(input);
+		free(input);
 		debug(input, token_list, ast_tree, 0);
 		ast_tree = parser(token_list, *envp);
+		ft_lstclear(&token_list, free_token_callback);
 		debug(input, token_list, ast_tree, 1);
 		exec_tree(ast_tree, envp, &exit_status);
-		free(input);
+		free_ast_tree(ast_tree);
 	}
 }
 

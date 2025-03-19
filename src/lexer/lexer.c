@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 16:43:44 by aevstign          #+#    #+#             */
-/*   Updated: 2025/02/10 15:05:02 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/19 16:13:27 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	handle_operator(t_token *token, char *input, int *pos)
 		|| !is_operator_valid(&input[*pos]))
 	{
 		ft_putendl_fd("minishell: syntax error near unexpected token", 2);
-		free_token(token);
+		// free_token(token);
 		return (0);
 	}
 	*pos += advance;

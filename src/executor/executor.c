@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 12:51:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/16 14:45:54 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:57:23 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,22 @@ static void	exec_builtin(t_ast_node *node, t_envp *envp, int *exit_status)
 		builtin_exit(node, *envp, *exit_status);
 }
 
+void	free_split(char **array)
+{
+	int	i;
+
+	i = 0;
+	if (array)
+	{
+		while (array[i])
+		{
+			free(array[i]);
+			i++;
+		}
+		free(array);
+	}
+}
+
 // executes non builtin commands in a child process
 void	exec_bin(t_ast_node *node, t_envp *envp, int *exit_status)
 {
@@ -38,16 +54,14 @@ void	exec_bin(t_ast_node *node, t_envp *envp, int *exit_status)
 
 	all_paths = ft_split(ft_getenv("PATH", *envp), ':');
 	exec_path = get_exec_path(node, all_paths);
+	free_split(all_paths);
 	if (exec_path == NULL)
 	{
 		write(STDERR_FILENO, node->args[0], ft_strlen(node->args[0]));
 		write(STDOUT_FILENO, ": command not found\n", 20);
 		*exit_status = 127;
-		if (all_paths != NULL)
-			free(all_paths);
 		return ;
 	}
-	free(all_paths);
 	spawn_binary(exec_path, node, envp, exit_status);
 	free(exec_path);
 }
@@ -93,6 +107,8 @@ void	exec_redir(t_ast_node *node, t_envp *envp, int *exit_status)
 // Go left until reaching the first command (leftmost leaf).
 // Execute each command, passing output to the next using pipes.
 // Continue right until reaching the last command.
+
+
 
 void	exec_tree(t_ast_node *node, t_envp *envp, int *exit_status)
 {
