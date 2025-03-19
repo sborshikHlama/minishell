@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-sig_atomic_t	g_sig_status;
+volatile sig_atomic_t	g_sig_status;
 
 int	readline_hook(void)
 {
