@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 11:26:10 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/16 14:27:22 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/20 17:28:42 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ char	*get_exec_path(t_ast_node *node, char **all_paths)
 		free(part_path);
 		if (access(exec_path, F_OK | X_OK) == 0)
 			return (exec_path);
+		free(exec_path);
 		i++;
 	}
 	return (NULL);
@@ -62,8 +63,8 @@ void	parent_process(pid_t pid, int *exit_status)
 	w = waitpid(pid, &status, 0);
 	if (w == -1)
 	{
-		perror("waitpid");
-		// exit(EXIT_FAILURE);
+		*exit_status = 1;
+		return ;
 	}
 	if (WIFEXITED(status))
 		*exit_status = WEXITSTATUS(status);
