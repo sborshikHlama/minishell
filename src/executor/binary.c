@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   binary.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 11:26:10 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/20 17:28:42 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/21 06:26:04 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../includes/minishell.h"
 
@@ -50,7 +49,7 @@ static void	child_process(char *exec_path, t_ast_node *node, t_envp *envp)
 	if (r < 0)
 	{
 		perror("execve");
-		exit (1);
+		exit(1);
 	}
 	exit(0);
 }
@@ -73,7 +72,7 @@ void	parent_process(pid_t pid, int *exit_status)
 }
 
 void	spawn_binary(char *exec_path, t_ast_node *node, t_envp *envp,
-			int *exit_status)
+		int *exit_status)
 {
 	pid_t	pid;
 
