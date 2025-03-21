@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 00:30:05 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/14 11:51:50 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/21 15:15:53 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,32 +54,24 @@ void	set_redir_value(t_ast_node *node, t_token *token, t_token *next_content)
 		node->redir.heredoc_delim = ft_strdup(value);
 }
 
-t_ast_node	*create_file_node(t_token *temp_token)
+t_ast_node	*create_redir_node(t_list **current, t_list *last_redirect)
 {
-	t_ast_node	*node;
+	t_ast_node	*redirect_node;
+	t_list		*file_token;
 
-	if (!temp_token || !temp_token->value)
+	while ((*current)->next && (*current)->next != last_redirect)
+		*current = (*current)->next;
+	file_token = (*current)->next;
+	if (!file_token || !file_token->next)
 		return (NULL);
-	node = malloc(sizeof(t_ast_node));
-	if (!node)
+	(*current)->next = NULL;
+	redirect_node = create_node(NODE_REDIR);
+	if (!redirect_node)
 		return (NULL);
-	node->args = malloc(sizeof(char *) * 2);
-	if (!node->args)
-	{
-		free(node);
-		return (NULL);
-	}
-	node->args[0] = ft_strdup(temp_token->value);
-	if (!node->args[0])
-	{
-		free(node->args);
-		free(node);
-		return (NULL);
-	}
-	node->args[1] = NULL;
-	node->left = NULL;
-	node->right = NULL;
-	return (node);
+	set_redir_value(redirect_node, file_token->content,
+		file_token->next->content);
+	ft_lstclear(&(file_token), free_token);
+	return (redirect_node);
 }
 
 int	count_args(t_list *current)
@@ -121,8 +113,6 @@ void	fill_args(t_ast_node *command_node, t_list *list, int argc,
 			return ;
 		}
 		current = current->next;
-		free(content->value);
-		free(content);
 		i++;
 	}
 	command_node->args[argc] = NULL;

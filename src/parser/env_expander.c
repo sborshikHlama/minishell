@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:48:42 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/14 11:55:16 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/20 19:33:38 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,10 @@ char	*handle_var(char **start, int exit_status, char *prev, t_envp envp)
 		end = *start + 1;
 	}
 	temp_result = ft_strjoin(prev, var_value);
+	if (!temp_result)
+		return (NULL);
+	if (var_value)
+		free(var_value);
 	free(prev);
 	*start = end;
 	return (temp_result);

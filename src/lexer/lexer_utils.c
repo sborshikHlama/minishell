@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:05:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/02/07 10:48:50 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/21 16:00:39 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,25 @@ t_token	*create_token(void)
 	return (token);
 }
 
-void	free_token(t_token *token)
+void	update_in_quote(char c, int *in_quote,
+	char *quote_char, int *expandable)
 {
+	if (!(*in_quote) && (c == '\'' || c == '\"'))
+	{
+		*in_quote = 1;
+		if (c == '\'')
+			*expandable = 0;
+		*quote_char = c;
+	}
+	else if (*in_quote && (c == *quote_char))
+		*in_quote = 0;
+}
+
+void	free_token(void *content)
+{
+	t_token	*token;
+
+	token = (t_token *)content;
 	if (!token)
 		return ;
 	if (token->value)

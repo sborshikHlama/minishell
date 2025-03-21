@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 16:43:44 by aevstign          #+#    #+#             */
-/*   Updated: 2025/02/10 15:05:02 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/21 16:02:57 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	validate_word(char *start, char *input,
 	if (in_quotes)
 	{
 		ft_putendl_fd("minishell: syntax error: unclosed quote", 2);
-		free_token(token);
 		return (0);
 	}
 	if (input > start)
@@ -28,25 +27,10 @@ int	validate_word(char *start, char *input,
 		if (!token->value)
 		{
 			ft_putendl_fd("minishell: parse error\n", 2);
-			free_token(token);
 			return (0);
 		}
 	}
 	return (1);
-}
-
-void	update_in_quote(char c, int *in_quote,
-	char *quote_char, int *expandable)
-{
-	if (!(*in_quote) && (c == '\'' || c == '\"'))
-	{
-		*in_quote = 1;
-		if (c == '\'')
-			*expandable = 0;
-		*quote_char = c;
-	}
-	else if (*in_quote && (c == *quote_char))
-		*in_quote = 0;
 }
 
 int	handle_word(t_token *token, char *input, int *pos)
@@ -68,7 +52,10 @@ int	handle_word(t_token *token, char *input, int *pos)
 		(*pos)++;
 	}
 	if (!validate_word(word_start, &input[*pos], token, in_quote))
+	{
+		free_token(token);
 		return (0);
+	}
 	token->expandable = expandable;
 	return (1);
 }
@@ -91,14 +78,33 @@ int	handle_operator(t_token *token, char *input, int *pos)
 	return (1);
 }
 
+int	init_token(t_list *token_list, t_token *token, char *input, int *i)
+{
+	if (ft_strchr("><|&", input[*i]))
+	{
+		if (!handle_operator(token, input, i))
+		{
+			ft_lstclear(&token_list, free_token);
+			return (0);
+		}
+		return (1);
+	}
+	else if (!handle_word(token, input, i))
+	{
+		ft_lstclear(&token_list, free_token);
+		return (0);
+	}
+	return (1);
+}
+
 t_list	*lexer(char *input)
 {
-	t_list	*lexer;
+	t_list	*token_list;
 	t_token	*token;
 	int		i;
 
 	i = 0;
-	lexer = NULL;
+	token_list = NULL;
 	while (input[i])
 	{
 		while (input[i] && ft_strchr(" \t\n", input[i]))
@@ -108,14 +114,9 @@ t_list	*lexer(char *input)
 		token = create_token();
 		if (!token)
 			return (NULL);
-		if (ft_strchr("><|&", input[i]))
-		{
-			if (!handle_operator(token, input, &i))
-				return (NULL);
-		}
-		else if (!handle_word(token, input, &i))
+		if (init_token(token_list, token, input, &i) == 0)
 			return (NULL);
-		ft_lstadd_back(&lexer, ft_lstnew(token));
+		ft_lstadd_back(&token_list, ft_lstnew(token));
 	}
-	return (lexer);
+	return (token_list);
 }

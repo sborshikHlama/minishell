@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 22:31:45 by iasonov           #+#    #+#             */
-/*   Updated: 2025/03/14 22:10:55 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/21 15:16:46 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,25 +34,6 @@ t_ast_node	*parse_command(t_list	*list, t_envp envp)
 	return (command_node);
 }
 
-t_ast_node	*create_redir_node(t_list **current, t_list *last_redirect)
-{
-	t_ast_node	*redirect_node;
-	t_list		*file_token;
-
-	while ((*current)->next && (*current)->next != last_redirect)
-		*current = (*current)->next;
-	file_token = (*current)->next;
-	if (!file_token || !file_token->next)
-		return (NULL);
-	(*current)->next = NULL;
-	redirect_node = create_node(NODE_REDIR);
-	if (!redirect_node)
-		return (NULL);
-	set_redir_value(redirect_node, file_token->content,
-		file_token->next->content);
-	return (redirect_node);
-}
-
 t_ast_node	*parse_redir(t_list *list, t_envp envp)
 {
 	t_ast_node	*redirect_node;
@@ -68,12 +49,34 @@ t_ast_node	*parse_redir(t_list *list, t_envp envp)
 			last_redirect = current;
 		current = current->next;
 	}
-	if (!last_redirect)
-		return (parse_command(list, envp));
 	current = list;
+	if (!last_redirect)
+	{
+		redirect_node = parse_command(list, envp);
+		ft_lstclear(&list, free_token);
+		return (redirect_node);
+	}
 	redirect_node = create_redir_node(&current, last_redirect);
+	if (!redirect_node)
+		return (NULL);
 	redirect_node->left = parse_redir(list, envp);
 	return (redirect_node);
+}
+
+t_ast_node	*create_pipe_node(t_list *list, t_list *detached, t_envp envp)
+{
+	t_ast_node	*pipe_node;
+
+	pipe_node = create_node(NODE_PIPE);
+	if (!pipe_node)
+	{
+		ft_lstclear(&list, free_token);
+		ft_lstclear(&(detached), free_token);
+		return (NULL);
+	}
+	pipe_node->left = parse_pipeline(list, envp);
+	pipe_node->right = parse_redir(detached, envp);
+	return (pipe_node);
 }
 
 t_ast_node	*parse_pipeline(t_list *list, t_envp envp)
@@ -82,6 +85,7 @@ t_ast_node	*parse_pipeline(t_list *list, t_envp envp)
 	t_list		*last_pipe;
 	t_token		*content;
 	t_list		*current;
+	t_list		*detached;
 
 	current = list;
 	last_pipe = NULL;
@@ -92,15 +96,15 @@ t_ast_node	*parse_pipeline(t_list *list, t_envp envp)
 			last_pipe = current;
 		current = current->next;
 	}
+	current = list;
 	if (!last_pipe)
 		return (parse_redir(list, envp));
-	current = list;
 	while (current && current->next != last_pipe)
 		current = current->next;
 	current->next = NULL;
-	pipe_node = create_node(NODE_PIPE);
-	pipe_node->left = parse_pipeline(list, envp);
-	pipe_node->right = parse_redir(last_pipe->next, envp);
+	detached = last_pipe->next;
+	ft_lstdelone(last_pipe, free_token);
+	pipe_node = create_pipe_node(list, detached, envp);
 	return (pipe_node);
 }
 

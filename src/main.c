@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
-/*   Updated: 2025/03/14 13:28:48 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/21 16:06:05 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,16 @@ int	main_loop(t_envp *envp)
 		input = read_input(envp);
 		token_list = lexer(input);
 		debug(input, token_list, ast_tree, 0);
-		ast_tree = parser(token_list, *envp);
-		debug(input, token_list, ast_tree, 1);
-		exec_tree(ast_tree, envp, &exit_status);
+		if (token_list)
+		{
+			ast_tree = parser(token_list, *envp);
+			debug(input, token_list, ast_tree, 1);
+			if (ast_tree)
+			{
+				exec_tree(ast_tree, envp, &exit_status);
+				free_ast_tree(ast_tree);
+			}
+		}
 		free(input);
 	}
 }
@@ -86,8 +93,14 @@ int	main(int argc, char **argv, char **envp_orig)
 	(void)argv;
 	init_signals();
 	rl_event_hook = &readline_hook;
+	envp = NULL;
 	if (setup_envp(&envp, envp_orig) == FAILURE)
+	{
+		free_envp(envp);
 		return (EXIT_FAILURE);
+	}
 	main_loop(&envp);
+	free_envp(envp);
+	rl_clear_history();
 	return (0);
 }

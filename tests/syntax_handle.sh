@@ -21,8 +21,7 @@ run_test() {
     echo "Running: $test_cmd" | tee -a "$LOG_FILE"
 
     # Run the command inside Minishell and capture output before "exit"
-	actual_output=$( (echo -e "$test_cmd"; echo "exit") | $MINISHELL 2>&1 | sed '$d' | head -1)
- 
+    actual_output=$(timeout 2s bash -c "echo \"$test_cmd\" | $MINISHELL" | tail -n +2 | sed 's/minishell\$>//g' | tr -d '\n' | xargs)
 	
 	echo "This is output: " $actual_output
 

@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 21:17:17 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/14 22:25:26 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/20 20:26:59 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	set_input_redir(t_redir *redir)
 
 // 644 means you can read and write the file or directory
 // and other users can only read it
-int	set_ouput_redir(t_redir *redir)
+int	set_output_redir(t_redir *redir)
 {
 	int	fd;
 	int	flags;
@@ -53,7 +53,7 @@ int	handle_redirections(t_ast_node *node)
 {
 	if (node->redir.outfile != NULL)
 	{
-		if (set_ouput_redir(&node->redir) < 0)
+		if (set_output_redir(&node->redir) < 0)
 			return (-1);
 	}
 	else if (node->redir.infile != NULL)

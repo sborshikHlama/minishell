@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 12:51:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/16 14:45:54 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/20 20:51:10 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,15 @@ void	exec_bin(t_ast_node *node, t_envp *envp, int *exit_status)
 
 	all_paths = ft_split(ft_getenv("PATH", *envp), ':');
 	exec_path = get_exec_path(node, all_paths);
+	if (all_paths)
+		free_all_paths(all_paths);
 	if (exec_path == NULL)
 	{
 		write(STDERR_FILENO, node->args[0], ft_strlen(node->args[0]));
 		write(STDOUT_FILENO, ": command not found\n", 20);
 		*exit_status = 127;
-		if (all_paths != NULL)
-			free_all_paths(all_paths);
 		return ;
 	}
-	free_all_paths(all_paths);
 	spawn_binary(exec_path, node, envp, exit_status);
 	free(exec_path);
 }

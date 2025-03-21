@@ -35,8 +35,8 @@ run_test() {
     timeout 2s bash -c "echo \"$test_cmd\" | $MINISHELL" > minishell_output.txt 2>&1
 
     # Remove the last minishell prompt from output
-   	actual_output=$(sed '1d;$d' minishell_output.txt | tr -d '\n' | xargs)
 
+    actual_output=$(timeout 2s bash -c "echo \"$test_cmd\" | $MINISHELL" | tail -n +2 | sed 's/minishell\$>//g' | tr -d '\n' | xargs)
     # If checking a file, read its contents instead
     if [ -n "$check_file" ]; then
         actual_output=$(cat "$check_file" | tr -d '\n' | xargs)

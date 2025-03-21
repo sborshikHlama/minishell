@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 14:19:40 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/16 14:10:32 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/21 16:05:35 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,31 @@ void	free_all_paths(char **all_paths)
 		++i;
 	}
 	free(all_paths);
+}
+
+void	free_ast_tree(t_ast_node *node)
+{
+	int	i;
+
+	i = 0;
+	if (!node)
+		return ;
+	if (node->args)
+	{
+		while (node->args[i])
+		{
+			free(node->args[i]);
+			i++;
+		}
+		free(node->args);
+	}
+	if (node->redir.heredoc_delim)
+		free(node->redir.heredoc_delim);
+	if (node->redir.infile)
+		free(node->redir.infile);
+	if (node->redir.outfile)
+		free(node->redir.outfile);
+	free_ast_tree(node->left);
+	free_ast_tree(node->right);
+	free(node);
 }
