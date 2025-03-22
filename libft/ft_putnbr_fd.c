@@ -3,35 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iasonov <iasonov@student.42prague.com>     +#+  +:+       +#+        */
+/*   By: arsenii <arsenii@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/03 22:13:30 by iasonov           #+#    #+#             */
-/*   Updated: 2024/06/03 22:13:39 by iasonov          ###   ########.fr       */
+/*   Created: 2023/10/25 17:15:23 by aevstign          #+#    #+#             */
+/*   Updated: 2023/10/26 00:16:44 by arsenii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/**
- * Outputs the integer ’n’ to the given file
-descriptor.
- * @param n: The integer to output.
- * @param fd: The file descriptor on which to write.
- */
 void	ft_putnbr_fd(int n, int fd)
 {
-	unsigned int	nbr;
+	char	c;
 
+	if (n == -2147483648)
+	{
+		ft_putstr_fd("-2147483648", fd);
+		return ;
+	}
 	if (n < 0)
 	{
 		ft_putchar_fd('-', fd);
-		nbr = (unsigned int)(n * -1);
+		n = -n;
 	}
-	else
+	if (n >= 10)
 	{
-		nbr = (unsigned int) n;
+		ft_putnbr_fd((n / 10), fd);
 	}
-	if (nbr >= 10)
-		ft_putnbr_fd(nbr / 10, fd);
-	ft_putchar_fd((nbr % 10) + '0', fd);
+	c = (n % 10) + '0';
+	ft_putchar_fd(c, fd);
 }
+
+// int main() {
+//     int fd = open("test.txt", O_WRONLY);
+//     if (fd == -1) {
+//         return (1);
+//     }
+
+//     ft_putnbr_fd(2141, fd);
+
+//     close(fd);
+//     return (0);
+// }

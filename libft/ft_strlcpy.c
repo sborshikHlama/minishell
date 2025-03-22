@@ -3,28 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iasonov <iasonov@student.42prague.com>     +#+  +:+       +#+        */
+/*   By: arsenii <arsenii@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/28 22:46:02 by iasonov           #+#    #+#             */
-/*   Updated: 2024/05/28 22:46:13 by iasonov          ###   ########.fr       */
+/*   Created: 2023/10/20 18:14:57 by aevstign          #+#    #+#             */
+/*   Updated: 2023/10/26 12:45:55 by arsenii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	size_t	src_len;
+	size_t	i;
+	size_t	str_length;
 
-	src_len = ft_strlen(src);
-	if (dstsize > 0)
+	if (!src)
+		return (0);
+	str_length = ft_strlen(src);
+	if (size == 0)
+		return (str_length);
+	i = 0;
+	while (i < size - 1 && src[i])
 	{
-		while (*src && dstsize > 1)
-		{
-			*dst++ = *src++;
-			dstsize--;
-		}
-		*dst = '\0';
+		dst[i] = src[i];
+		i++;
 	}
-	return (src_len);
+	dst[i] = '\0';
+	return (str_length);
 }
+
+// int main () {
+//    char src[40];
+//    char dest[100];
+
+//    ft_memset(dest, '\0', sizeof(dest));
+//    strcpy(src, "This is tutorialspoint.com");
+//    strcpy(dest, src);
+
+//    printf("Final copied string : %s\n", dest);
+
+//    return(0);
+// }

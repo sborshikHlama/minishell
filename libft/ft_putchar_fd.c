@@ -3,22 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iasonov <iasonov@student.42prague.com>     +#+  +:+       +#+        */
+/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/03 21:47:37 by iasonov           #+#    #+#             */
-/*   Updated: 2024/06/03 21:47:37 by iasonov          ###   ########.fr       */
+/*   Created: 2023/10/25 16:18:10 by aevstign          #+#    #+#             */
+/*   Updated: 2023/10/25 17:08:17 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/**
- * Outputs the character ’c’ to the given file
-descriptor.
- * @param c The character to output.
- * @param fd The file descriptor on which to write.
- */
 void	ft_putchar_fd(char c, int fd)
 {
 	write(fd, &c, 1);
 }
+
+// int main() {
+//     int fd = open("test.txt", O_WRONLY);
+//     if (fd == -1) {
+//         return 1;
+//     }
+
+//     ft_putchar_fd('A', fd);
+
+//     close(fd);
+//     return 0;
+// }

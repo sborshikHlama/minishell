@@ -3,83 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iasonov <iasonov@student.42prague.com>     +#+  +:+       +#+        */
+/*   By: arsenii <arsenii@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 15:05:48 by iasonov           #+#    #+#             */
-/*   Updated: 2024/06/05 16:06:26 by iasonov          ###   ########.fr       */
+/*   Created: 2023/10/16 15:21:47 by aevstign          #+#    #+#             */
+/*   Updated: 2023/10/27 16:28:51 by arsenii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	is_space(char c)
+static int	is_whitespace(char c)
 {
-	return (c == '\t' || c == '\n' || c == '\v'
-		|| c == '\f' || c == '\r' || c == ' ');
+	return (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
+		|| c == '\r');
 }
 
-/**
- * The string may begin with an arbitrary amount of white space (as
- * determined by isspace(3)) followed by a single optional `+' or `-' sign.
- * @param str original string
- * @param i current index
- * @return sign
- */
-int	determine_sign(const char *str, long *i)
+int	ft_atoi(const char *str)
 {
 	int	sign;
-	int	sign_count;
+	int	result;
 
 	sign = 1;
-	sign_count = 0;
-	while (str[*i] == '+' || str[*i] == '-')
-	{
-		if (str[*i] == '-')
-			sign = -sign;
-		(*i)++;
-		sign_count++;
-		if (sign_count > 1)
-			return (0);
-	}
-	return (sign);
-}
-
-long	do_atoi(const char *str, long *i)
-{
-	long	result;
-
 	result = 0;
-	while (ft_isdigit(str[*i]))
+	while (is_whitespace(*str))
+		str++;
+	if (*str == '-' || *str == '+')
 	{
-		result = (result * 10) + (str[*i] - '0');
-		(*i)++;
+		if (*str == '-')
+			sign = -1;
+		str++;
 	}
-	return (result);
-}
-
-/**
- * The documentation is not clear on that part but
- * the program should consider as invalid string a string
- * with multiple signes in it. Refer to the determine_sign
- * function.
- * Standart library atoi should:
- * - ignore leading whitespaces;
- * - it should handle optional initial sign;
- * - it should convert the subsequent characters until a
- *   non-digit character is encountered;
- * @param str string to convert
- * @return converted string as an int
- */
-long	ft_atoi(const char *str)
-{
-	long	i;
-	int		sign;
-	long	result;
-
-	i = 0;
-	while (is_space(str[i]))
-		i++;
-	sign = determine_sign(str, &i);
-	result = do_atoi(str, &i);
+	while (ft_isdigit(*str))
+	{
+		result = result * 10 + (*str - '0');
+		str++;
+	}
 	return (result * sign);
 }

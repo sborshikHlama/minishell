@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iasonov <iasonov@student.42.fr>            +#+  +:+       +#+        */
+/*   By: arsenii <arsenii@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/28 19:44:38 by iasonov           #+#    #+#             */
-/*   Updated: 2024/05/28 20:00:22 by iasonov          ###   ########.fr       */
+/*   Created: 2023/10/21 18:23:00 by aevstign          #+#    #+#             */
+/*   Updated: 2023/10/26 20:15:46 by arsenii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,49 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int		s1_len;
-	int		s2_len;
-	char	*res;
+	char	*str;
+	size_t	i;
+	size_t	j;
 
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	res = (char *)malloc((s1_len + s2_len + 1) * sizeof(char));
-	if (res == NULL)
+	str = (char *)malloc(sizeof(*s1) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!str)
 		return (NULL);
-	ft_strlcpy(res, s1, s1_len + 1);
-	ft_strlcpy(res + s1_len, s2, s2_len + 1);
-	return (res);
+	i = 0;
+	j = 0;
+	while (s1[i])
+	{
+		str[j++] = s1[i];
+		i++;
+	}
+	i = 0;
+	while (s2[i])
+	{
+		str[j++] = s2[i];
+		i++;
+	}
+	str[j] = 0;
+	return (str);
 }
+
+// int	main(void)
+// {
+// 	char *strings1[] = {"Hello", "world", "!"};
+// 	char *strings2[] = {"This", "is", "a", "test"};
+// 	char *sep1 = ", ";
+// 	char *sep2 = "-";
+// 	char *sep3 = "";
+
+// 	char *result1 = ft_strjoin(3, strings1, sep1);
+// 	printf("Expected: Hello, world, ! | Got: %s\n", result1);
+// 	free(result1);
+
+// 	char *result2 = ft_strjoin(4, strings2, sep2);
+// 	printf("Expected: This-is-a-test | Got: %s\n", result2);
+// 	free(result2);
+
+// 	char *result3 = ft_strjoin(2, strings1, sep3);
+// 	printf("Expected: Helloworld | Got: %s\n", result3);
+// 	free(result3);
+
+// 	return (0);
+// }

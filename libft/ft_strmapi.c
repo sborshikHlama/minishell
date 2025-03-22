@@ -3,33 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iasonov <iasonov@student.42prague.com>     +#+  +:+       +#+        */
+/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/02 20:59:06 by iasonov           #+#    #+#             */
-/*   Updated: 2024/06/02 21:04:43 by iasonov          ###   ########.fr       */
+/*   Created: 2023/10/25 15:46:49 by aevstign          #+#    #+#             */
+/*   Updated: 2023/10/25 16:03:50 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
+char	*ft_strmapi(char const *s, char (*f)(unsigned
+int, char))
 {
-	size_t	len;
-	char	*res;
-	size_t	i;
+	char	*str;
+	int		i;
 
-	if (!s || !f)
-		return (NULL);
-	len = ft_strlen(s);
-	res = (char *)malloc((len + 1) * sizeof(char));
-	if (res == NULL)
-		return (NULL);
 	i = 0;
-	while (i < len)
+	str = (char *)malloc((ft_strlen(s) + 1) * sizeof(char));
+	if (!str)
+		return (NULL);
+	while (s[i] != '\0')
 	{
-		res[i] = f(i, s[i]);
+		str[i] = f(i, s[i]);
 		i++;
 	}
-	res[len] = '\0';
-	return (res);
+	str[i] = '\0';
+	return (str);
 }
+
+// char	ft_toupper_indexed(unsigned int i, char c)
+// {
+// 	if (i % 2 == 0)
+// 		return (c >= 'a' && c <= 'z') ? c - 'a' + 'A' : c;
+// 	return c;
+// }
+
+// int	main(void)
+// {
+// 	char *input = "hello world";
+// 	char *result = ft_strmapi(input, ft_toupper_indexed);
+// 	printf("Original: %s\n", input);
+// 	printf("Transformed: %s\n", result);
+
+// 	// Clean up dynamically allocated memory.
+// 	free(result);
+// 	return 0;
+
+// }

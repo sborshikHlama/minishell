@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iasonov <iasonov@student.42prague.com>     +#+  +:+       +#+        */
+/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/04 22:48:11 by iasonov           #+#    #+#             */
-/*   Updated: 2024/06/05 00:07:18 by iasonov          ###   ########.fr       */
+/*   Created: 2025/03/22 10:00:43 by aevstign          #+#    #+#             */
+/*   Updated: 2025/03/22 10:33:49 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@
  * @return The new list or NULL if allocation fails
  */
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *),
-		void (*del)(void *))
+			void (*del)(void *))
 {
+	t_list	*next;
 	t_list	*mapped;
 	t_list	*node;
-	t_list	*next;
 
 	if (!lst)
 		return (NULL);

@@ -3,24 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iasonov <iasonov@student.42prague.com>     +#+  +:+       +#+        */
+/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 23:17:29 by iasonov           #+#    #+#             */
-/*   Updated: 2024/06/06 00:25:20 by iasonov          ###   ########.fr       */
+/*   Created: 2023/10/21 18:20:32 by aevstign          #+#    #+#             */
+/*   Updated: 2023/10/21 18:21:25 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *src)
+char	*ft_strdup(char *src)
 {
-	size_t	l;
-	char	*t;
+	char	*dup;
+	int		i;
 
-	l = ft_strlen(src) + 1;
-	t = (char *) malloc(l * sizeof(char));
-	if (!t)
+	i = 0;
+	while (src[i] != '\0')
+		i++;
+	dup = (char *)malloc((i + 1) * sizeof(char));
+	if (!dup)
 		return (NULL);
-	ft_strlcpy(t, src, l);
-	return (t);
+	i = 0;
+	while (src[i] != '\0')
+	{
+		dup[i] = src[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
 }
+
+// int main(void)
+// {
+// 	char original[] = "Hello, World!";
+// 	char *duplicate;
+
+// 	duplicate = ft_strdup(original);
+// 	if (duplicate)
+// 	{
+// 		printf("Original: %s\n", original);
+// 		printf("Duplicate: %s\n", duplicate);
+
+// 		free(duplicate);
+// 	}
+// 	else
+// 	{
+// 		printf("Failed to duplicate the string.\n");
+// 	}
+// 	return 0;
+// }

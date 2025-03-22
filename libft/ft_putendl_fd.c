@@ -3,25 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iasonov <iasonov@student.42prague.com>     +#+  +:+       +#+        */
+/*   By: arsenii <arsenii@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/03 22:14:05 by iasonov           #+#    #+#             */
-/*   Updated: 2024/06/03 22:14:09 by iasonov          ###   ########.fr       */
+/*   Created: 2023/10/25 16:52:25 by aevstign          #+#    #+#             */
+/*   Updated: 2023/10/26 00:36:00 by arsenii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/**
- * Outputs the string ’s’ to the given file descriptor
-followed by a newline.
- * @param s: The string to output.
- * @param fd: The file descriptor on which to write.
- */
 void	ft_putendl_fd(char *s, int fd)
 {
-	if (!s)
-		return ;
 	ft_putstr_fd(s, fd);
 	ft_putchar_fd('\n', fd);
 }
+
+// int main() {
+//     int fd = open("test.txt", O_WRONLY);
+//     if (fd == -1) {
+//         return (1);
+//     }
+
+//     ft_putendl_fd("ABCDF", fd);
+
+//     close(fd);
+//     return (0);
+// }

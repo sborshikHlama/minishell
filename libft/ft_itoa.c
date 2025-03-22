@@ -3,64 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iasonov <iasonov@student.42prague.com>     +#+  +:+       +#+        */
+/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 23:14:10 by iasonov           #+#    #+#             */
-/*   Updated: 2024/06/06 01:04:31 by iasonov          ###   ########.fr       */
+/*   Created: 2023/10/25 15:09:40 by aevstign          #+#    #+#             */
+/*   Updated: 2023/10/25 15:46:03 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	ft_itoa_len(long num)
+static int	get_num_len(int n)
 {
-	size_t	len;
+	int	len;
 
-	len = 0;
-	if (num == 0)
-		return (1);
-	if (num < 0)
+	len = (n <= 0);
+	while (n)
 	{
+		n /= 10;
 		len++;
-		num = -num;
-	}
-	while (num >= 1)
-	{
-		len++;
-		num /= 10;
 	}
 	return (len);
 }
 
-void	*itoa(long n, char *s, size_t len)
-{
-	s[len] = '\0';
-	if (n < 0)
-	{
-		s[0] = '-';
-		n *= -1;
-	}
-	len--;
-	while (len > 0)
-	{
-		s[len] = (n % 10) + '0';
-		n /= 10;
-		len--;
-	}
-	if (s[0] != '-')
-		s[0] = (n % 10) + '0';
-	return (s);
-}
-
 char	*ft_itoa(int n)
 {
-	char	*s;
-	size_t	len;
+	int		len;
+	int		is_negative;
+	char	*str;
+	long	num;
 
-	len = ft_itoa_len(n);
-	s = ft_calloc((len + 1), sizeof(char));
-	if (!s)
+	num = (long)n;
+	is_negative = (n < 0);
+	len = get_num_len(n);
+	str = (char *)malloc(len + 1);
+	if (!str)
 		return (NULL);
-	itoa((long)n, s, len);
-	return (s);
+	str[len] = '\0';
+	if (num == 0)
+		str[0] = '0';
+	if (is_negative)
+		num = -num;
+	while (num)
+	{
+		str[--len] = (num % 10) + '0';
+		num /= 10;
+	}
+	if (is_negative)
+		str[0] = '-';
+	return (str);
 }
+
+// int	main(void)
+// {
+// 	int i = 0;
+// 	int tab[5] = {-2147483648, -42, 0, 42, 2147483647};
+
+// 	while (i < 5)
+// 		printf("%s\n", ft_itoa(tab[i++]));
+
+// 	return 0;
+// }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iasonov <iasonov@student.42prague.com>     +#+  +:+       +#+        */
+/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 21:18:58 by iasonov           #+#    #+#             */
-/*   Updated: 2024/05/27 22:55:01 by iasonov          ###   ########.fr       */
+/*   Created: 2023/10/22 19:36:25 by aevstign          #+#    #+#             */
+/*   Updated: 2025/03/22 10:49:58 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,3 +63,9 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	copy_substr(res, s, strlen, start);
 	return (res);
 }
+
+// int	main(void)
+// {
+// 	printf("%s", ft_substr("string", 3, 6));
+// 	return (0);
+// }

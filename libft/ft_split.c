@@ -3,114 +3,107 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iasonov <iasonov@student.42prague.com>     +#+  +:+       +#+        */
+/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/05 23:34:05 by iasonov           #+#    #+#             */
-/*   Updated: 2024/06/06 00:16:31 by iasonov          ###   ########.fr       */
+/*   Created: 2023/10/23 16:17:08 by aevstign          #+#    #+#             */
+/*   Updated: 2023/10/25 15:06:51 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	count_splits(char const *s, char c)
-{
-	int	count;
-	int	in_substring;
-
-	count = 0;
-	in_substring = 0;
-	while (*s != '\0')
-	{
-		if (*s != c && !in_substring)
-		{
-			in_substring = 1;
-			count++;
-		}
-		else if (*s == c)
-		{
-			in_substring = 0;
-		}
-		s++;
-	}
-	return (count);
-}
-
-static int	word_len(const char *s, char c, int i, int start)
-{
-	if (s[i] != c)
-		i = i + 1;
-	if (s[i] == c || s[i] == '\0')
-	{
-		return (i - start);
-	}
-	else
-	{
-		return (i - start + 1);
-	}
-}
-
-int	do_copy(char **dst, int length, const char *s, int start)
-{
-	*dst = (char *)malloc((length + 1) * sizeof(char));
-	if (*dst == NULL)
-		return (0);
-	ft_strlcpy(*dst, &s[start], length +1);
-	(*dst)[length] = '\0';
-	return (1);
-}
-
-int	do_split(char **res, char const *s, char c, int count)
+static void	free_str(char	**strs)
 {
 	int	i;
-	int	j;
-	int	start;
 
 	i = 0;
-	j = 0;
-	start = -1;
-	while (s[i] != '\0')
+	while (strs[i])
 	{
-		if (s[i] != c && start == -1)
-			start = i;
-		else if ((s[i] == c || s[i + 1] == '\0') && start != -1)
-		{
-			if (!do_copy(&res[j], word_len(s, c, i, start), s, start))
-				return (0);
-			start = -1;
-			j++;
-		}
+		free(strs[i]);
 		i++;
 	}
-	if (j < count && !do_copy(&res[j], word_len(s, c, i, start), s, start))
-		return (0);
-	return (1);
+	free(strs);
+}
+
+static int	count_words(const char	*str, char c)
+{
+	int	i;
+	int	word;
+
+	i = 0;
+	word = 0;
+	while (str[i])
+	{
+		if (str[i] != c && (i == 0 || str[i - 1] == c))
+			word++;
+		i++;
+	}
+	return (word);
+}
+
+static int	get_word_length(const char *s, char c, int start)
+{
+	int	len;
+
+	len = 0;
+	while (s[start + len] && s[start + len] != c)
+		len++;
+	return (len);
+}
+
+static char	*allocate_and_copy_word(const char *s, char c, int start)
+{
+	int		len;
+	char	*word;
+
+	len = get_word_length(s, c, start);
+	word = (char *)malloc(len + 1);
+	if (word)
+	{
+		ft_strlcpy(word, s + start, len + 1);
+		word[len] = '\0';
+	}
+	return (word);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	**res;
-	int		count;
+	char	**result;
 	int		i;
+	int		j;
 
-	if (s == NULL)
-		return (NULL);
-	count = count_splits(s, c);
-	res = (char **)malloc((count + 1) * sizeof(char *));
-	if (res == NULL)
+	result = (char **)malloc(sizeof(char *) * (count_words(s, c) + 1));
+	i = 0;
+	j = 0;
+	while (i < count_words(s, c))
 	{
-		return (NULL);
-	}
-	if (!do_split(res, s, c, count))
-	{
-		i = 0;
-		while (i < count)
+		if (s[j] && s[j] != c)
 		{
-			free(res[i]);
-			i++;
+			result[i++] = allocate_and_copy_word(s, c, j);
+			if (!result[i - 1])
+			{
+				free_str(result);
+				return (NULL);
+			}
+			j += get_word_length(s, c, j);
 		}
-		free(res);
-		return (NULL);
+		else
+			j++;
 	}
-	res[count] = NULL;
-	return (res);
+	result[count_words(s, c)] = NULL;
+	return (result);
 }
+
+// int main() {
+//     char *s = "hello_world_this_is_a_test";
+//     char **words = ft_split(s, '_');
+
+//     if (words) {
+//         for (int i = 0; words[i]; i++) {
+//             printf("%s\n", words[i]);
+//         }
+//         free_str(words);  // Free each string and the array itself
+//     }
+
+//     return 0;
+// }

@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iasonov <iasonov@student.42prague.com>     +#+  +:+       +#+        */
+/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/03 23:31:59 by iasonov           #+#    #+#             */
-/*   Updated: 2024/06/05 21:50:47 by iasonov          ###   ########.fr       */
+/*   Created: 2023/10/21 18:12:06 by aevstign          #+#    #+#             */
+/*   Updated: 2025/03/22 10:46:35 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-/**
- * The calloc() function contiguously allocates enough
- * space for count objects that are size bytes of
- * memory each and returns a pointer to the allocated
- * memory. The allocated memory is filled with bytes
- * of value zero.
- * @param count number of objects
- * @param size size of a single object
- * @return If successful, return a pointer to allocated memory.
- * If there is an error, they return a NULL pointer and
- * set errno to ENOMEM.
- */
 
 void	*ft_calloc(size_t count, size_t size)
 {
@@ -41,3 +28,24 @@ void	*ft_calloc(size_t count, size_t size)
 	ft_bzero(p, total);
 	return (p);
 }
+
+// int main () {
+//    int i, n;
+//    int *a;
+
+//    printf("Number of elements to be entered:");
+//    scanf("%d",&n);
+
+//    a = (int*)ft_calloc(n, sizeof(int));
+//    printf("Enter %d numbers:\n",n);
+//    for( i=0 ; i < n ; i++ ) {
+//       scanf("%d",&a[i]);
+//    }
+
+//    printf("The numbers entered are: ");
+//    for( i=0 ; i < n ; i++ ) {
+//       printf("%d ",a[i]);
+//    }
+//    free( a );
+//    return(0);
+// }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iasonov <iasonov@student.42prague.com>     +#+  +:+       +#+        */
+/*   By: arsenii <arsenii@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/23 16:52:57 by iasonov           #+#    #+#             */
-/*   Updated: 2024/06/05 21:45:07 by iasonov          ###   ########.fr       */
+/*   Created: 2023/10/20 18:11:55 by aevstign          #+#    #+#             */
+/*   Updated: 2023/10/27 12:01:58 by arsenii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,25 @@
 
 void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	unsigned char	*tsrc;
-	unsigned char	*tdst;
-	size_t			i;
+	char	*d;
+	char	*s;
 
-	if (!dst && !src)
-		return (NULL);
-	i = 0;
-	tdst = (unsigned char *) dst;
-	tsrc = (unsigned char *) src;
-	while (i < n)
+	d = (char *)dst;
+	s = (char *)src;
+	while (n--)
 	{
-		tdst[i] = tsrc[i];
-		i++;
+		*d++ = *s++;
 	}
-	return (dst);
+	return ((void *)dst);
 }
+
+// int main () {
+//    const char src[50] = "https://www.tutorialspoint.com";
+//    char dest[50];
+//    strcpy(dest,"Heloooo!!");
+//    printf("Before memcpy dest = %s\n", dest);
+//    memcpy(dest, src, strlen(src)+1);
+//    printf("After memcpy dest = %s\n", dest);
+
+//    return(0);
+// }

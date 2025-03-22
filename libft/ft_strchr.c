@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iasonov <iasonov@student.42prague.com>     +#+  +:+       +#+        */
+/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/23 22:10:00 by iasonov           #+#    #+#             */
-/*   Updated: 2024/05/23 22:23:55 by iasonov          ###   ########.fr       */
+/*   Created: 2023/10/16 13:55:34 by aevstign          #+#    #+#             */
+/*   Updated: 2025/03/22 10:49:23 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,3 +27,12 @@ char	*ft_strchr(const char *s, int c)
 		return (t);
 	return (NULL);
 }
+
+// int main () {
+// 	char str[] = "https://www.tutorialspoint.com";
+//    char ch = '.';
+//    char *ret;
+//    ret = ft_strchr(str, ch);
+//    printf("%s", ret);
+//    return(0);
+// }

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iasonov <iasonov@student.42prague.com>     +#+  +:+       +#+        */
+/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/04 22:46:29 by iasonov           #+#    #+#             */
-/*   Updated: 2024/06/04 23:25:22 by iasonov          ###   ########.fr       */
+/*   Created: 2023/10/28 13:22:05 by arsenii           #+#    #+#             */
+/*   Updated: 2025/03/22 09:31:18 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 /**
  * Adds the node ’new’ at the end of the list.
  * @param lst The address of a pointer to the first link of a list

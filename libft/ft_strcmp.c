@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iasonov <iasonov@student.42prague.com>     +#+  +:+       +#+        */
+/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/01 22:23:38 by iasonov           #+#    #+#             */
-/*   Updated: 2024/12/01 22:54:05 by iasonov          ###   ########.fr       */
+/*   Created: 2025/03/22 10:41:09 by aevstign          #+#    #+#             */
+/*   Updated: 2025/03/22 10:41:18 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 int	ft_strcmp(const char *s1, const char *s2)
 {

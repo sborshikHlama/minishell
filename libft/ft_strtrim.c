@@ -3,39 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iasonov <iasonov@student.42prague.com>     +#+  +:+       +#+        */
+/*   By: arsenii <arsenii@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/02 13:57:53 by iasonov           #+#    #+#             */
-/*   Updated: 2024/06/02 14:16:17 by iasonov          ###   ########.fr       */
+/*   Created: 2023/10/22 20:24:14 by aevstign          #+#    #+#             */
+/*   Updated: 2023/10/26 21:03:43 by arsenii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
-
-#define ASCII_SIZE 256
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	int		left;
-	int		right;
-	int		len;
-	char	*res;
+	char		*result;
+	size_t		result_len;
+	char const	*end;
 
 	if (!s1 || !set)
 		return (NULL);
-	if (!set)
-		return (ft_strdup(s1));
-	left = 0;
-	while (s1[left] && ft_strchr(set, s1[left]))
-		left++;
-	right = ft_strlen(s1);
-	while (right > left && ft_strchr(set, s1[right - 1]))
-		right--;
-	len = right - left;
-	res = (char *)malloc((len + 1) * sizeof(char));
-	if (!res)
+	while (*s1 && ft_strchr(set, *s1))
+		s1++;
+	end = s1 + ft_strlen(s1) - 1;
+	while (end > s1 && ft_strchr(set, *end))
+		end--;
+	result_len = end - s1 + 1;
+	result = malloc((result_len + 1) * sizeof(char));
+	if (!result)
 		return (NULL);
-	ft_strlcpy(res, s1 + left, len + 1);
-	return (res);
+	ft_strlcpy(result, s1, result_len + 1);
+	return (result);
 }
+
+// int	main(void)
+// {
+// 	char *j = ft_strtrim("   Hello   ", " ");
+// 	printf("%s", j);
+// 	free(j);
+// 	return (0);
+// }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iasonov <iasonov@student.42prague.com>     +#+  +:+       +#+        */
+/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 15:11:18 by iasonov           #+#    #+#             */
-/*   Updated: 2024/05/24 17:49:40 by iasonov          ###   ########.fr       */
+/*   Created: 2023/10/16 15:19:50 by aevstign          #+#    #+#             */
+/*   Updated: 2025/03/22 10:45:49 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,3 +29,15 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	}
 	return (NULL);
 }
+
+// int main () {
+//    const char str[] = "https://www.tutorialspoint.com";
+//    const char ch = '.';
+//    char *ret;
+
+//    ret = ft_memchr(str, ch, strlen(str));
+
+//    printf("String after |%c| is - |%s|\n", ch, ret);
+
+//    return(0);
+// }

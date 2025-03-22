@@ -3,31 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iasonov <iasonov@student.42prague.com>     +#+  +:+       +#+        */
+/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/03 22:14:31 by iasonov           #+#    #+#             */
-/*   Updated: 2024/06/03 22:14:33 by iasonov          ###   ########.fr       */
+/*   Created: 2023/10/25 16:43:47 by aevstign          #+#    #+#             */
+/*   Updated: 2023/10/25 17:05:33 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/**
- * Outputs the string ’s’ to the given file
-descriptor.
- * @param s The string to output.
- * @param fd The file descriptor on which to write.
- */
 void	ft_putstr_fd(char *s, int fd)
 {
-	int	i;
-
-	if (!s)
-		return ;
-	i = 0;
-	while (s[i])
+	while (*s)
 	{
-		ft_putchar_fd(s[i], fd);
-		i++;
+		ft_putchar_fd(*s, fd);
+		s++;
 	}
 }
+
+// int main() {
+//     int fd = open("test.txt", O_WRONLY);
+//     if (fd == -1) {
+//         return 1;
+//     }
+
+//     ft_putstr_fd("ABCDF", fd);
+
+//     close(fd);
+//     return 0;
+// }
