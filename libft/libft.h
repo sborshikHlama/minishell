@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 18:09:11 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/22 10:53:32 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/22 11:10:39 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	ft_putstr_fd(char *s, int fd);
 char	**ft_split(char const *s, char c);
 char	*ft_strchr(const char *str, int c);
 char	*ft_strdup(char *src);
+char	*ft_strndup(const char *src, size_t n);
 char	*ft_strtrim(char const *s1, char const *set);
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 char	*ft_strjoin(char const *s1, char const *s2);
@@ -47,6 +48,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlen(const char *s);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
+int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, char *s2, size_t n);
 char	*ft_strnstr(const char *str1, const char *str2, size_t n);
 char	*ft_strrchr(const char *str, int c);
