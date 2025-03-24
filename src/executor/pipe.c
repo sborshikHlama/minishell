@@ -3,36 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 09:13:21 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/21 06:26:14 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:16:25 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	exec_child_right(t_ast_node *node, t_envp *envp, int *p_fd,
-		int *exit_status)
+static void	exec_child_right(t_ast_node *node, int *p_fd,
+			t_shell_state *shell_state)
 {
 	close(p_fd[1]);
 	dup2(p_fd[0], STDIN_FILENO);
 	close(p_fd[0]);
-	exec_tree(node, envp, exit_status);
+	exec_tree(node, shell_state);
 	exit(0);
 }
 
-static void	exec_child_left(t_ast_node *node, t_envp *envp, int *p_fd,
-		int *exit_status)
+static void	exec_child_left(t_ast_node *node, int *p_fd,
+				t_shell_state *shell_state)
 {
 	close(p_fd[0]);
 	dup2(p_fd[1], STDOUT_FILENO);
 	close(p_fd[1]);
-	exec_tree(node, envp, exit_status);
+	exec_tree(node, shell_state);
 	exit(0);
 }
 
-void	exec_pipe(t_ast_node *node, t_envp *envp, int *exit_status)
+void	exec_pipe(t_ast_node *node, t_shell_state *shell_state)
 {
 	int		p_fd[2];
 	pid_t	pid_left;
@@ -44,12 +44,12 @@ void	exec_pipe(t_ast_node *node, t_envp *envp, int *exit_status)
 	if (pid_left < 0)
 		perror("fork");
 	if (pid_left == 0)
-		exec_child_left(node->left, envp, p_fd, exit_status);
+		exec_child_left(node->left, p_fd, shell_state);
 	pid_right = fork();
 	if (pid_right < 0)
 		perror("fork");
 	if (pid_right == 0)
-		exec_child_right(node->right, envp, p_fd, exit_status);
+		exec_child_right(node->right, p_fd, shell_state);
 	close(p_fd[0]);
 	close(p_fd[1]);
 	waitpid(pid_left, NULL, 0);

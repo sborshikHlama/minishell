@@ -6,37 +6,47 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 12:51:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/20 20:51:10 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/24 20:54:00 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	exec_builtin(t_ast_node *node, t_envp *envp, int *exit_status)
+static void	exec_builtin(t_ast_node *node, t_shell_state *shell_state)
 {
 	if (ft_strcmp(node->args[0], "pwd") == 0)
-		*exit_status = builtin_pwd();
+		*(shell_state->last_exit_code) = builtin_pwd();
 	else if (ft_strcmp(node->args[0], "cd") == 0)
-		*exit_status = builtin_cd(node);
+		*(shell_state->last_exit_code) = builtin_cd(node);
 	else if (ft_strcmp(node->args[0], "echo") == 0)
-		*exit_status = builtin_echo(node);
+		*(shell_state->last_exit_code) = builtin_echo(node);
 	else if (ft_strcmp(node->args[0], "env") == 0)
-		*exit_status = builtin_env(*envp);
+		*(shell_state->last_exit_code) = builtin_env(*(shell_state->envp));
 	else if (ft_strcmp(node->args[0], "unset") == 0)
-		*exit_status = builtin_unset(node, envp);
+		*(shell_state->last_exit_code) = builtin_unset(node,
+				shell_state->envp);
 	else if (ft_strcmp(node->args[0], "export") == 0)
-		*exit_status = builtin_export(node, envp);
+		*(shell_state->last_exit_code) = builtin_export(node,
+				shell_state->envp);
 	else if (ft_strcmp(node->args[0], "exit") == 0)
-		builtin_exit(node, *envp, *exit_status);
+		builtin_exit(node, shell_state);
 }
 
 // executes non builtin commands in a child process
-void	exec_bin(t_ast_node *node, t_envp *envp, int *exit_status)
+void	exec_bin(t_ast_node *node, t_shell_state *shell_state)
 {
 	char	**all_paths;
 	char	*exec_path;
+	char	*env;
 
-	all_paths = ft_split(ft_getenv("PATH", *envp), ':');
+	env = ft_getenv("PATH", *(shell_state->envp));
+	if (!env)
+	{
+		write(STDERR_FILENO, node->args[0], ft_strlen(node->args[0]));
+		write(STDOUT_FILENO, ": command not found\n", 20);
+		return ;	
+	}
+	all_paths = ft_split(env, ':');
 	exec_path = get_exec_path(node, all_paths);
 	if (all_paths)
 		free_all_paths(all_paths);
@@ -44,10 +54,10 @@ void	exec_bin(t_ast_node *node, t_envp *envp, int *exit_status)
 	{
 		write(STDERR_FILENO, node->args[0], ft_strlen(node->args[0]));
 		write(STDOUT_FILENO, ": command not found\n", 20);
-		*exit_status = 127;
+		*(shell_state->last_exit_code) = 127;
 		return ;
 	}
-	spawn_binary(exec_path, node, envp, exit_status);
+	spawn_binary(exec_path, node, shell_state);
 	free(exec_path);
 }
 
@@ -67,7 +77,7 @@ int	handle_redir_chain(t_ast_node *node)
 	return (handle_redirections(node));
 }
 
-void	exec_redir(t_ast_node *node, t_envp *envp, int *exit_status)
+void	exec_redir(t_ast_node *node, t_shell_state *shell_state)
 {
 	int			saved_stdout;
 	int			saved_stdin;
@@ -83,7 +93,7 @@ void	exec_redir(t_ast_node *node, t_envp *envp, int *exit_status)
 	cmd_node = node;
 	while (cmd_node && cmd_node->type == NODE_REDIR)
 		cmd_node = cmd_node->left;
-	exec_tree(cmd_node, envp, exit_status);
+	exec_tree(cmd_node, shell_state);
 	restore_fds(&saved_stdin, &saved_stdout);
 }
 
@@ -93,19 +103,19 @@ void	exec_redir(t_ast_node *node, t_envp *envp, int *exit_status)
 // Execute each command, passing output to the next using pipes.
 // Continue right until reaching the last command.
 
-void	exec_tree(t_ast_node *node, t_envp *envp, int *exit_status)
+void	exec_tree(t_ast_node *node, t_shell_state *shell_state)
 {
 	if (!node)
 		return ;
 	if (node->type == NODE_REDIR)
-		exec_redir(node, envp, exit_status);
+		exec_redir(node, shell_state);
 	if (node->type == NODE_PIPE)
-		exec_pipe(node, envp, exit_status);
+		exec_pipe(node, shell_state);
 	else if (node->type == NODE_COMMAND)
 	{
 		if (is_builtin(node))
-			exec_builtin(node, envp, exit_status);
+			exec_builtin(node, shell_state);
 		else
-			exec_bin(node, envp, exit_status);
+			exec_bin(node, shell_state);
 	}
 }

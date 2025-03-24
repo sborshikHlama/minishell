@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binary.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 11:26:10 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/21 06:26:04 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/24 20:07:44 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ void	parent_process(pid_t pid, int *exit_status)
 		*exit_status = 128 + WTERMSIG(status);
 }
 
-void	spawn_binary(char *exec_path, t_ast_node *node, t_envp *envp,
-		int *exit_status)
+void	spawn_binary(char *exec_path, t_ast_node *node,
+			t_shell_state *shell_state)
 {
 	pid_t	pid;
 
@@ -83,6 +83,6 @@ void	spawn_binary(char *exec_path, t_ast_node *node, t_envp *envp,
 		return ;
 	}
 	if (pid == 0)
-		child_process(exec_path, node, envp);
-	parent_process(pid, exit_status);
+		child_process(exec_path, node, shell_state->envp);
+	parent_process(pid, shell_state->last_exit_code);
 }

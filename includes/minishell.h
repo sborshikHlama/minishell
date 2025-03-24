@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/21 16:06:01 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/24 20:40:29 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ typedef struct s_ast_node
 typedef struct s_shell_state
 {
 	t_list				*token_list;
-	int					last_exit_code;
+	t_envp				*envp;
+	int					*last_exit_code;
 }						t_shell_state;
 
 // environ_utils
@@ -131,7 +132,7 @@ t_list					*lexer(char *input);
 t_ast_node				*create_node(t_node type);
 int						count_args(t_list *current);
 void					fill_args(t_ast_node *command_node, t_list *list,
-							int argc, t_envp envp);
+							int argc, t_shell_state shell_state);
 t_ast_node				*create_redir_node(t_list **current,
 							t_list *last_redirect);
 void					set_redir_value(t_ast_node *node, t_token *token,
@@ -139,24 +140,24 @@ void					set_redir_value(t_ast_node *node, t_token *token,
 void					free_ast_tree(t_ast_node *node);
 
 // parser
-t_ast_node				*parser(t_list *tokens, t_envp envp);
-t_ast_node				*parse_pipeline(t_list *list, t_envp envp);
+
+t_ast_node				*parser(t_list *tokens, t_shell_state shell_state);
+t_ast_node				*parse_pipeline(t_list *list, t_shell_state shell_state);
 
 // print_debug
 void					display_ast(t_ast_node *node, int depth);
 void					display_tokens(t_list *lexer);
 
 // executor
-void					exec_tree(t_ast_node *node, t_envp *envp,
-							int *exit_status);
+void					exec_tree(t_ast_node *node, t_shell_state *shell_state);
 t_status				builtin_cd(t_ast_node *node);
 t_status				builtin_pwd(void);
 t_status				builtin_echo(t_ast_node *node);
 t_status				builtin_env(t_envp envp);
 t_status				builtin_export(t_ast_node *node, t_envp *envp);
 t_status				builtin_unset(t_ast_node *node, t_envp *envp);
-void					builtin_exit(t_ast_node *node, t_envp envp,
-							int exit_status);
+void					builtin_exit(t_ast_node *node,
+							t_shell_state *shell_state);
 
 // executor_utils
 int						is_builtin(t_ast_node *node);
@@ -165,7 +166,7 @@ void					free_ast_tree(t_ast_node *node);
 // binary
 char					*get_exec_path(t_ast_node *node, char **all_paths);
 void					spawn_binary(char *exec_path, t_ast_node *node,
-							t_envp *envp, int *exit_status);
+							t_shell_state *shell_state);
 
 // builtin_utils (export/unset)
 t_bool					isname(char *name);
@@ -176,13 +177,12 @@ t_status				print_envp(t_envp envp);
 void					error_export_name(char *name);
 
 // env_expander
-char					*expand(t_token *content, t_envp envp);
+char					*expand(t_token *content, t_shell_state shell_state);
 // env_expander_utils
 char					*unquote_string(char *str);
 
 // pipe
-void					exec_pipe(t_ast_node *node, t_envp *envp,
-							int *exit_status);
+void					exec_pipe(t_ast_node *node, t_shell_state *shell_state);
 
 // redirection
 int						handle_redirections(t_ast_node *node);

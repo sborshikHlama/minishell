@@ -6,13 +6,13 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 22:31:45 by iasonov           #+#    #+#             */
-/*   Updated: 2025/03/21 15:16:46 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:37:57 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_ast_node	*parse_command(t_list	*list, t_envp envp)
+t_ast_node	*parse_command(t_list	*list, t_shell_state shell_state)
 {
 	t_ast_node	*command_node;
 	int			arg_count;
@@ -30,11 +30,11 @@ t_ast_node	*parse_command(t_list	*list, t_envp envp)
 		free(command_node);
 		return (NULL);
 	}
-	fill_args(command_node, list, arg_count, envp);
+	fill_args(command_node, list, arg_count, shell_state);
 	return (command_node);
 }
 
-t_ast_node	*parse_redir(t_list *list, t_envp envp)
+t_ast_node	*parse_redir(t_list *list, t_shell_state shell_state)
 {
 	t_ast_node	*redirect_node;
 	t_list		*last_redirect;
@@ -52,18 +52,19 @@ t_ast_node	*parse_redir(t_list *list, t_envp envp)
 	current = list;
 	if (!last_redirect)
 	{
-		redirect_node = parse_command(list, envp);
+		redirect_node = parse_command(list, shell_state);
 		ft_lstclear(&list, free_token);
 		return (redirect_node);
 	}
 	redirect_node = create_redir_node(&current, last_redirect);
 	if (!redirect_node)
 		return (NULL);
-	redirect_node->left = parse_redir(list, envp);
+	redirect_node->left = parse_redir(list, shell_state);
 	return (redirect_node);
 }
 
-t_ast_node	*create_pipe_node(t_list *list, t_list *detached, t_envp envp)
+t_ast_node	*create_pipe_node(t_list *list, t_list *detached,
+	t_shell_state shell_state)
 {
 	t_ast_node	*pipe_node;
 
@@ -74,12 +75,12 @@ t_ast_node	*create_pipe_node(t_list *list, t_list *detached, t_envp envp)
 		ft_lstclear(&(detached), free_token);
 		return (NULL);
 	}
-	pipe_node->left = parse_pipeline(list, envp);
-	pipe_node->right = parse_redir(detached, envp);
+	pipe_node->left = parse_pipeline(list, shell_state);
+	pipe_node->right = parse_redir(detached, shell_state);
 	return (pipe_node);
 }
 
-t_ast_node	*parse_pipeline(t_list *list, t_envp envp)
+t_ast_node	*parse_pipeline(t_list *list, t_shell_state shell_state)
 {
 	t_ast_node	*pipe_node;
 	t_list		*last_pipe;
@@ -98,19 +99,19 @@ t_ast_node	*parse_pipeline(t_list *list, t_envp envp)
 	}
 	current = list;
 	if (!last_pipe)
-		return (parse_redir(list, envp));
+		return (parse_redir(list, shell_state));
 	while (current && current->next != last_pipe)
 		current = current->next;
 	current->next = NULL;
 	detached = last_pipe->next;
 	ft_lstdelone(last_pipe, free_token);
-	pipe_node = create_pipe_node(list, detached, envp);
+	pipe_node = create_pipe_node(list, detached, shell_state);
 	return (pipe_node);
 }
 
-t_ast_node	*parser(t_list *tokens, t_envp envp)
+t_ast_node	*parser(t_list *tokens, t_shell_state shell_state)
 {
 	if (!tokens)
 		return (NULL);
-	return (parse_pipeline(tokens, envp));
+	return (parse_pipeline(tokens, shell_state));
 }

@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
-/*   Updated: 2025/03/21 16:06:05 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/24 21:01:03 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,15 @@ char	*read_input(t_envp *envp)
 
 int	main_loop(t_envp *envp)
 {
-	int			exit_status;
-	char		*input;
-	t_list		*token_list;
-	t_ast_node	*ast_tree;
+	int				exit_status;
+	char			*input;
+	t_list			*token_list;
+	t_ast_node		*ast_tree;
+	t_shell_state	shell_state;
 
+	shell_state.last_exit_code = 0;
+	shell_state.envp = envp;
 	ast_tree = NULL;
-	exit_status = 0;
 	while (1)
 	{
 		input = read_input(envp);
@@ -73,13 +75,11 @@ int	main_loop(t_envp *envp)
 		debug(input, token_list, ast_tree, 0);
 		if (token_list)
 		{
-			ast_tree = parser(token_list, *envp);
+			ast_tree = parser(token_list, shell_state);
 			debug(input, token_list, ast_tree, 1);
+			exec_tree(ast_tree, &shell_state);
 			if (ast_tree)
-			{
-				exec_tree(ast_tree, envp, &exit_status);
 				free_ast_tree(ast_tree);
-			}
 		}
 		free(input);
 	}
