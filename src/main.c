@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
-/*   Updated: 2025/03/24 21:01:03 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/24 21:03:04 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ char	*read_input(t_envp *envp)
 
 int	main_loop(t_envp *envp)
 {
-	int				exit_status;
 	char			*input;
 	t_list			*token_list;
 	t_ast_node		*ast_tree;
