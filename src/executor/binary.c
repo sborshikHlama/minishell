@@ -6,11 +6,13 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 11:26:10 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/21 06:26:04 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/21 07:17:09 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+extern sig_atomic_t	g_sig_status;
 
 char	*get_exec_path(t_ast_node *node, char **all_paths)
 {
@@ -45,6 +47,7 @@ static void	child_process(char *exec_path, t_ast_node *node, t_envp *envp)
 {
 	int	r;
 
+	reset_quit_signal();
 	r = execve(exec_path, node->args, (char **)*envp);
 	if (r < 0)
 	{
@@ -59,7 +62,9 @@ void	parent_process(pid_t pid, int *exit_status)
 	int	status;
 	int	w;
 
+	ignore_int_signal();
 	w = waitpid(pid, &status, 0);
+	setup_int_signal();
 	if (w == -1)
 	{
 		*exit_status = 1;
@@ -68,7 +73,15 @@ void	parent_process(pid_t pid, int *exit_status)
 	if (WIFEXITED(status))
 		*exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
+	{
 		*exit_status = 128 + WTERMSIG(status);
+		if (WTERMSIG(status) == SIGINT)
+			write(STDOUT_FILENO, "\n", 1);
+#ifdef __WCOREDUMP
+		if (WTERMSIG(status) == SIGQUIT && __WCOREDUMP(status))
+			write(STDOUT_FILENO, "Quit (core dumped)\n", 20);
+#endif
+	}
 }
 
 void	spawn_binary(char *exec_path, t_ast_node *node, t_envp *envp,
