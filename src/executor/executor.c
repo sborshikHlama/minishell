@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 12:51:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/24 20:54:00 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/28 19:42:14 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	exec_bin(t_ast_node *node, t_shell_state *shell_state)
 	{
 		write(STDERR_FILENO, node->args[0], ft_strlen(node->args[0]));
 		write(STDOUT_FILENO, ": command not found\n", 20);
-		return ;	
+		return ;
 	}
 	all_paths = ft_split(env, ':');
 	exec_path = get_exec_path(node, all_paths);

@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/28 18:40:03 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/28 19:40:18 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,8 @@ void					free_ast_tree(t_ast_node *node);
 // parser
 
 t_ast_node				*parser(t_list *tokens, t_shell_state shell_state);
-t_ast_node				*parse_pipeline(t_list *list, t_shell_state shell_state);
+t_ast_node				*parse_pipeline(t_list *list,
+							t_shell_state shell_state);
 
 // print_debug
 void					display_ast(t_ast_node *node, int depth);
@@ -191,6 +192,7 @@ void					restore_fds(int *saved_stdin, int *saved_stdout);
 
 // heredoc
 int						process_heredoc(t_ast_node *node);
+
 // signals
 t_status				init_signals(void);
 void					reset_quit_signal(void);

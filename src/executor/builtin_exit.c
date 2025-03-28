@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 12:04:25 by dnovak            #+#    #+#             */
-/*   Updated: 2025/03/24 20:42:52 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/28 19:45:38 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	builtin_exit(t_ast_node *node, t_shell_state *shell_state)
 		else
 			*(shell_state->last_exit_code) = ft_atoi(node->args[1]);
 	}
-	/*ADD: free all nodes - input and lexer should already be freed*/
 	free_envp(*(shell_state->envp));
 	rl_clear_history();
 	exit(*(shell_state->last_exit_code));
