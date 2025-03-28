@@ -6,25 +6,26 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 22:43:15 by dnovak            #+#    #+#             */
-/*   Updated: 2025/03/20 10:41:34 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/28 18:08:09 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_status	setup_envp(t_envp *dest, t_envp orig)
-{
-	int	envp_count;
+extern char	**environ;
 
-	envp_count = envp_size(orig);
-	*dest = ft_calloc(envp_count + 1, sizeof(char *));
+t_status	setup_envp(t_envp *dest)
+{
+	int	i;
+
+	*dest = ft_calloc(envp_size(environ) + 1, sizeof(char *));
 	if (*dest == NULL)
 		return (FAILURE);
-	envp_count = 0;
-	while (orig[envp_count] != NULL)
+	i = 0;
+	while (environ[i] != NULL)
 	{
-		(*dest)[envp_count] = ft_strdup(orig[envp_count]);
-		if ((*dest)[envp_count++] == NULL)
+		(*dest)[i] = ft_strdup(environ[i]);
+		if ((*dest)[i++] == NULL)
 		{
 			free_envp(*dest);
 			return (FAILURE);

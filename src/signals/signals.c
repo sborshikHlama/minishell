@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:05:18 by dnovak            #+#    #+#             */
-/*   Updated: 2025/03/21 07:51:39 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/28 18:39:36 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,20 @@ static void	signal_handler(int signum)
 	g_sig_status = signum;
 }
 
-void	init_signals(void)
+t_status	init_signals(void)
 {
 	struct sigaction	sa;
 
-	sigemptyset(&(sa.sa_mask));
+	if (sigemptyset(&(sa.sa_mask)) != 0)
+		return (FAILURE);
 	sa.sa_flags = 0;
 	sa.sa_handler = &signal_handler;
-	sigaction(SIGINT, &sa, NULL);
+	if (sigaction(SIGINT, &sa, NULL) != 0)
+		return (FAILURE);
 	sa.sa_handler = SIG_IGN;
-	sigaction(SIGQUIT, &sa, NULL);
+	if (sigaction(SIGQUIT, &sa, NULL) != 0)
+		return (FAILURE);
+	return (SUCCESS);
 }
 
 void	reset_quit_signal(void)

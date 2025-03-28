@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/28 10:02:31 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/28 18:40:03 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int						envp_size(t_envp envp);
 char					*ft_getenv(const char *name, t_envp envp);
 
 // environ
-t_status				setup_envp(t_envp *dest, t_envp orig);
+t_status				setup_envp(t_envp *dest);
 char					*ft_getenv(const char *name, t_envp envp);
 
 // syntax_check
@@ -192,7 +192,7 @@ void					restore_fds(int *saved_stdin, int *saved_stdout);
 // heredoc
 int						process_heredoc(t_ast_node *node);
 // signals
-void					init_signals(void);
+t_status				init_signals(void);
 void					reset_quit_signal(void);
 void					ignore_int_signal(void);
 void					setup_int_signal(void);

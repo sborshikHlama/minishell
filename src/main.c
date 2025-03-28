@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
-/*   Updated: 2025/03/28 10:02:55 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/28 18:40:16 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,20 +91,16 @@ int	main_loop(t_envp *envp)
 	}
 }
 
-int	main(int argc, char **argv, char **envp_orig)
+int	main(void)
 {
 	t_envp	envp;
 
-	(void)argc;
-	(void)argv;
-	init_signals();
+	if (init_signals() == FAILURE)
+		return (EXIT_FAILURE);
 	rl_event_hook = &readline_hook;
 	envp = NULL;
-	if (setup_envp(&envp, envp_orig) == FAILURE)
-	{
-		free_envp(envp);
+	if (setup_envp(&envp) == FAILURE)
 		return (EXIT_FAILURE);
-	}
 	main_loop(&envp);
 	free_envp(envp);
 	rl_clear_history();
