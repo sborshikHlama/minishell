@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
-/*   Updated: 2025/03/28 20:12:06 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/28 20:36:03 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	debug(char *input, t_list *list, t_ast_node *ast_tree, int ast_flag)
 char	*read_input(t_envp *envp)
 {
 	char	*input;
+	int		i;
 
 	input = readline("minishell$> ");
 	if (input == NULL)
@@ -38,7 +39,15 @@ char	*read_input(t_envp *envp)
 		write(STDOUT_FILENO, "exit\n", 5);
 		exit(SUCCESS);
 	}
-	add_history(input);
+	i = 0;
+	while (input[i] != '\0')
+	{
+		if (ft_strchr(" \t\n", input[i++]) == NULL)
+		{
+			add_history(input);
+			break ;
+		}
+	}
 	return (input);
 }
 
