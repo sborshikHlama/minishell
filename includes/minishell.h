@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/28 19:40:18 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/28 20:05:51 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,10 @@ char					*ft_getenv(const char *name, t_envp envp);
 // environ
 t_status				setup_envp(t_envp *dest);
 char					*ft_getenv(const char *name, t_envp envp);
+
+//readline hooks
+int						readline_startup_hook(void);
+int						readline_event_hook(void);
 
 // syntax_check
 int						is_operator_valid(char *input);

@@ -36,6 +36,7 @@ SRC = src/main.c \
 	  src/executor/pipe.c \
 	  src/executor/redirection.c \
 	  src/executor/heredoc.c \
+	  src/readline_hooks/readline_hooks.c \
 	  src/signals/signals.c
 
 OBJECTS = $(SRC:.c=.o)

@@ -6,26 +6,11 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
-/*   Updated: 2025/03/28 19:39:43 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/28 20:12:06 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-volatile sig_atomic_t	g_sig_status;
-
-int	readline_hook(void)
-{
-	if (g_sig_status == SIGINT)
-	{
-		g_sig_status = 0;
-		write(STDOUT_FILENO, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-	return (SUCCESS);
-}
 
 void	debug(char *input, t_list *list, t_ast_node *ast_tree, int ast_flag)
 {
@@ -45,11 +30,6 @@ char	*read_input(t_envp *envp)
 {
 	char	*input;
 
-	if (g_sig_status == SIGINT)
-	{
-		g_sig_status = 0;
-		write(STDOUT_FILENO, "\n", 1);
-	}
 	input = readline("minishell$> ");
 	if (input == NULL)
 	{
@@ -73,12 +53,11 @@ int	main_loop(t_envp *envp)
 	last_exit_code = 0;
 	shell_state.last_exit_code = &last_exit_code;
 	shell_state.envp = envp;
-	ast_tree = NULL;
 	while (1)
 	{
 		input = read_input(envp);
 		token_list = lexer(input);
-		debug(input, token_list, ast_tree, 0);
+		debug(input, token_list, NULL, 0);
 		if (token_list)
 		{
 			ast_tree = parser(token_list, shell_state);
@@ -97,7 +76,8 @@ int	main(void)
 
 	if (init_signals() == FAILURE)
 		return (EXIT_FAILURE);
-	rl_event_hook = &readline_hook;
+	rl_startup_hook = &readline_startup_hook;
+	rl_event_hook = &readline_event_hook;
 	envp = NULL;
 	if (setup_envp(&envp) == FAILURE)
 		return (EXIT_FAILURE);

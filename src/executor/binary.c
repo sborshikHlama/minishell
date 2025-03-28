@@ -6,11 +6,13 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 11:26:10 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/28 19:43:19 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/28 20:14:42 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+extern volatile sig_atomic_t	g_sig_status;
 
 char	*get_exec_path(t_ast_node *node, char **all_paths)
 {
@@ -74,7 +76,7 @@ void	parent_process(pid_t pid, int *exit_status)
 	{
 		*exit_status = 128 + WTERMSIG(status);
 		if (WTERMSIG(status) == SIGINT)
-			write(STDOUT_FILENO, "\n", 1);
+			g_sig_status = SIGINT;
 		if (WTERMSIG(status) == SIGQUIT && __WCOREDUMP(status))
 			write(STDOUT_FILENO, "Quit (core dumped)\n", 20);
 	}

@@ -6,13 +6,13 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:05:18 by dnovak            #+#    #+#             */
-/*   Updated: 2025/03/28 18:39:36 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/28 20:15:24 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-extern sig_atomic_t	g_sig_status;
+extern volatile sig_atomic_t	g_sig_status;
 
 static void	signal_handler(int signum)
 {
