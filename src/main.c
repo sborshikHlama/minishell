@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
-/*   Updated: 2025/03/27 13:17:49 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/28 10:02:55 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	readline_hook(void)
 	if (g_sig_status == SIGINT)
 	{
 		g_sig_status = 0;
+		write(STDOUT_FILENO, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
@@ -44,7 +45,11 @@ char	*read_input(t_envp *envp)
 {
 	char	*input;
 
-	g_sig_status = 0;
+	if (g_sig_status == SIGINT)
+	{
+		g_sig_status = 0;
+		write(STDOUT_FILENO, "\n", 1);
+	}
 	input = readline("minishell$> ");
 	if (input == NULL)
 	{
@@ -88,7 +93,7 @@ int	main_loop(t_envp *envp)
 
 int	main(int argc, char **argv, char **envp_orig)
 {
-	t_envp		envp;
+	t_envp	envp;
 
 	(void)argc;
 	(void)argv;

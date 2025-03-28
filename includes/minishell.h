@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/24 20:40:29 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/28 10:02:31 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@
 # endif
 
 # include "../libft/libft.h"
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include <fcntl.h>
 # include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
-# include <unistd.h>
-# include <sys/wait.h>
 # include <sys/stat.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
 # define MAX_TOKENS 100
 # define PATH_SIZE 1024
@@ -81,11 +81,11 @@ typedef enum e_node
 
 typedef struct s_redir
 {
-	char	*infile;
-	char	*outfile;
-	int		append;
-	char	*heredoc_delim;	
-}				t_redir;
+	char				*infile;
+	char				*outfile;
+	int					append;
+	char				*heredoc_delim;
+}						t_redir;
 
 typedef struct s_ast_node
 {
@@ -162,6 +162,7 @@ void					builtin_exit(t_ast_node *node,
 // executor_utils
 int						is_builtin(t_ast_node *node);
 void					free_ast_tree(t_ast_node *node);
+void					free_all_paths(char **all_paths);
 
 // binary
 char					*get_exec_path(t_ast_node *node, char **all_paths);
@@ -192,6 +193,8 @@ void					restore_fds(int *saved_stdin, int *saved_stdout);
 int						process_heredoc(t_ast_node *node);
 // signals
 void					init_signals(void);
-void					free_all_paths(char **all_paths);
+void					reset_quit_signal(void);
+void					ignore_int_signal(void);
+void					setup_int_signal(void);
 
 #endif
