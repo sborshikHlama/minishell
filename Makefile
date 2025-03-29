@@ -17,8 +17,7 @@ SRC = src/main.c \
 	  src/lexer/syntax_check.c \
 	  src/parser/parser.c \
 	  src/parser/parser_utils.c \
-	  src/parser/env_expander.c \
-	  src/parser/env_expander_utils.c \
+	  src/parser/unquote_string.c \
 	  src/print_debug/print_toklist.c \
 	  src/print_debug/print_tree.c \
 	  src/env_expander/env_expander.c \

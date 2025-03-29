@@ -6,13 +6,13 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 14:12:36 by dnovak            #+#    #+#             */
-/*   Updated: 2025/03/29 15:58:12 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/29 16:48:59 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char	*dn_get_var_value(char **start, char **end, t_envp envp)
+static char	*get_var_value(char **start, char **end, t_envp envp)
 {
 	char	*var_name;
 	char	*var_value;
@@ -30,7 +30,7 @@ static char	*dn_get_var_value(char **start, char **end, t_envp envp)
 	return (ft_strdup(var_value));
 }
 
-static char	*dn_handle_var(char **start, char *prev, t_shell_state *shell_state)
+static char	*handle_var(char **start, char *prev, t_shell_state *shell_state)
 {
 	char	*end;
 	char	*var_value;
@@ -43,7 +43,7 @@ static char	*dn_handle_var(char **start, char *prev, t_shell_state *shell_state)
 		end++;
 	}
 	else if (ft_isalnum(*end) || *end == '_')
-		var_value = dn_get_var_value(start, &end, *(shell_state->envp));
+		var_value = get_var_value(start, &end, *(shell_state->envp));
 	else
 	{
 		var_value = ft_strdup("$");
@@ -82,7 +82,7 @@ static char	*find_var(char *end, t_quote_state *q_state)
 	return (end);
 }
 
-static char	*dn_handle_plain_text(char **start, char *new_input,
+static char	*handle_plain_text(char **start, char *new_input,
 		t_quote_state *q_state)
 {
 	char	*end;
@@ -102,7 +102,7 @@ static char	*dn_handle_plain_text(char **start, char *new_input,
 	return (temp_result);
 }
 
-char	*dn_env_expander(char *input, t_shell_state *shell_state)
+char	*env_expander(char *input, t_shell_state *shell_state)
 {
 	char			*new_input;
 	char			*start_ptr;
@@ -118,9 +118,9 @@ char	*dn_env_expander(char *input, t_shell_state *shell_state)
 	while (*start_ptr)
 	{
 		if (*start_ptr == '$')
-			new_input = dn_handle_var(&start_ptr, new_input, shell_state);
+			new_input = handle_var(&start_ptr, new_input, shell_state);
 		else
-			new_input = dn_handle_plain_text(&start_ptr, new_input, &q_state);
+			new_input = handle_plain_text(&start_ptr, new_input, &q_state);
 		if (new_input == NULL)
 			return (NULL);
 	}

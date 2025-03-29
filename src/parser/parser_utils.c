@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 00:30:05 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/29 15:55:00 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/29 16:29:26 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	fill_args(t_ast_node *command_node, t_list *list, int argc)
 	while (i < argc)
 	{
 		content = current->content;
-		command_node->args[i] = ft_strdup(content->value);
+		command_node->args[i] = unquote_string(content->value);
 		if (!command_node->args[i])
 		{
 			while (i > 0)

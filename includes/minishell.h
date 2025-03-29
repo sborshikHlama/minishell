@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/29 15:53:23 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/29 16:48:19 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,10 +190,9 @@ t_status				print_envp(t_envp envp);
 void					error_export_name(char *name);
 
 // env_expander
-char					*expand(t_token *content, t_shell_state shell_state);
-char					*dn_env_expander(char *input, t_shell_state *shell_state);
+char					*env_expander(char *input, t_shell_state *shell_state);
 
-// env_expander_utils
+// unquote_string
 char					*unquote_string(char *str);
 
 // pipe

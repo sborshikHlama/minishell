@@ -6,25 +6,25 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
-/*   Updated: 2025/03/29 16:00:52 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/29 16:48:30 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	debug(char *input, t_list *list, t_ast_node *ast_tree, int ast_flag)
-{
-	if (DEBUG_STATUS && !ast_flag)
-		display_tokens(list);
-	else if (DEBUG_STATUS && ast_flag)
-	{
-		display_ast(ast_tree, 0);
-		write(STDOUT_FILENO, "Entered: ", 9);
-		write(STDOUT_FILENO, input, ft_strlen(input));
-		write(STDOUT_FILENO, "\n", 1);
-	}
-	return ;
-}
+// void	debug(char *input, t_list *list, t_ast_node *ast_tree, int ast_flag)
+// {
+// 	if (DEBUG_STATUS && !ast_flag)
+// 		display_tokens(list);
+// 	else if (DEBUG_STATUS && ast_flag)
+// 	{
+// 		display_ast(ast_tree, 0);
+// 		write(STDOUT_FILENO, "Entered: ", 9);
+// 		write(STDOUT_FILENO, input, ft_strlen(input));
+// 		write(STDOUT_FILENO, "\n", 1);
+// 	}
+// 	return ;
+// }
 
 char	*read_input(t_shell_state *shell_state)
 {
@@ -48,7 +48,7 @@ char	*read_input(t_shell_state *shell_state)
 			break ;
 		}
 	}
-	return (dn_env_expander(input, shell_state));
+	return (env_expander(input, shell_state));
 }
 
 int	main_loop(t_envp *envp)
@@ -64,18 +64,16 @@ int	main_loop(t_envp *envp)
 	{
 		input = read_input(&shell_state);
 		token_list = lexer(input);
-		debug(input, token_list, NULL, 0);
+		free(input);
 		if (token_list)
 		{
 			ast_tree = parser(token_list, shell_state);
 			shell_state.first_node = ast_tree;
-			debug(input, token_list, ast_tree, 1);
 			exec_tree(ast_tree, &shell_state);
 			if (ast_tree)
 				free_ast_tree(ast_tree);
 			}
 		}
-		free(input);
 }
 
 int	main(void)
