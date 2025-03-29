@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 12:51:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/28 19:42:14 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/29 10:24:21 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	exec_bin(t_ast_node *node, t_shell_state *shell_state)
 	if (!env)
 	{
 		write(STDERR_FILENO, node->args[0], ft_strlen(node->args[0]));
-		write(STDOUT_FILENO, ": command not found\n", 20);
+		write(STDERR_FILENO, ": command not found\n", 20);
 		return ;
 	}
 	all_paths = ft_split(env, ':');
@@ -53,7 +53,7 @@ void	exec_bin(t_ast_node *node, t_shell_state *shell_state)
 	if (exec_path == NULL)
 	{
 		write(STDERR_FILENO, node->args[0], ft_strlen(node->args[0]));
-		write(STDOUT_FILENO, ": command not found\n", 20);
+		write(STDERR_FILENO, ": command not found\n", 20);
 		*(shell_state->last_exit_code) = 127;
 		return ;
 	}
