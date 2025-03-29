@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
-/*   Updated: 2025/03/29 16:48:30 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/29 17:24:15 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ int	main_loop(t_envp *envp)
 			exec_tree(ast_tree, &shell_state);
 			if (ast_tree)
 				free_ast_tree(ast_tree);
-			}
 		}
+	}
 }
 
 int	main(void)

@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 11:26:10 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/29 17:07:20 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/29 17:24:37 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ char	*get_exec_path(t_ast_node *node, char **all_paths)
 	return (NULL);
 }
 
-static void	child_process(char *exec_path, t_ast_node *node, t_shell_state *shell_state)
+static void	child_process(char *exec_path, t_ast_node *node,
+		t_shell_state *shell_state)
 {
 	int	r;
 
