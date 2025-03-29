@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 11:26:10 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/29 14:15:14 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/29 17:07:20 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,18 @@ char	*get_exec_path(t_ast_node *node, char **all_paths)
 	return (NULL);
 }
 
-static void	child_process(char *exec_path, t_ast_node *node, t_envp *envp)
+static void	child_process(char *exec_path, t_ast_node *node, t_shell_state *shell_state)
 {
 	int	r;
 
 	reset_quit_signal();
-	r = execve(exec_path, node->args, (char **)*envp);
+	r = execve(exec_path, node->args, (char **)*(shell_state->envp));
 	if (r < 0)
 	{
 		perror("execve");
+		free(exec_path);
+		free_ast_tree(shell_state->first_node);
+		free_envp(*(shell_state->envp));
 		exit(1);
 	}
 	exit(0);
@@ -94,6 +97,6 @@ void	spawn_binary(char *exec_path, t_ast_node *node,
 		return ;
 	}
 	if (pid == 0)
-		child_process(exec_path, node, shell_state->envp);
+		child_process(exec_path, node, shell_state);
 	parent_process(pid, &(shell_state->last_exit_code));
 }
