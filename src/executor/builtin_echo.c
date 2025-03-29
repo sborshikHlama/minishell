@@ -26,11 +26,11 @@ t_status	builtin_echo(t_ast_node *node)
 	}
 	while (start < node->argc)
 	{
-		write(1, node->args[start], ft_strlen(node->args[start]));
+		write(STDOUT_FILENO, node->args[start], ft_strlen(node->args[start]));
 		if (++start != node->argc)
-			write(1, " ", 1);
+			write(STDOUT_FILENO, " ", 1);
 	}
 	if (new_line == 1)
-		write(1, "\n", 1);
+		write(STDOUT_FILENO, "\n", 1);
 	return (SUCCESS);
 }

@@ -52,11 +52,11 @@ t_status	print_envp(t_envp envp)
 	while (envp[i] != NULL)
 	{
 		eq_pos = ft_strchr(envp[i], '=');
-		write(STDOUT_FILENO, "declare -x ", 12);
+		write(STDOUT_FILENO, "declare -x ", 11);
 		write(STDOUT_FILENO, envp[i], eq_pos + 1 - envp[i]);
-		write(STDOUT_FILENO, "\"", 2);
+		write(STDOUT_FILENO, "\"", 1);
 		write(STDOUT_FILENO, eq_pos + 1, ft_strlen(eq_pos + 1));
-		write(STDOUT_FILENO, "\"\n", 3);
+		write(STDOUT_FILENO, "\"\n", 2);
 		++i;
 	}
 	return (SUCCESS);

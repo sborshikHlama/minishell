@@ -97,7 +97,7 @@ void	parent_process(pid_t pid, int *exit_status)
 		if (WTERMSIG(status) == SIGINT)
 			g_sig_status = SIGINT;
 		if (WTERMSIG(status) == SIGQUIT && __WCOREDUMP(status))
-			write(STDOUT_FILENO, "Quit (core dumped)\n", 20);
+			write(STDERR_FILENO, "Quit (core dumped)\n", 19);
 	}
 }
 

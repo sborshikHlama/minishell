@@ -14,7 +14,7 @@
 
 void	error_export_name(char *name)
 {
-	write(STDERR_FILENO, "minishell: export: `", 21);
+	write(STDERR_FILENO, "minishell: export: `", 20);
 	write(STDERR_FILENO, name, ft_strlen(name));
-	write(STDERR_FILENO, "': not a valid identifier\n", 27);
+	write(STDERR_FILENO, "': not a valid identifier\n", 26);
 }

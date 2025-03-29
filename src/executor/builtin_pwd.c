@@ -18,10 +18,10 @@ t_status	builtin_pwd(void)
 
 	if (getcwd(cwd, PATH_SIZE) != NULL)
 	{
-		write(1, cwd, ft_strlen(cwd));
-		write(1, "\n", 1);
-		return (FAILURE);
+		write(STDOUT_FILENO, cwd, ft_strlen(cwd));
+		write(STDOUT_FILENO, "\n", 1);
+		return (SUCCESS);
 	}
 	perror("pwd");
-	return (SUCCESS);
+	return (FAILURE);
 }
