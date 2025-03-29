@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 16:43:44 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/21 16:02:57 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/29 08:18:24 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	validate_word(char *start, char *input,
 		token->value = ft_strndup(start, input - start);
 		if (!token->value)
 		{
-			ft_putendl_fd("minishell: parse error\n", 2);
+			ft_putendl_fd("minishell: parse error", 2);
 			return (0);
 		}
 	}
@@ -113,7 +113,10 @@ t_list	*lexer(char *input)
 			break ;
 		token = create_token();
 		if (!token)
+		{
+			ft_lstclear(&token_list, free_token);
 			return (NULL);
+		}
 		if (init_token(token_list, token, input, &i) == 0)
 			return (NULL);
 		ft_lstadd_back(&token_list, ft_lstnew(token));

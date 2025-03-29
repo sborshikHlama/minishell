@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/28 20:05:51 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/29 07:26:11 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ typedef struct s_token
 {
 	t_token_type		type;
 	char				*value;
-	struct s_token		*next;
 	int					expandable;
 }						t_token;
 

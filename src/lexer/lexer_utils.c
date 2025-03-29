@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:05:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/21 16:00:39 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/29 07:28:31 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_token	*create_token(void)
 		return (NULL);
 	token->type = TOKEN_NULL;
 	token->value = NULL;
-	token->next = NULL;
 	return (token);
 }
 
@@ -48,8 +47,6 @@ void	free_token(void *content)
 		return ;
 	if (token->value)
 		free(token->value);
-	if (token->next)
-		free(token->next);
 	free(token);
 }
 
