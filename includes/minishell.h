@@ -119,7 +119,6 @@ char					*ft_getenv(const char *name, t_envp envp);
 
 // environ
 t_status				setup_envp(t_envp *dest);
-char					*ft_getenv(const char *name, t_envp envp);
 
 //readline hooks
 int						readline_startup_hook(void);
@@ -185,6 +184,9 @@ void					spawn_binary(char *exec_path, t_ast_node *node,
 t_bool					isname(char *name);
 t_bool					check_envp(char *name, t_envp envp);
 t_status				print_envp(t_envp envp);
+t_status				envp_replace_value(char *new_var, char *name,
+							t_envp *envp);
+t_status				envp_add_new(char *new_var, t_envp *envp);
 
 // builtin_errors
 void					error_export_name(char *name);

@@ -31,14 +31,14 @@ static t_bool	ft_isnumeric(char *num)
 
 void	builtin_exit(t_ast_node *node, t_shell_state *shell_state)
 {
-	write(STDOUT_FILENO, "exit\n", 6);
+	write(STDERR_FILENO, "exit\n", 5);
 	if (node->argc != 1)
 	{
 		if (ft_isnumeric(node->args[1]) == FALSE)
 		{
-			write(STDOUT_FILENO, "minishell: exit: ", 18);
-			write(STDOUT_FILENO, node->args[1], ft_strlen(node->args[1]));
-			write(STDOUT_FILENO, ": numeric argument required\n", 29);
+			write(STDERR_FILENO, "minishell: exit: ", 17);
+			write(STDERR_FILENO, node->args[1], ft_strlen(node->args[1]));
+			write(STDERR_FILENO, ": numeric argument required\n", 28);
 		}
 		else
 			shell_state->last_exit_code = ft_atoi(node->args[1]);

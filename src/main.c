@@ -26,7 +26,7 @@
 // 	return ;
 // }
 
-char	*read_input(t_shell_state *shell_state)
+static char	*read_input(t_shell_state *shell_state)
 {
 	char	*input;
 	char	*exp_input;
@@ -37,7 +37,7 @@ char	*read_input(t_shell_state *shell_state)
 	{
 		free_envp(*(shell_state->envp));
 		rl_clear_history();
-		write(STDOUT_FILENO, "exit\n", 5);
+		write(STDERR_FILENO, "exit\n", 5);
 		exit(SUCCESS);
 	}
 	i = 0;
@@ -54,7 +54,7 @@ char	*read_input(t_shell_state *shell_state)
 	return (exp_input);
 }
 
-int	main_loop(t_envp *envp)
+static int	main_loop(t_envp *envp)
 {
 	char			*input;
 	t_list			*token_list;

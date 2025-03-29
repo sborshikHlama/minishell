@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-static t_status	envp_add_new(char *new_var, t_envp *envp)
+t_status	envp_add_new(char *new_var, t_envp *envp)
 {
 	t_envp	new_envp;
 	int		i;
@@ -62,7 +62,7 @@ static void	export_novalue(char *name, t_envp *envp, t_status *return_status)
 	}
 }
 
-static t_status	envp_replace_value(char *new_var, char *name, t_envp *envp)
+t_status	envp_replace_value(char *new_var, char *name, t_envp *envp)
 {
 	int		i;
 	t_bool	offset;
