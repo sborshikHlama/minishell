@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 22:31:45 by iasonov           #+#    #+#             */
-/*   Updated: 2025/03/24 16:37:57 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/29 12:19:09 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_ast_node	*parse_redir(t_list *list, t_shell_state shell_state)
 	redirect_node = create_redir_node(&current, last_redirect);
 	if (!redirect_node)
 		return (NULL);
-	redirect_node->left = parse_redir(list, shell_state);
+	redirect_node->left = parse_redir(current, shell_state);
 	return (redirect_node);
 }
 

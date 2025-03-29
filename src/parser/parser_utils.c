@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 00:30:05 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/29 10:14:54 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/29 12:32:43 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,20 @@ t_ast_node	*create_redir_node(t_list **current, t_list *last_redirect)
 {
 	t_ast_node	*redirect_node;
 	t_list		*file_token;
+	t_list		*temp;
 
-	while ((*current)->next && (*current)->next != last_redirect)
-		*current = (*current)->next;
-	file_token = (*current)->next;
+	file_token = last_redirect;
 	if (!file_token || !file_token->next)
 		return (NULL);
-	(*current)->next = file_token->next->next;
+	if (*current == last_redirect)
+		*current = file_token->next->next;
+	else
+	{
+		temp = *current;
+		while (temp->next && temp->next != last_redirect)
+			temp = temp->next;
+		temp->next = file_token->next->next;
+	}
 	file_token->next->next = NULL;
 	redirect_node = create_node(NODE_REDIR);
 	if (!redirect_node)
