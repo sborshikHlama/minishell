@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 09:13:21 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/24 20:16:25 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/29 11:18:54 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static void	exec_child_right(t_ast_node *node, int *p_fd,
 	dup2(p_fd[0], STDIN_FILENO);
 	close(p_fd[0]);
 	exec_tree(node, shell_state);
+	free_ast_tree(shell_state->first_node);
+	free_envp(*(shell_state->envp));
 	exit(0);
 }
 
@@ -29,6 +31,8 @@ static void	exec_child_left(t_ast_node *node, int *p_fd,
 	dup2(p_fd[1], STDOUT_FILENO);
 	close(p_fd[1]);
 	exec_tree(node, shell_state);
+	free_ast_tree(shell_state->first_node);
+	free_envp(*(shell_state->envp));
 	exit(0);
 }
 
