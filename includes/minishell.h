@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/29 07:26:11 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/29 11:08:41 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef struct s_shell_state
 {
 	t_list				*token_list;
 	t_envp				*envp;
+	t_ast_node			*first_node;
 	int					*last_exit_code;
 }						t_shell_state;
 

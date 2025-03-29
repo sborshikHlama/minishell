@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
-/*   Updated: 2025/03/28 20:36:03 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/29 11:09:50 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	main_loop(t_envp *envp)
 		if (token_list)
 		{
 			ast_tree = parser(token_list, shell_state);
+			shell_state.first_node = ast_tree;
 			debug(input, token_list, ast_tree, 1);
 			exec_tree(ast_tree, &shell_state);
 			if (ast_tree)
