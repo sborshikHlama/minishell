@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 00:30:05 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/24 14:06:12 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/29 10:14:54 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ t_ast_node	*create_redir_node(t_list **current, t_list *last_redirect)
 	file_token = (*current)->next;
 	if (!file_token || !file_token->next)
 		return (NULL);
-	(*current)->next = NULL;
+	(*current)->next = file_token->next->next;
+	file_token->next->next = NULL;
 	redirect_node = create_node(NODE_REDIR);
 	if (!redirect_node)
 		return (NULL);
