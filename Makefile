@@ -21,6 +21,7 @@ SRC = src/main.c \
 	  src/parser/env_expander_utils.c \
 	  src/print_debug/print_toklist.c \
 	  src/print_debug/print_tree.c \
+	  src/env_expander/env_expander.c \
 	  src/executor/executor.c \
 	  src/executor/builtin_cd.c \
 	  src/executor/builtin_pwd.c \

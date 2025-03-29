@@ -5,15 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/10 14:48:42 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/29 15:07:42 by dnovak           ###   ########.fr       */
+/*   Created: 2025/03/29 14:12:36 by dnovak            #+#    #+#             */
+/*   Updated: 2025/03/29 15:58:12 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// TO DO: use custom ft_getenv instead getenv
-char	*get_var_value(char **start, char **end, t_envp envp)
+static char	*dn_get_var_value(char **start, char **end, t_envp envp)
 {
 	char	*var_name;
 	char	*var_value;
@@ -28,10 +27,10 @@ char	*get_var_value(char **start, char **end, t_envp envp)
 	free(var_name);
 	if (!var_value)
 		var_value = "";
-	return (var_value);
+	return (ft_strdup(var_value));
 }
 
-char	*handle_var(char **start, char *prev, t_shell_state shell_state)
+static char	*dn_handle_var(char **start, char *prev, t_shell_state *shell_state)
 {
 	char	*end;
 	char	*var_value;
@@ -40,84 +39,90 @@ char	*handle_var(char **start, char *prev, t_shell_state shell_state)
 	end = *start + 1;
 	if (*end == '?')
 	{
-		var_value = ft_itoa(shell_state.last_exit_code);
+		var_value = ft_itoa(shell_state->last_exit_code);
 		end++;
 	}
 	else if (ft_isalnum(*end) || *end == '_')
-		var_value = get_var_value(start, &end, *(shell_state.envp));
+		var_value = dn_get_var_value(start, &end, *(shell_state->envp));
 	else
 	{
 		var_value = ft_strdup("$");
 		end = *start + 1;
 	}
 	temp_result = ft_strjoin(prev, var_value);
+	free(var_value);
+	free(prev);
 	if (!temp_result)
 		return (NULL);
-	if (ft_strcmp(var_value, "$") == 0)
-		free(var_value);
-	free(prev);
 	*start = end;
 	return (temp_result);
 }
 
-char	*handle_plain_text(char **start, char *prev)
+static char	*find_var(char *end, t_quote_state *q_state)
+{
+	while (*end != '\0')
+	{
+		if (q_state->in_quote == FALSE && (*end == '\'' || *end == '\"'))
+		{
+			q_state->in_quote = TRUE;
+			if (*end == '\'')
+				q_state->expandable = FALSE;
+			q_state->quote_char = *end;
+		}
+		else if (q_state->in_quote == TRUE && *end == q_state->quote_char)
+		{
+			q_state->in_quote = FALSE;
+			q_state->expandable = TRUE;
+			q_state->quote_char = '\0';
+		}
+		if (q_state->expandable == TRUE && *end == '$')
+			break ;
+		++end;
+	}
+	return (end);
+}
+
+static char	*dn_handle_plain_text(char **start, char *new_input,
+		t_quote_state *q_state)
 {
 	char	*end;
 	char	*plain_text;
 	char	*temp_result;
 
-	end = *start;
-	while (*end && *end != '$')
-		end++;
+	end = find_var(*start, q_state);
 	plain_text = ft_substr(*start, 0, end - *start);
 	if (!plain_text)
 		return (NULL);
-	temp_result = ft_strjoin(prev, plain_text);
+	temp_result = ft_strjoin(new_input, plain_text);
+	free(plain_text);
+	free(new_input);
 	if (!temp_result)
 		return (NULL);
-	free(prev);
-	free(plain_text);
 	*start = end;
 	return (temp_result);
 }
 
-char	*env_expander(const char *arg, t_shell_state shell_state)
+char	*dn_env_expander(char *input, t_shell_state *shell_state)
 {
-	char	*result;
-	char	*start_ptr;
+	char			*new_input;
+	char			*start_ptr;
+	t_quote_state	q_state;
 
-	result = ft_strdup("");
-	if (!result)
+	q_state.expandable = TRUE;
+	q_state.in_quote = FALSE;
+	q_state.quote_char = '\0';
+	new_input = ft_strdup("");
+	if (new_input == NULL)
 		return (NULL);
-	start_ptr = (char *)arg;
+	start_ptr = input;
 	while (*start_ptr)
 	{
 		if (*start_ptr == '$')
-			result = handle_var(&start_ptr, result, shell_state);
+			new_input = dn_handle_var(&start_ptr, new_input, shell_state);
 		else
-			result = handle_plain_text(&start_ptr, result);
-		if (!result)
+			new_input = dn_handle_plain_text(&start_ptr, new_input, &q_state);
+		if (new_input == NULL)
 			return (NULL);
 	}
-	return (result);
-}
-
-char	*expand(t_token *content, t_shell_state shell_state)
-{
-	char	*result;
-	char	*str;
-
-	str = unquote_string(content->value);
-	if (content->expandable && ft_strchr(str, '$'))
-	{
-		result = env_expander(str, shell_state);
-		if (!result)
-			result = ft_strdup("");
-	}
-	else
-		result = ft_strdup(str);
-	if (!result)
-		return (NULL);
-	free(str);
-	return (result);
+	return (new_input);
 }

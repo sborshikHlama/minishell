@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 00:30:05 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/29 12:32:43 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/29 15:55:00 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,7 @@ int	count_args(t_list *current)
 	return (counter);
 }
 
-void	fill_args(t_ast_node *command_node, t_list *list, int argc,
-	t_shell_state shell_state)
+void	fill_args(t_ast_node *command_node, t_list *list, int argc)
 {
 	int		i;
 	t_list	*current;
@@ -113,7 +112,7 @@ void	fill_args(t_ast_node *command_node, t_list *list, int argc,
 	while (i < argc)
 	{
 		content = current->content;
-		command_node->args[i] = expand(content, shell_state);
+		command_node->args[i] = ft_strdup(content->value);
 		if (!command_node->args[i])
 		{
 			while (i > 0)

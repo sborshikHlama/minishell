@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
-/*   Updated: 2025/03/29 14:14:51 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/29 16:00:52 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	debug(char *input, t_list *list, t_ast_node *ast_tree, int ast_flag)
 	return ;
 }
 
-char	*read_input(t_envp *envp)
+char	*read_input(t_shell_state *shell_state)
 {
 	char	*input;
 	int		i;
@@ -34,7 +34,7 @@ char	*read_input(t_envp *envp)
 	input = readline("minishell$> ");
 	if (input == NULL)
 	{
-		free_envp(*envp);
+		free_envp(*(shell_state->envp));
 		rl_clear_history();
 		write(STDOUT_FILENO, "exit\n", 5);
 		exit(SUCCESS);
@@ -48,7 +48,7 @@ char	*read_input(t_envp *envp)
 			break ;
 		}
 	}
-	return (input);
+	return (dn_env_expander(input, shell_state));
 }
 
 int	main_loop(t_envp *envp)
@@ -62,7 +62,7 @@ int	main_loop(t_envp *envp)
 	shell_state.envp = envp;
 	while (1)
 	{
-		input = read_input(envp);
+		input = read_input(&shell_state);
 		token_list = lexer(input);
 		debug(input, token_list, NULL, 0);
 		if (token_list)
@@ -73,9 +73,9 @@ int	main_loop(t_envp *envp)
 			exec_tree(ast_tree, &shell_state);
 			if (ast_tree)
 				free_ast_tree(ast_tree);
+			}
 		}
 		free(input);
-	}
 }
 
 int	main(void)

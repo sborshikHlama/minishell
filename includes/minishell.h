@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/29 14:14:37 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/29 15:53:23 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,13 @@ typedef struct s_shell_state
 	int					last_exit_code;
 }						t_shell_state;
 
+typedef struct s_quote_state
+{
+	t_bool				in_quote;
+	t_bool				expandable;
+	char				quote_char;
+}						t_quote_state;
+
 // environ_utils
 void					free_envp(t_envp envp);
 int						envp_size(t_envp envp);
@@ -136,7 +143,7 @@ t_list					*lexer(char *input);
 t_ast_node				*create_node(t_node type);
 int						count_args(t_list *current);
 void					fill_args(t_ast_node *command_node, t_list *list,
-							int argc, t_shell_state shell_state);
+							int argc);
 t_ast_node				*create_redir_node(t_list **current,
 							t_list *last_redirect);
 void					set_redir_value(t_ast_node *node, t_token *token,
@@ -184,6 +191,8 @@ void					error_export_name(char *name);
 
 // env_expander
 char					*expand(t_token *content, t_shell_state shell_state);
+char					*dn_env_expander(char *input, t_shell_state *shell_state);
+
 // env_expander_utils
 char					*unquote_string(char *str);
 

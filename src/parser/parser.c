@@ -6,13 +6,13 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 22:31:45 by iasonov           #+#    #+#             */
-/*   Updated: 2025/03/29 12:19:09 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/29 15:54:01 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_ast_node	*parse_command(t_list	*list, t_shell_state shell_state)
+t_ast_node	*parse_command(t_list	*list)
 {
 	t_ast_node	*command_node;
 	int			arg_count;
@@ -30,7 +30,7 @@ t_ast_node	*parse_command(t_list	*list, t_shell_state shell_state)
 		free(command_node);
 		return (NULL);
 	}
-	fill_args(command_node, list, arg_count, shell_state);
+	fill_args(command_node, list, arg_count);
 	return (command_node);
 }
 
@@ -52,7 +52,7 @@ t_ast_node	*parse_redir(t_list *list, t_shell_state shell_state)
 	current = list;
 	if (!last_redirect)
 	{
-		redirect_node = parse_command(list, shell_state);
+		redirect_node = parse_command(list);
 		ft_lstclear(&list, free_token);
 		return (redirect_node);
 	}
