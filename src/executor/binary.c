@@ -6,11 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 11:26:10 by aevstign          #+#    #+#             */
-<<<<<<< Updated upstream
-/*   Updated: 2025/03/29 17:24:37 by dnovak           ###   ########.fr       */
-=======
-/*   Updated: 2025/03/29 17:49:10 by aevstign         ###   ########.fr       */
->>>>>>> Stashed changes
+/*   Updated: 2025/03/29 18:42:22 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
