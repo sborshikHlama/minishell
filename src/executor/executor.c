@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 12:51:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/29 10:24:21 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/29 14:16:59 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,18 @@
 static void	exec_builtin(t_ast_node *node, t_shell_state *shell_state)
 {
 	if (ft_strcmp(node->args[0], "pwd") == 0)
-		*(shell_state->last_exit_code) = builtin_pwd();
+		shell_state->last_exit_code = builtin_pwd();
 	else if (ft_strcmp(node->args[0], "cd") == 0)
-		*(shell_state->last_exit_code) = builtin_cd(node);
+		shell_state->last_exit_code = builtin_cd(node);
 	else if (ft_strcmp(node->args[0], "echo") == 0)
-		*(shell_state->last_exit_code) = builtin_echo(node);
+		shell_state->last_exit_code = builtin_echo(node);
 	else if (ft_strcmp(node->args[0], "env") == 0)
-		*(shell_state->last_exit_code) = builtin_env(*(shell_state->envp));
+		shell_state->last_exit_code = builtin_env(*(shell_state->envp));
 	else if (ft_strcmp(node->args[0], "unset") == 0)
-		*(shell_state->last_exit_code) = builtin_unset(node,
+		shell_state->last_exit_code = builtin_unset(node,
 				shell_state->envp);
 	else if (ft_strcmp(node->args[0], "export") == 0)
-		*(shell_state->last_exit_code) = builtin_export(node,
+		shell_state->last_exit_code = builtin_export(node,
 				shell_state->envp);
 	else if (ft_strcmp(node->args[0], "exit") == 0)
 		builtin_exit(node, shell_state);
@@ -54,7 +54,7 @@ void	exec_bin(t_ast_node *node, t_shell_state *shell_state)
 	{
 		write(STDERR_FILENO, node->args[0], ft_strlen(node->args[0]));
 		write(STDERR_FILENO, ": command not found\n", 20);
-		*(shell_state->last_exit_code) = 127;
+		shell_state->last_exit_code = 127;
 		return ;
 	}
 	spawn_binary(exec_path, node, shell_state);

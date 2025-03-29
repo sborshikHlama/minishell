@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_expander.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:48:42 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/24 19:31:26 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/29 14:14:31 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*handle_var(char **start, char *prev, t_shell_state shell_state)
 	end = *start + 1;
 	if (*end == '?')
 	{
-		var_value = ft_itoa(*(shell_state.last_exit_code));
+		var_value = ft_itoa(shell_state.last_exit_code);
 		end++;
 	}
 	else if (ft_isalnum(*end) || *end == '_')

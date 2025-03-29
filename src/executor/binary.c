@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 11:26:10 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/28 20:14:42 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/29 14:15:14 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,5 @@ void	spawn_binary(char *exec_path, t_ast_node *node,
 	}
 	if (pid == 0)
 		child_process(exec_path, node, shell_state->envp);
-	parent_process(pid, shell_state->last_exit_code);
+	parent_process(pid, &(shell_state->last_exit_code));
 }

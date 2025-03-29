@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
-/*   Updated: 2025/03/29 11:09:50 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/29 14:14:51 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,8 @@ int	main_loop(t_envp *envp)
 	t_list			*token_list;
 	t_ast_node		*ast_tree;
 	t_shell_state	shell_state;
-	int				last_exit_code;
 
-	last_exit_code = 0;
-	shell_state.last_exit_code = &last_exit_code;
+	shell_state.last_exit_code = 0;
 	shell_state.envp = envp;
 	while (1)
 	{

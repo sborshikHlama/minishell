@@ -6,7 +6,7 @@
 /*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 12:04:25 by dnovak            #+#    #+#             */
-/*   Updated: 2025/03/29 11:12:38 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/29 14:16:14 by dnovak           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ void	builtin_exit(t_ast_node *node, t_shell_state *shell_state)
 			write(STDOUT_FILENO, ": numeric argument required\n", 29);
 		}
 		else
-			*(shell_state->last_exit_code) = ft_atoi(node->args[1]);
+			shell_state->last_exit_code = ft_atoi(node->args[1]);
 	}
 	free_ast_tree(shell_state->first_node);
 	free_envp(*(shell_state->envp));
 	rl_clear_history();
-	exit(*(shell_state->last_exit_code));
+	exit(shell_state->last_exit_code);
 }
