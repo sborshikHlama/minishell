@@ -27,7 +27,7 @@ static void	read_heredoc_input(int fd, char *delim)
 
 	while (1)
 	{
-		line = readline(NULL);
+		line = readline("> ");
 		if (!line)
 			break ;
 		len = ft_strlen(line);

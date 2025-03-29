@@ -56,6 +56,7 @@ static void	child_process(char *exec_path, t_ast_node *node,
 		free(exec_path);
 		free_ast_tree(shell_state->first_node);
 		free_envp(*(shell_state->envp));
+		rl_clear_history();
 		exit(1);
 	}
 	exit(0);
