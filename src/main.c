@@ -54,7 +54,7 @@ static char	*read_input(t_shell_state *shell_state)
 	return (exp_input);
 }
 
-static int	main_loop(t_envp *envp)
+static void	main_loop(t_envp *envp)
 {
 	char			*input;
 	t_list			*token_list;
