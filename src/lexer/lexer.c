@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 16:43:44 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/29 08:18:24 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/29 18:08:42 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ t_list	*lexer(char *input)
 
 	i = 0;
 	token_list = NULL;
+	if (!input)
+		return (NULL);
 	while (input[i])
 	{
 		while (input[i] && ft_strchr(" \t\n", input[i]))

@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 23:28:11 by iasonov           #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2025/03/29 17:24:15 by dnovak           ###   ########.fr       */
+=======
+/*   Updated: 2025/03/29 18:25:37 by aevstign         ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +68,8 @@ int	main_loop(t_envp *envp)
 	{
 		input = read_input(&shell_state);
 		token_list = lexer(input);
-		free(input);
+		if (input)
+			free(input);
 		if (token_list)
 		{
 			ast_tree = parser(token_list, shell_state);

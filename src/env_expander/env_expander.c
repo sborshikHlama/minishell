@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_expander.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 14:12:36 by dnovak            #+#    #+#             */
-/*   Updated: 2025/03/29 16:48:59 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/29 17:51:14 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ static char	*handle_var(char **start, char *prev, t_shell_state *shell_state)
 		var_value = ft_strdup("$");
 		end = *start + 1;
 	}
+	if (!var_value)
+		return (NULL);
 	temp_result = ft_strjoin(prev, var_value);
 	free(var_value);
 	free(prev);
-	if (!temp_result)
-		return (NULL);
 	*start = end;
 	return (temp_result);
 }

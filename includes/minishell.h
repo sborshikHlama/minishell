@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 18:12:25 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/29 16:48:19 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/29 18:00:18 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ void					fill_args(t_ast_node *command_node, t_list *list,
 							int argc);
 t_ast_node				*create_redir_node(t_list **current,
 							t_list *last_redirect);
-void					set_redir_value(t_ast_node *node, t_token *token,
+char					*set_redir_value(t_ast_node *node, t_token *token,
 							t_token *next_content);
 void					free_ast_tree(t_ast_node *node);
 

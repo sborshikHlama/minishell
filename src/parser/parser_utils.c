@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 00:30:05 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/29 16:29:26 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/29 18:01:36 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,31 @@ t_ast_node	*create_node(t_node type)
 	return (node);
 }
 
-void	set_redir_value(t_ast_node *node, t_token *token, t_token *next_content)
+char	*set_redir_value(t_ast_node *node,
+	t_token *token, t_token *next_content)
 {
 	char	*value;
 
 	value = next_content->value;
 	if (token->type == TOKEN_REDIR_IN)
+	{
 		node->redir.infile = ft_strdup(value);
-	else if (token->type == TOKEN_REDIR_APPEND)
-	{
-		node->redir.outfile = ft_strdup(value);
-		node->redir.append = 1;
-	}
-	else if (token->type == TOKEN_REDIR_OUT)
-	{
-		node->redir.outfile = ft_strdup(value);
-		node->redir.append = 0;
+		return (node->redir.infile);
 	}
 	else if (token->type == TOKEN_REDIR_HEREDOC)
+	{
 		node->redir.heredoc_delim = ft_strdup(value);
+		return (node->redir.heredoc_delim);
+	}
+	else
+	{
+		node->redir.outfile = ft_strdup(value);
+		if (token->type == TOKEN_REDIR_APPEND)
+			node->redir.append = 1;
+		else
+			node->redir.append = 0;
+		return (node->redir.outfile);
+	}
 }
 
 t_ast_node	*create_redir_node(t_list **current, t_list *last_redirect)
@@ -76,8 +82,9 @@ t_ast_node	*create_redir_node(t_list **current, t_list *last_redirect)
 	redirect_node = create_node(NODE_REDIR);
 	if (!redirect_node)
 		return (NULL);
-	set_redir_value(redirect_node, file_token->content,
-		file_token->next->content);
+	if (!set_redir_value(redirect_node, file_token->content,
+			file_token->next->content))
+		return (NULL);
 	ft_lstclear(&(file_token), free_token);
 	return (redirect_node);
 }

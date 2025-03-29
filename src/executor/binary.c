@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   binary.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 11:26:10 by aevstign          #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2025/03/29 17:24:37 by dnovak           ###   ########.fr       */
+=======
+/*   Updated: 2025/03/29 17:49:10 by aevstign         ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +18,23 @@
 
 extern volatile sig_atomic_t	g_sig_status;
 
-char	*get_exec_path(t_ast_node *node, char **all_paths)
+static char	*build_path(char *bin, char *name)
 {
 	char	*part_path;
+	char	*result;
+
+	part_path = ft_strjoin(bin, "/");
+	if (!part_path)
+		return (NULL);
+	result = ft_strjoin(part_path, name);
+	free(part_path);
+	if (!result)
+		return (NULL);
+	return (result);
+}
+
+char	*get_exec_path(t_ast_node *node, char **all_paths)
+{
 	char	*exec_path;
 	int		i;
 
@@ -32,9 +50,9 @@ char	*get_exec_path(t_ast_node *node, char **all_paths)
 	}
 	while (all_paths[i] != NULL)
 	{
-		part_path = ft_strjoin(all_paths[i], "/");
-		exec_path = ft_strjoin(part_path, node->args[0]);
-		free(part_path);
+		exec_path = build_path(all_paths[i], node->args[0]);
+		if (!exec_path)
+			return (NULL);
 		if (access(exec_path, F_OK | X_OK) == 0)
 			return (exec_path);
 		free(exec_path);
