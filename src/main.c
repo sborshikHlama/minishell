@@ -29,6 +29,7 @@
 char	*read_input(t_shell_state *shell_state)
 {
 	char	*input;
+	char	*exp_input;
 	int		i;
 
 	input = readline("minishell$> ");
@@ -48,7 +49,9 @@ char	*read_input(t_shell_state *shell_state)
 			break ;
 		}
 	}
-	return (env_expander(input, shell_state));
+	exp_input = env_expander(input, shell_state);
+	free(input);
+	return (exp_input);
 }
 
 int	main_loop(t_envp *envp)
