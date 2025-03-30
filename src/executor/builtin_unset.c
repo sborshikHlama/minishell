@@ -23,7 +23,8 @@ static t_status	copy_envp(t_envp new_envp, t_envp old_envp, int size,
 	while (i < size)
 	{
 		if (ft_strncmp(name, old_envp[i], ft_strlen(name)) != 0
-			|| old_envp[i][ft_strlen(name)] != '=')
+			|| (old_envp[i][ft_strlen(name)] != '='
+			&& old_envp[i][ft_strlen(name)] != '\0'))
 		{
 			new_envp[j] = ft_strdup(old_envp[i]);
 			if (new_envp[j] == NULL)
@@ -58,16 +59,15 @@ static t_status	remove_in_envp(t_envp *envp, char *name)
 
 /*
 	unset [name]
-Remove each variable name from envp. Return status is zero unless no argument
-is passed, a name is not valid or there is malloc error.
+
+Remove each variable name from envp. Return status is zero unless there is
+malloc error.
 */
 t_status	builtin_unset(t_ast_node *node, t_envp *envp)
 {
 	int			i;
 	t_status	return_status;
 
-	if (node->argc == 1)
-		return (SUCCESS);
 	return_status = SUCCESS;
 	i = 1;
 	while (i < node->argc)

@@ -36,7 +36,8 @@ t_bool	check_envp(char *name, t_envp envp)
 	while (envp[i] != NULL)
 	{
 		if (ft_strncmp(name, envp[i], ft_strlen(name)) == 0
-			&& envp[i][ft_strlen(name)] == '=')
+			&& (envp[i][ft_strlen(name)] == '='
+			|| envp[i][ft_strlen(name)] == '\0'))
 			return (TRUE);
 		++i;
 	}
@@ -52,11 +53,20 @@ t_status	print_envp(t_envp envp)
 	while (envp[i] != NULL)
 	{
 		eq_pos = ft_strchr(envp[i], '=');
-		write(STDOUT_FILENO, "declare -x ", 11);
-		write(STDOUT_FILENO, envp[i], eq_pos + 1 - envp[i]);
-		write(STDOUT_FILENO, "\"", 1);
-		write(STDOUT_FILENO, eq_pos + 1, ft_strlen(eq_pos + 1));
-		write(STDOUT_FILENO, "\"\n", 2);
+		if (eq_pos == NULL)
+		{
+			write(STDOUT_FILENO, "declare -x ", 11);
+			write(STDOUT_FILENO, envp[i], ft_strlen(envp[i]));
+			write(STDOUT_FILENO, "\n", 1);
+		}
+		else
+		{
+			write(STDOUT_FILENO, "declare -x ", 11);
+			write(STDOUT_FILENO, envp[i], eq_pos + 1 - envp[i]);
+			write(STDOUT_FILENO, "\"", 1);
+			write(STDOUT_FILENO, eq_pos + 1, ft_strlen(eq_pos + 1));
+			write(STDOUT_FILENO, "\"\n", 2);
+		}
 		++i;
 	}
 	return (SUCCESS);

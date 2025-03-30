@@ -12,6 +12,15 @@
 
 #include "../../includes/minishell.h"
 
+/*
+	pwd
+
+Print the absolute pathname of the current working directory.
+
+Error:
+The return status is zero unless an error is encountered while determining
+the name of the current directory.
+*/
 t_status	builtin_pwd(void)
 {
 	char	cwd[PATH_SIZE];
@@ -22,6 +31,6 @@ t_status	builtin_pwd(void)
 		write(STDOUT_FILENO, "\n", 1);
 		return (SUCCESS);
 	}
-	perror("pwd");
+	perror("minishell: pwd");
 	return (FAILURE);
 }
