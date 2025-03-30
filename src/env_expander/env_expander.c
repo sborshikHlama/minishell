@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 14:12:36 by dnovak            #+#    #+#             */
-/*   Updated: 2025/03/29 17:51:14 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/30 12:34:06 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static char	*get_var_value(char **start, char **end, t_envp envp)
 		var_value = ft_getenv(var_name, envp);
 	else
 		var_value = NULL;
-	free(var_name);
+	if (var_name)
+		free(var_name);
 	if (!var_value)
 		var_value = "";
 	return (ft_strdup(var_value));
@@ -53,7 +54,8 @@ static char	*handle_var(char **start, char *prev, t_shell_state *shell_state)
 		return (NULL);
 	temp_result = ft_strjoin(prev, var_value);
 	free(var_value);
-	free(prev);
+	if (prev)
+		free(prev);
 	*start = end;
 	return (temp_result);
 }
@@ -95,7 +97,8 @@ static char	*handle_plain_text(char **start, char *new_input,
 		return (NULL);
 	temp_result = ft_strjoin(new_input, plain_text);
 	free(plain_text);
-	free(new_input);
+	if (new_input)
+		free(new_input);
 	if (!temp_result)
 		return (NULL);
 	*start = end;

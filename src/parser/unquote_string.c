@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unquote_string.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dnovak <dnovak@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 16:12:22 by dnovak            #+#    #+#             */
-/*   Updated: 2025/03/29 16:47:06 by dnovak           ###   ########.fr       */
+/*   Updated: 2025/03/30 12:35:05 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ static char	*handle_quote(char **start, char *prev, char quote_char)
 		return (NULL);
 	temp_result = ft_strjoin(prev, quote_text);
 	free(quote_text);
-	free(prev);
+	if (prev)
+		free(prev);
 	if (!temp_result)
 		return (NULL);
 	*start = ++end;
@@ -51,7 +52,8 @@ static char	*handle_unquote(char **start, char *prev)
 		return (NULL);
 	temp_result = ft_strjoin(prev, plain_text);
 	free(plain_text);
-	free(prev);
+	if (prev)
+		free(prev);
 	if (!temp_result)
 		return (NULL);
 	*start = end;
