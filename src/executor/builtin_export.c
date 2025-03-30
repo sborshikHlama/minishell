@@ -39,8 +39,6 @@ t_status	envp_add_new(char *new_var, t_envp *envp)
 
 static void	export_novalue(char *name, t_envp *envp, t_status *return_status)
 {
-	char	*new_var;
-
 	if (isname(name) == FALSE)
 	{
 		if (*return_status != FAILURE)
@@ -49,17 +47,8 @@ static void	export_novalue(char *name, t_envp *envp, t_status *return_status)
 		return ;
 	}
 	if (check_envp(name, *envp) == FALSE)
-	{
-		new_var = ft_strjoin(name, "=");
-		if (new_var == NULL)
-		{
+		if (envp_add_new(name, envp) == FAILURE)
 			*return_status = FAILURE;
-			return ;
-		}
-		if (envp_add_new(new_var, envp) == FAILURE)
-			*return_status = FAILURE;
-		free(new_var);
-	}
 }
 
 t_status	envp_replace_value(char *new_var, char *name, t_envp *envp)
@@ -75,7 +64,8 @@ t_status	envp_replace_value(char *new_var, char *name, t_envp *envp)
 	while ((*envp)[i] != NULL)
 	{
 		if (ft_strncmp(name, (*envp)[i], ft_strlen(name)) == 0
-			&& (*envp)[i][ft_strlen(name)] == '=')
+			&& ((*envp)[i][ft_strlen(name)] == '='
+			|| (*envp)[i][ft_strlen(name)] == '\0'))
 		{
 			free((*envp)[i]);
 			offset = TRUE;
@@ -117,6 +107,18 @@ static void	export_value(char *new_var, char *eq_pos, t_envp *envp,
 	free(name);
 }
 
+/*
+	export [name[=value]]
+
+Add each name to be passed to child processes in the environment. If no
+names are supplied a list of names of all exported variables is displayed.
+If a variable name is followed by =value, the value of the variable is set
+to value.
+
+Errors:
+The return status is zero unless one of the names is not a valid minishell
+variable name, or there is malloc error.
+*/
 t_status	builtin_export(t_ast_node *node, t_envp *envp)
 {
 	int			i;

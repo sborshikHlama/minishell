@@ -12,6 +12,11 @@
 
 #include "../../includes/minishell.h"
 
+/*
+	env
+
+Displays the environment variables that minishell received from its parent.
+*/
 t_status	builtin_env(t_envp envp)
 {
 	int	i;
@@ -19,8 +24,11 @@ t_status	builtin_env(t_envp envp)
 	i = 0;
 	while (envp[i] != NULL)
 	{
-		write(STDOUT_FILENO, envp[i], ft_strlen(envp[i]));
-		write(STDOUT_FILENO, "\n", 1);
+		if (ft_strchr(envp[i], '=') != NULL)
+		{
+			write(STDOUT_FILENO, envp[i], ft_strlen(envp[i]));
+			write(STDOUT_FILENO, "\n", 1);
+		}
 		i++;
 	}
 	return (SUCCESS);
