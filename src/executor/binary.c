@@ -6,7 +6,7 @@
 /*   By: aevstign <aevstign@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/16 11:26:10 by aevstign          #+#    #+#             */
-/*   Updated: 2025/03/29 18:42:22 by aevstign         ###   ########.fr       */
+/*   Updated: 2025/03/30 12:16:14 by aevstign         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ char	*get_exec_path(t_ast_node *node, char **all_paths)
 	int		i;
 
 	i = 0;
-	if (all_paths == NULL)
-		return (NULL);
 	if (node->args[0][0] == '/' || ft_strchr(node->args[0], '/'))
 	{
 		if (access(node->args[0], F_OK | X_OK) == 0)
@@ -44,6 +42,8 @@ char	*get_exec_path(t_ast_node *node, char **all_paths)
 		else
 			return (NULL);
 	}
+	if (!all_paths)
+		return (NULL);
 	while (all_paths[i] != NULL)
 	{
 		exec_path = build_path(all_paths[i], node->args[0]);
@@ -97,7 +97,7 @@ void	parent_process(pid_t pid, int *exit_status)
 		if (WTERMSIG(status) == SIGINT)
 			g_sig_status = SIGINT;
 		if (WTERMSIG(status) == SIGQUIT && __WCOREDUMP(status))
-			write(STDERR_FILENO, "Quit (core dumped)\n", 19);
+			write(STDOUT_FILENO, "Quit (core dumped)\n", 20);
 	}
 }
 
