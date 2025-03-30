@@ -12,6 +12,13 @@
 
 #include "../../includes/minishell.h"
 
+/*
+	echo [arg …]
+
+Output the args, separated by spaces, terminated with a newline. The return
+status is 0. If -n is specified, the trailing
+newline is suppressed.
+*/
 t_status	builtin_echo(t_ast_node *node)
 {
 	int	start;

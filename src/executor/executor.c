@@ -17,7 +17,7 @@ static void	exec_builtin(t_ast_node *node, t_shell_state *shell_state)
 	if (ft_strcmp(node->args[0], "pwd") == 0)
 		shell_state->last_exit_code = builtin_pwd();
 	else if (ft_strcmp(node->args[0], "cd") == 0)
-		shell_state->last_exit_code = builtin_cd(node);
+		shell_state->last_exit_code = builtin_cd(node, *(shell_state->envp));
 	else if (ft_strcmp(node->args[0], "echo") == 0)
 		shell_state->last_exit_code = builtin_echo(node);
 	else if (ft_strcmp(node->args[0], "env") == 0)

@@ -161,7 +161,7 @@ void					display_tokens(t_list *lexer);
 
 // executor
 void					exec_tree(t_ast_node *node, t_shell_state *shell_state);
-t_status				builtin_cd(t_ast_node *node);
+t_status				builtin_cd(t_ast_node *node, t_envp envp);
 t_status				builtin_pwd(void);
 t_status				builtin_echo(t_ast_node *node);
 t_status				builtin_env(t_envp envp);
